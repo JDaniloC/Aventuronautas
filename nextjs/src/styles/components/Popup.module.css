@@ -1,0 +1,70 @@
+.overlay {
+    background: rgba(242, 243, 245, 0.8);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: var(--white);
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem 3rem;
+    border-radius: 5px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.container header {
+    font-size: 8.75rem;
+    height: 1em;
+    background: url("/icons/main.png") no-repeat center;
+    background-size: contain;
+}
+
+.container strong {
+    font-size: 2.25rem;
+    color: var(--title);
+}
+
+.container p {
+    font-size: 1.25rem;
+    color: var(--text);
+    margin-top: 0.25rem;
+}
+.container input {
+    align-self: center;
+    text-align: center;
+    padding: 1em .5em;
+    margin: 1em;
+    
+    border: none;
+    border-bottom: solid .1px;
+}
+.container button {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--blue);
+
+    align-self: center;
+    text-align: left;
+    width: 10em;
+    padding: 1em;
+    background: url("/icons/decolar.png") no-repeat center;
+
+    background-position: right;
+    background-size: contain;
+    border: solid .1px;
+    border-radius: 4px;
+
+}
