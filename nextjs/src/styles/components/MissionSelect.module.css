@@ -18,13 +18,15 @@
 .missionsContainer h3 {
     font-size: 2rem;
 }
-
-.missionsContainer img {
+.missionsContainer .imgDiv {
+    width: 7em;
+    height: 5em;
     border-radius: 20%;
     background-color: #FFF;
-    width: 7em;
-    height: 7em;
-    padding: 1em;
+    overflow: hidden;
+}
+.missionsContainer .imgDiv img {
+    height: 100%;
 }
 
 .missionsContainer div {

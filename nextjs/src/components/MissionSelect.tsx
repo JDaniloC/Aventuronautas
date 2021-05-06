@@ -1,38 +1,50 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from "next/router";
 import { ChallengeContext } from '../contexts/ChallengeContext';
-import challenges from "../../challenges.json";
 import styles from '../styles/components/MissionSelect.module.css';
+import axios from 'axios';
 
 interface challenge {
-    id: number;
+    mission: number;
     title: string;
-    image: string;
+    icon: string;
     description: string;
 }
 
 export default function MissionSelect() {
     const router = useRouter();
-    const missions: challenge[] = challenges as challenge[];
-
+    const [ missionArray, setMissionArray ] = useState([] as challenge[]);
     const { challengesCompleted } = useContext(ChallengeContext);
+
+    useEffect(() => {
+        axios.get("/api/missions/").then((response) => {
+            const missionArray = response.data;
+            if (missionArray.missions) {
+                setMissionArray(missionArray.missions);
+            }
+        })
+    }, [])
+    
     return (
         <div className = {styles.missionsContainer}>
-            { missions.map((mission) => (
-                <span key = {mission.id}>
-                    <img src={mission.image}/>
-                    <div>
-                        <h3> {mission.id}. {mission.title} </h3>
-                        <p> {mission.description} </p>
+            { (missionArray.length > 0) ? missionArray.map((task) => (
+                <span key = {task.mission}>
+                    <div className = {styles.imgDiv}>
+                        <img src={task.icon}/>
                     </div>
-                    <button disabled = {challengesCompleted + 1 < mission.id}
+                    <div>
+                        <h3> {task.mission}. {task.title} </h3>
+                        <p> {task.description} </p>
+                    </div>
+                    <button 
+                        disabled = {challengesCompleted + 1 < task.mission}
                         onClick = {() => {
-                            router.push(`/missions/${mission.id}`);
+                            router.push(`/missions/${task.mission}`);
                         }}> 
                         Embarcar 
                     </button>
                 </span>
-            )) }
+            )) : <p> Carregando... </p>}
         </div>
     );
 }

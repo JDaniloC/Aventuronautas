@@ -43,7 +43,7 @@ export default function Mission(props: HomeProps) {
             "/api/missions", { id }
         ).then((response) => {
             const missionInfo = response.data;
-            if (missionInfo) {
+            if (missionInfo.mission) {
                 const mission = missionInfo.mission as MissionInfos;
                 setInfos(mission);
                 setImages([{
