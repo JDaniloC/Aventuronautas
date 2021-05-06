@@ -9,6 +9,7 @@ import styles from "../../styles/pages/Mission.module.css";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import ImageGallery from 'react-image-gallery';
 
 interface HomeProps {
     level: number;
@@ -30,8 +31,12 @@ export default function Mission(props: HomeProps) {
     const [ infos, setInfos ] = useState({
         title: "Aventuronautas | Carregando..."
     } as MissionInfos)
+    const [ images, setImages ] = useState([]);
+    const [ subMission, setSubMission ] = useState(<> Carregando... </>);
+    const [ actualStep, setActualStep ] = useState(-1);
+
     const router = useRouter();
-    const id = router.query.id;
+    const id = router.query.id;  
 
     useEffect(() => {
         axios.post(
@@ -39,10 +44,60 @@ export default function Mission(props: HomeProps) {
         ).then((response) => {
             const missionInfo = response.data;
             if (missionInfo) {
-                setInfos(missionInfo.mission);
+                const mission = missionInfo.mission as MissionInfos;
+                setInfos(mission);
+                setImages([{
+                    original: mission.story,
+                    thumbnail: mission.story
+                }, {
+                    original: mission.questions,
+                    thumbnail: mission.questions
+                }]);
+                nextStep();
             }
         })
     }, [])
+    
+    useEffect(() => {
+        function changeStep() {
+            let newSubMission = <></>;
+            switch (actualStep) {
+                case 1:
+                    newSubMission = (
+                        <iframe width="100%" height="500" 
+                            src = {infos.video} frameBorder="0" 
+                            title="YouTube video player" allowFullScreen
+                            allow="accelerometer; autoplay; clipboard-write; 
+                            encrypted-media; gyroscope; picture-in-picture" >
+                        </iframe>)
+                    break;
+                case 2:
+                    newSubMission = (
+                        <iframe style = {{minHeight: "42em"}} 
+                            src = {infos.form} width="100%" 
+                            height="100%" frameBorder="0" 
+                            marginHeight = {0} marginWidth = {0}>
+                            Carregando…
+                        </iframe>)
+                    break;
+                default:
+                    newSubMission = <ImageGallery items={images} />
+                    break;
+            }
+            setSubMission( newSubMission );
+            return subMission;
+        }
+        
+        changeStep();
+    }, [actualStep])
+
+    function prevStep() {
+        setActualStep( (actualStep - 1) % 3 )
+    }
+
+    function nextStep() {
+        setActualStep( (actualStep + 1) % 3 )
+    }
 
     return (
         <ChallengesProvider 
@@ -62,33 +117,24 @@ export default function Mission(props: HomeProps) {
                 {(infos.form) ? 
                     <>
                     <section className = {styles.studyContainer}>
-                        <div> 
-                            <h2> Contexto da missão </h2>
-                            <img src = {infos.story} />
-                        </div>
-                        <div>
-                            <h2> Explorando terreno </h2>
-                            <img src = {infos.questions} />
-                        </div>
-                    </section>
-                    <section className = {styles.main}> 
-                        <div>
-                            <h2> Tarefas da missão </h2>
-                            <iframe style = {{minHeight: "42em"}} 
-                            src = {infos.form} width="100%" height="100%" frameBorder="0" marginHeight = {0} marginWidth = {0}>Carregando…</iframe>
-                        </div>
-                        <div>
-                            <h2> Explicação </h2>
-                            <iframe width="100%" height="500" src = {infos.video} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                        </div>
+                        { subMission }
                     </section>
                     </>
                 : <p> Carregando... </p>}
                 <section className = {styles.complete}>
-                    <p>
-                        Eu aceito que a bíblia é a palavra de Deus e desejo ser obediente.
-                    </p>
-                    <CompleteMission />
+                    {(actualStep == 0) ? 
+                        <button onClick = {() => {router.push("/")}}>
+                            Voltar à sala de comando
+                        </button>
+                    : <button onClick = {prevStep}>
+                        Tarefa anterior
+                    </button>}
+
+                    {(actualStep == 2) ? 
+                        <CompleteMission missionID = {id} />
+                    : <button onClick = {nextStep}>
+                        Próxima tarefa
+                    </button>}
                 </section>
             </div>
             </div>

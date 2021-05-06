@@ -13,18 +13,24 @@
     align-items: center;
     padding: 4em 0em;
 }
-.main iframe {
-    height: calc((100vw - 600px) / 2);
+.container h1 {
+    margin: 0 1em;
+    text-align: center;
 }
-.main, .studyContainer {
+.studyContainer iframe {
+    max-width: 67vw;
+    height: calc(100vw / 2);
+}
+.studyContainer {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
     margin: 2em;
     background-color: var(--blue-kid);
 }
 
-.main::before, .studyContainer::before {
+.studyContainer::before {
     content: '';
     position: relative;
     top: -1px;
@@ -40,7 +46,7 @@
     -ms-transform: rotate(180deg);
     transform: rotate(180deg);
 }
-.main::after, .studyContainer::after {
+.studyContainer::after {
     content: '';
     position: relative;
     height: 80px;
@@ -53,13 +59,6 @@
     background-color: #80c3d2;
 }
 
-.studyContainer > div,
-.main > div {
-    flex: 1;
-    margin: 1em;
-    min-width: 600px;
-    text-align: center;
-}
 .container h2 {
     margin-bottom: 1em;
 }
@@ -68,39 +67,36 @@
 }
 .container section.complete {
     display: flex;
-    flex-direction: column;
     align-items: center;
 }
 .container  section.complete button {
-    height: 5rem;
-    margin-top: 1em;
-    padding: 1em 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    margin: 1em;
     border: 0;
-    border-radius: 5px;
-    background: var(--blue-dark);
-    color: var(--white);
-    font-size: 1.25rem;
+    height: 5rem;
     font-weight: 600;
+    padding: 1em 2rem;
+    border-radius: 5px;
+    font-size: 1.25rem;
+    color: var(--white);
+    background: var(--blue-dark);
     transition: background-color .2s;
 }
-.container button:hover {
+.container section.complete button:hover {
     color: var(--white);
     background: var(--blue);
     border-bottom: var(--green) 0.3rem solid;
     transition: all .3s;
 }
-.container button:disabled {
-    cursor: not-allowed;
-}
 
 @media (max-width: 1300px) {
-    .main div:first-child {
+    .studyContainer iframe {
         max-width: 100%;
     }
-    .main div:last-child iframe {
+    .studyContainer iframe {
         height: calc(100vw / 2);
     }
 }
