@@ -8,19 +8,19 @@
 .main iframe {
     height: calc((100vw - 600px) / 2);
 }
-.main {
+.main, .studyContainer {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     margin: 2em;
 }
-.main > div {
+.main > div, .studyContainer > div {
     flex: 1;
     margin: 1em;
     min-width: 600px;
     text-align: center;
 }
-.main > div h2 {
+.container h2 {
     margin-bottom: 1em;
 }
 .main div:first-child {
@@ -51,6 +51,9 @@
     background: var(--blue);
     border-bottom: var(--green) 0.3rem solid;
     transition: all .3s;
+}
+.container button:disabled {
+    cursor: not-allowed;
 }
 
 @media (max-width: 1300px) {

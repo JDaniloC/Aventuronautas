@@ -19,7 +19,7 @@ export default function MissionSelect() {
     return (
         <div className = {styles.missionsContainer}>
             { missions.map((mission) => (
-                <span>
+                <span key = {mission.id}>
                     <img src={mission.image}/>
                     <div>
                         <h3> {mission.id}. {mission.title} </h3>

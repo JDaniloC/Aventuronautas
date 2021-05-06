@@ -19,7 +19,7 @@ interface ChallengeContextData {
     levelUp: () => void;
     startNewChallenge: () => void;
     resetChallenge: () => void;
-    completeChallenge: () => void;
+    completeChallenge: (amount:number) => void;
     closeLevelModal: () => void;
     closeNewUser: (name: string) => void;
 }
@@ -93,12 +93,7 @@ export function ChallengesProvider({
         setActiveChallenge(null);
     }
 
-    function completeChallenge(){
-        if (!activeChallenge) {
-            return;
-        }
-
-        const { amount } = activeChallenge;
+    function completeChallenge(amount){
         let finalExperience = currentExperience + amount;
 
         if (finalExperience > experienceToNextLevel) {
