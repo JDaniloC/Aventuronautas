@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from "next/router";
 import { ChallengeContext } from '../contexts/ChallengeContext';
 import styles from '../styles/components/MissionSelect.module.css';
+import { serverURL } from '../config';
 import axios from 'axios';
 
 interface challenge {
@@ -17,7 +18,8 @@ export default function MissionSelect() {
     const { challengesCompleted } = useContext(ChallengeContext);
 
     useEffect(() => {
-        axios.get("/api/missions/").then((response) => {
+        console.log(serverURL)
+        axios.get(serverURL + "/api/missions/").then((response) => {
             const missionArray = response.data;
             if (missionArray.missions) {
                 setMissionArray(missionArray.missions);

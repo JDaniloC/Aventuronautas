@@ -1,15 +1,18 @@
 import Head from 'next/head';
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
-import { ChallengesProvider } from '../../contexts/ChallengeContext';
+import { useEffect, useState } from 'react';
+
 
 import ExperienceBar from '../../components/ExperienceBar'
 import CompleteMission from '../../components/CompleteMission'
-import styles from "../../styles/pages/Mission.module.css";
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { ChallengesProvider } from '../../contexts/ChallengeContext';
 
+
+import styles from "../../styles/pages/Mission.module.css";
 import ImageGallery from 'react-image-gallery';
+import axios from 'axios';
+import { serverURL } from '../../config';
 
 interface HomeProps {
     level: number;
@@ -40,7 +43,7 @@ export default function Mission(props: HomeProps) {
 
     useEffect(() => {
         axios.post(
-            "/api/missions", { id }
+            serverURL + "/api/missions", { id }
         ).then((response) => {
             const missionInfo = response.data;
             if (missionInfo.mission) {
