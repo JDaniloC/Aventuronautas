@@ -6,6 +6,9 @@ import { ChallengesProvider } from '../../contexts/ChallengeContext';
 import ExperienceBar from '../../components/ExperienceBar'
 import CompleteMission from '../../components/CompleteMission'
 import styles from "../../styles/pages/Mission.module.css";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 
 interface HomeProps {
     level: number;
@@ -14,9 +17,32 @@ interface HomeProps {
     challengesCompleted: number;
 }  
 
+interface MissionInfos {
+    questions: string;
+    video: string;
+    story: string;
+    title: string;
+    icon: string;
+    form: string;
+}
+
 export default function Mission(props: HomeProps) {  
+    const [ infos, setInfos ] = useState({
+        title: "Aventuronautas | Carregando..."
+    } as MissionInfos)
     const router = useRouter();
     const id = router.query.id;
+
+    useEffect(() => {
+        axios.post(
+            "/api/missions", { id }
+        ).then((response) => {
+            const missionInfo = response.data;
+            if (missionInfo) {
+                setInfos(missionInfo.mission);
+            }
+        })
+    }, [])
 
     return (
         <ChallengesProvider 
@@ -25,40 +51,46 @@ export default function Mission(props: HomeProps) {
             currentExperience = {props.currentExperience}
             challengesCompleted = {props.challengesCompleted}
         >
-            <ExperienceBar />
+            <div className = {styles.externalContainer}>
+            <ExperienceBar/>
             <div className = {styles.container}>
                 <Head>
-                    <title> Missão {id} | O criador da lua  </title>
+                    <title> {infos.title}  </title>
                     <link rel="shortcut icon" href="../favicon.png" type="image/x-icon"/>
                 </Head>
-                <h1> Missão {id} | O criador da lua </h1>
-                <section className = {styles.studyContainer}>
-                    <div> 
-                        <h2> Contexto da missão </h2>
-                        <img src="../missions/1.png" />
-                    </div>
-                    <div>
-                        <h2> Explorando terreno </h2>
-                        <img src="../missions/1.2.png" />
-                    </div>
-                </section>
-                <section className = {styles.main}> 
-                    <div>
-                        <h2> Tarefas da missão </h2>
-                        <iframe style = {{minHeight: "42em"}} 
-                        src="https://docs.google.com/forms/d/e/1FAIpQLSeq979jwrysJM3RN6vdZQdyAuw1HbKOdamGp_C1Vq30aM4r1Q/viewform?embedded=true" width="100%" height="100%" frameBorder="0" marginHeight = {0} marginWidth = {0}>Carregando…</iframe>
-                    </div>
-                    <div>
-                        <h2> Explicação </h2>
-                        <iframe width="100%" height="500" src="https://www.youtube.com/embed/V2T_bkOs0xA" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                    </div>
-                </section>
+                <h1> {infos.title} </h1>
+                {(infos.form) ? 
+                    <>
+                    <section className = {styles.studyContainer}>
+                        <div> 
+                            <h2> Contexto da missão </h2>
+                            <img src = {infos.story} />
+                        </div>
+                        <div>
+                            <h2> Explorando terreno </h2>
+                            <img src = {infos.questions} />
+                        </div>
+                    </section>
+                    <section className = {styles.main}> 
+                        <div>
+                            <h2> Tarefas da missão </h2>
+                            <iframe style = {{minHeight: "42em"}} 
+                            src = {infos.form} width="100%" height="100%" frameBorder="0" marginHeight = {0} marginWidth = {0}>Carregando…</iframe>
+                        </div>
+                        <div>
+                            <h2> Explicação </h2>
+                            <iframe width="100%" height="500" src = {infos.video} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                        </div>
+                    </section>
+                    </>
+                : <p> Carregando... </p>}
                 <section className = {styles.complete}>
                     <p>
                         Eu aceito que a bíblia é a palavra de Deus e desejo ser obediente.
                     </p>
                     <CompleteMission />
                 </section>
+            </div>
             </div>
         </ChallengesProvider>
     )

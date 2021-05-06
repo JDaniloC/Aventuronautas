@@ -1,9 +1,17 @@
+.externalContainer {
+    background-color: #FFF;
+}
+.externalContainer header {
+    max-width: 992px;
+    padding-top: 3em;
+    margin: auto;
+}
 .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 4em 1em;
+    padding: 4em 0em;
 }
 .main iframe {
     height: calc((100vw - 600px) / 2);
@@ -13,8 +21,40 @@
     flex-wrap: wrap;
     width: 100%;
     margin: 2em;
+    background-color: var(--blue-kid);
 }
-.main > div, .studyContainer > div {
+
+.main::before, .studyContainer::before {
+    content: '';
+    position: relative;
+    top: -1px;
+    height: 80px;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(/icons/cloud-white.svg);
+    background-color: #80c3d2;
+    -webkit-transform: rotate( 180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+.main::after, .studyContainer::after {
+    content: '';
+    position: relative;
+    height: 80px;
+    width: 100%;
+    bottom: -1px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(/icons/cloud-white.svg);
+    background-color: #80c3d2;
+}
+
+.studyContainer > div,
+.main > div {
     flex: 1;
     margin: 1em;
     min-width: 600px;
@@ -31,7 +71,7 @@
     flex-direction: column;
     align-items: center;
 }
-.container button {
+.container  section.complete button {
     height: 5rem;
     margin-top: 1em;
     padding: 1em 2rem;

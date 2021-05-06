@@ -23,18 +23,16 @@ async function connectToDatabase(uri: string) {
 }
 
 export default async (req: VercelRequest, res: VercelResponse) => {
-    const { email, password } = req.body;
-
+    const { id: missionID } = req.body;
     const db = await connectToDatabase(process.env.MONGODB_URI);
 
-    const collection = db.collection('users');
+    const collection = db.collection('missions');
 
-    await collection.insertOne({
-        email, password
-    })
+    const mission = await collection.findOne(
+        { mission: parseInt(missionID) })
 
-    res.status(201).json({ 
-        status: 'Created with email: ' + email 
-    })
+    if (!mission) { res.status(404).json({}) }
+
+    res.status(200).json({ mission })
 }
   

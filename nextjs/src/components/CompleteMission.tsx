@@ -6,7 +6,8 @@ export default function CompleteMission() {
     const [isDisabled, setIsDisabled] = useState(false);
 
     return (
-        <button onClick = {() => {
+        <button className = "completeBtn"
+        onClick = {() => {
             completeChallenge(100);
             setIsDisabled(true);
         }} disabled = {isDisabled}> 
