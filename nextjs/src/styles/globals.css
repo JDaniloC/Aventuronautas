@@ -23,6 +23,8 @@
 
 body {
     background: var(--background);
+    background-image: url(/background.gif);
+    background-size: contain;
     color: var(--text);
 }
 
