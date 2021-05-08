@@ -30,11 +30,13 @@ export default function MissionSelect() {
     return (
         <div className = {styles.missionsContainer}>
             { (missionArray.length > 0) ? missionArray.map((task) => (
-                <span key = {task.mission}>
+                <span key = {task.mission} className = {
+                    ((challengesCompleted + 1) >= Number(task.mission) ?
+                    styles.arrived : "")}>
                     <div className = {styles.imgDiv}>
                         <img src={task.icon}/>
                     </div>
-                    <div>
+                    <div className = { styles.description }>
                         <h3> {task.mission}. {task.title} </h3>
                         <p> {task.description} </p>
                     </div>
@@ -46,7 +48,11 @@ export default function MissionSelect() {
                         Embarcar 
                     </button>
                 </span>
-            )) : <p> Carregando... </p>}
+            )) : 
+            <div className = "loadingDiv">
+                <img src="/gifs/rocket.gif"/>
+                <p> Carregando... </p>
+            </div>}
         </div>
     );
 }

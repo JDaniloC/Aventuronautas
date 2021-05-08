@@ -48,15 +48,15 @@ export default function Mission(props: HomeProps) {
             const missionInfo = response.data;
             if (missionInfo.mission) {
                 const mission = missionInfo.mission as MissionInfos;
-                setInfos(mission);
-                setImages([{
-                    original: mission.story,
-                    thumbnail: mission.story
-                }, {
-                    original: mission.questions,
-                    thumbnail: mission.questions
-                }]);
-                nextStep();
+                // setInfos(mission);
+                // setImages([{
+                //     original: mission.story,
+                //     thumbnail: mission.story
+                // }, {
+                //     original: mission.questions,
+                //     thumbnail: mission.questions
+                // }]);
+                // nextStep();
             }
         })
     }, [])
@@ -118,12 +118,14 @@ export default function Mission(props: HomeProps) {
                 </Head>
                 <h1> {infos.title} </h1>
                 {(infos.form) ? 
-                    <>
-                    <section className = {styles.studyContainer}>
+                <> <section className = {styles.studyContainer}>
                         { subMission }
-                    </section>
-                    </>
-                : <p> Carregando... </p>}
+                    </section> 
+                </> : 
+                <div className = "loadingDiv">
+                    <img src="/gifs/rocket.gif"/>
+                    <p> Carregando... </p>
+                </div>}
                 <section className = {styles.complete}>
                     {(actualStep == 0) ? 
                         <button onClick = {() => {router.push("/")}}>

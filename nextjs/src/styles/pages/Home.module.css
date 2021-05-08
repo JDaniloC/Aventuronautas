@@ -20,5 +20,7 @@
 @media(max-width: 800px) {
     .container section {
         grid-template-columns: auto;
+        grid-gap: 0; 
+        gap: 0;
     }
 }

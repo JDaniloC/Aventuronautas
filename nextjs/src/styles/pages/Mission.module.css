@@ -72,20 +72,9 @@
     align-items: center;
 }
 .container  section.complete button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin: 1em;
-    border: 0;
-    height: 5rem;
-    font-weight: 600;
-    padding: 1em 2rem;
-    border-radius: 5px;
-    font-size: 1.25rem;
-    color: var(--white);
     background: var(--blue-dark);
-    transition: background-color .2s;
+    color: #FFF;
+    margin: 1em;
 }
 .container section.complete button:hover {
     color: var(--white);
