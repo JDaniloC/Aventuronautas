@@ -42,3 +42,9 @@
     border-bottom: var(--white) 0.3rem solid;
     color: #FFF;
 }
+
+@media (max-width: 850px) {
+    .finishContainer {
+        text-align: center;
+    }
+}

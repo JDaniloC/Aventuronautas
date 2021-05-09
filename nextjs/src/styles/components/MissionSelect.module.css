@@ -71,7 +71,16 @@
 }
 
 @media (max-width: 850px) {
-    .missionsContainer > span.arrived::before, 
+    .missionsContainer > span.arrived::before {
+        background-image: url(/gifs/filled-circle.gif);
+        background-position: 0px -22px;
+        transform: rotateZ(0deg);
+        background-size: cover;
+        height: 9em;
+        opacity: 0.4;
+        width: 12em;
+        z-index: 1;
+    }
     .missionsContainer > span::before {
         background-image: none;
     }
