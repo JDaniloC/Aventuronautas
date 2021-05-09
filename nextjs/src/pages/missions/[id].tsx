@@ -1,18 +1,19 @@
 import Head from 'next/head';
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 
 import ExperienceBar from '../../components/ExperienceBar'
-import CompleteMission from '../../components/CompleteMission'
+import { CompleteMission, NextStepButton } from '../../components/CompleteMission'
 import { ChallengesProvider } from '../../contexts/ChallengeContext';
 
 
 import styles from "../../styles/pages/Mission.module.css";
 import ImageGallery from 'react-image-gallery';
-import axios from 'axios';
 import { serverURL } from '../../config';
+import axios from 'axios';
+import { CountProvider } from '../../contexts/CountContext';
 
 interface HomeProps {
     level: number;
@@ -34,9 +35,10 @@ export default function Mission(props: HomeProps) {
     const [ infos, setInfos ] = useState({
         title: "Aventuronautas | Carregando..."
     } as MissionInfos)
-    const [ images, setImages ] = useState([]);
     const [ subMission, setSubMission ] = useState(<> Carregando... </>);
-    const [ actualStep, setActualStep ] = useState(-1);
+    const [ xpEarned, setXpEarned ] = useState([false, false, false]);
+    const [ currentStep, setCurrentStep ] = useState(-1);
+    const [ images, setImages ] = useState([]);
 
     const router = useRouter();
     const id = router.query.id;  
@@ -48,23 +50,23 @@ export default function Mission(props: HomeProps) {
             const missionInfo = response.data;
             if (missionInfo.mission) {
                 const mission = missionInfo.mission as MissionInfos;
-                // setInfos(mission);
-                // setImages([{
-                //     original: mission.story,
-                //     thumbnail: mission.story
-                // }, {
-                //     original: mission.questions,
-                //     thumbnail: mission.questions
-                // }]);
-                // nextStep();
+                setInfos(mission);
+                setImages([{
+                    original: mission.story,
+                    thumbnail: mission.story
+                }, {
+                    original: mission.questions,
+                    thumbnail: mission.questions
+                }]);
+                nextStep();
             }
         })
     }, [])
-    
+
     useEffect(() => {
         function changeStep() {
             let newSubMission = <></>;
-            switch (actualStep) {
+            switch (currentStep) {
                 case 1:
                     newSubMission = (
                         <iframe width="100%" height="500" 
@@ -84,7 +86,13 @@ export default function Mission(props: HomeProps) {
                         </iframe>)
                     break;
                 default:
-                    newSubMission = <ImageGallery items={images} />
+                    newSubMission = (
+                        <div>
+                            <p> Apenas para visualização </p>
+                            <p> Responda na sua revistinha </p>
+                            <ImageGallery items={images} />
+                        </div>
+                    )
                     break;
             }
             setSubMission( newSubMission );
@@ -92,14 +100,14 @@ export default function Mission(props: HomeProps) {
         }
         
         changeStep();
-    }, [actualStep])
+    }, [currentStep])
 
     function prevStep() {
-        setActualStep( (actualStep - 1) % 3 )
+        setCurrentStep( (currentStep - 1) % 3 );
     }
 
     function nextStep() {
-        setActualStep( (actualStep + 1) % 3 )
+        setCurrentStep( (currentStep + 1) % 3 );
     }
 
     return (
@@ -127,7 +135,7 @@ export default function Mission(props: HomeProps) {
                     <p> Carregando... </p>
                 </div>}
                 <section className = {styles.complete}>
-                    {(actualStep == 0) ? 
+                    {(currentStep == 0) ? 
                         <button onClick = {() => {router.push("/")}}>
                             Voltar à sala de comando
                         </button>
@@ -135,11 +143,16 @@ export default function Mission(props: HomeProps) {
                         Tarefa anterior
                     </button>}
 
-                    {(actualStep == 2) ? 
+                    {(currentStep == 2) ? 
                         <CompleteMission missionID = {id} />
-                    : <button onClick = {nextStep}>
-                        Próxima tarefa
-                    </button>}
+                    : 
+                    <CountProvider 
+                        nextStep = {nextStep}
+                        xpEarned = {xpEarned}
+                        setXpEarned = {setXpEarned}>
+                        <NextStepButton currentStep = {currentStep} />
+                    </CountProvider>
+                    }
                 </section>
             </div>
             </div>

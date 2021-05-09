@@ -3,25 +3,17 @@ import { LevelUpModal } from '../components/LevelUpModal';
 import { PopupModal } from '../components/PopupModal';
 import Cookies from 'js-cookie';
 
-interface challenge {
-    type: 'body' | 'eye';
-    description: string;
-    amount: number;
-}
-
 interface ChallengeContextData {
     level: number;
     nickname: string;
     currentExperience: number;
     challengesCompleted: number;
     experienceToNextLevel: number;
-    activeChallenge: challenge;
     levelUp: () => void;
-    startNewChallenge: () => void;
-    resetChallenge: () => void;
     completeChallenge: (amount:number) => void;
     closeLevelModal: () => void;
     closeNewUser: (name: string) => void;
+    earnXp: (amount:number) => void;
 }
 
 interface ChallengeProviderProps {
@@ -44,7 +36,6 @@ export function ChallengesProvider({
     const [challengesCompleted, setChallengesCompleted] = useState(
         rest.challengesCompleted);
 
-    const [activeChallenge, setActiveChallenge] = useState(null);
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
     const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
     const [isNewUser, setIsNewUser] = useState(false);
@@ -77,32 +68,20 @@ export function ChallengesProvider({
         setIsNewUser(false);
     }
 
-    function startNewChallenge() {
-        new Audio('/notification.mp3').play();
-
-        if (Notification.permission === 'granted') {
-            new Notification('Novo desafio 🎉', {
-                body: `Valendo 10xp!`
-            })
-        } else {
-            console.log("Não permitido")
-        }
-    }
-
-    function resetChallenge() {
-        setActiveChallenge(null);
-    }
-
-    function completeChallenge(amount){
+    function earnXp(amount: number) {
         let finalExperience = currentExperience + amount;
 
         if (finalExperience > experienceToNextLevel) {
             finalExperience -= experienceToNextLevel;
             levelUp();
         }
-
+        
         setCurrentExperience(finalExperience);
-        setActiveChallenge(null);
+    }
+
+    function completeChallenge(amount: number) {
+        earnXp(amount);
+        new Audio('/notification.mp3').play();
         setChallengesCompleted(challengesCompleted + 1);
     }
 
@@ -111,12 +90,11 @@ export function ChallengesProvider({
             currentExperience, level, 
             experienceToNextLevel,
             challengesCompleted, 
-            activeChallenge, 
             nickname, levelUp,
-            resetChallenge,  
-            startNewChallenge, 
             completeChallenge,
-            closeLevelModal, closeNewUser }}>
+            closeLevelModal, 
+            closeNewUser,
+            earnXp }}>
             {children}
 
             { isNewUser && <PopupModal /> }

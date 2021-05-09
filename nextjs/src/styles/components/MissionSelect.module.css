@@ -42,7 +42,7 @@
     font-size: 2rem;
 }
 .missionsContainer .imgDiv {
-    width: 7em;
+    max-width: 5em;
     height: 5em;
     min-width: 5.5em;
     min-height: 5.5em;
@@ -89,6 +89,8 @@
         text-align: center;
     }
     .missionsContainer .imgDiv {
+        max-width: 7em;
+        width: 7em;
         height: 7em;
     }
     .missionsContainer .description {

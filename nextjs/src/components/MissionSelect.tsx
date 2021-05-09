@@ -37,7 +37,7 @@ export default function MissionSelect() {
                         <img src={task.icon}/>
                     </div>
                     <div className = { styles.description }>
-                        <h3> {task.mission}. {task.title} </h3>
+                        <h3> {task.title} </h3>
                         <p> {task.description} </p>
                     </div>
                     <button 

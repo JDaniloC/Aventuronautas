@@ -32,6 +32,17 @@
     background-color: var(--blue-kid);
 }
 
+.studyContainer > div p + p {
+    margin-bottom: 1em;
+}
+
+.studyContainer p {
+    text-align: center;
+    font-size: x-large;
+    font-weight: 600;
+    color: #FFF;
+}
+
 .studyContainer::before {
     content: '';
     position: relative;
