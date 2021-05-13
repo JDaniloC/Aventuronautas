@@ -11,7 +11,8 @@ export default function FinishGame() {
             <p> Se você completou as 14 missões, clique neste botão. </p>
             <p> Fale com seu conselheiro, para provar o seu valor, </p> 
             <p> e dessa forma, concorrer a brindes, Boa sorte! </p>
-            <button disabled = {challengesCompleted !== 14}>
+            <button className = "project" 
+                disabled = {challengesCompleted !== 14}>
                 Salvar o mundo
             </button>
         </div>

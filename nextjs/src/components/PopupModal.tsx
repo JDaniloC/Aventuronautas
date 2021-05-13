@@ -22,7 +22,8 @@ export function PopupModal() {
                 <input type="text" value = {name} onChange = {
                     (evt) => setName(evt.target.value)}/>
 
-                <button type = "button" onClick = {closeModal}>
+                <button className = "project"
+                    type = "button" onClick = {closeModal}>
                    Decolar!
                 </button>
             </div>

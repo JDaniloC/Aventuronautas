@@ -23,6 +23,7 @@ interface HomeProps {
 }  
 
 interface MissionInfos {
+    confission: string;
     questions: string;
     video: string;
     story: string;
@@ -134,25 +135,31 @@ export default function Mission(props: HomeProps) {
                     <img src="/gifs/rocket.gif"/>
                     <p> Carregando... </p>
                 </div>}
+                
+                {(currentStep == 2) ?
+                <p className = {styles.confission}>
+                    {infos.confission}
+                </p> : <></>}
+
                 <section className = {styles.complete}>
                     {(currentStep == 0) ? 
-                        <button onClick = {() => {router.push("/")}}>
+                        <button className = "project"
+                            onClick = {() => {router.push("/")}}>
                             Voltar à sala de comando
                         </button>
-                    : <button onClick = {prevStep}>
+                    : <button className = "project"
+                        onClick = {prevStep}>
                         Tarefa anterior
                     </button>}
-
+                    
                     {(currentStep == 2) ? 
                         <CompleteMission missionID = {id} />
-                    : 
-                    <CountProvider 
+                    : <CountProvider 
                         nextStep = {nextStep}
                         xpEarned = {xpEarned}
                         setXpEarned = {setXpEarned}>
                         <NextStepButton currentStep = {currentStep} />
-                    </CountProvider>
-                    }
+                    </CountProvider>}
                 </section>
             </div>
             </div>

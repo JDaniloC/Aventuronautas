@@ -71,12 +71,15 @@
 }
 
 @media (max-width: 850px) {
+    .missionsContainer {
+        flex-flow: column;
+    }
     .missionsContainer > span.arrived::before {
         background-image: url(/gifs/filled-circle.gif);
-        background-position: 0px -22px;
+        background-position: -2px -21px;
         transform: rotateZ(0deg);
         background-size: cover;
-        height: 9em;
+        height: 12em;
         opacity: 0.4;
         width: 12em;
         z-index: 1;

@@ -40,7 +40,7 @@ export default function MissionSelect() {
                         <h3> {task.title} </h3>
                         <p> {task.description} </p>
                     </div>
-                    <button 
+                    <button className = "project"
                         disabled = {challengesCompleted + 1 < task.mission}
                         onClick = {() => {
                             router.push(`/missions/${task.mission}`);

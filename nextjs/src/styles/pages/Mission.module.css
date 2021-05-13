@@ -94,6 +94,12 @@
     transition: all .3s;
 }
 
+p.confission {
+    font-size: x-large;
+    max-width: 60%;
+    text-align: center;
+}
+
 @media (max-width: 1300px) {
     .studyContainer iframe {
         max-width: 100%;
