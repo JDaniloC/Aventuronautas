@@ -96,8 +96,10 @@
 
 p.confission {
     font-size: x-large;
-    max-width: 60%;
+    max-width: 600px;
     text-align: center;
+    border: dashed;
+    padding: 1rem;
 }
 
 @media (max-width: 1300px) {
