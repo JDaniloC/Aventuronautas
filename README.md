@@ -1,5 +1,9 @@
 # Aventuronautas
 
+<p align="center">
+  <img alt="ADM" src=".github/main.gif">
+</p>
+
 ## Sobre
 Projeto sem fins lucrativos, com o objetivo de oferecer o estudo bíblico dos aventureiros gameficado.
 

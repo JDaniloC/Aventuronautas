@@ -9,22 +9,23 @@ import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 
 import styles from "../styles/pages/Home.module.css";
+import axios from 'axios';
+import { serverURL } from '../config';
+
+interface challenge {
+  mission: number;
+  title: string;
+  icon: string;
+  description: string;
+}
 
 interface HomeProps {
-  level: number;
-  nickname: string;
-  currentExperience: number;
-  challengesCompleted: number;
+  missions: challenge[]
 }
 
 export default function Home(props: HomeProps) {  
   return (
-    <ChallengesProvider 
-      level = {props.level}
-      nickname = {props.nickname}
-      currentExperience = {props.currentExperience}
-      challengesCompleted = {props.challengesCompleted}
-      >
+    <ChallengesProvider>
       <div className={styles.container}>
         <Head>
           <title> Início | Aventura Espacial </title>
@@ -40,21 +41,20 @@ export default function Home(props: HomeProps) {
           <FinishGame />
         </section>
 
-        <MissionSelect />
+        <MissionSelect missions = {props.missions} />
       </div>
     </ChallengesProvider>
   )
 }
 
 export const getServerSideProps:GetServerSideProps = async (context) => {
-  const { nickname, level, currentExperience, challengesCompleted } = context.req.cookies;
+  const response = await axios.get(serverURL + "/api/missions/")
+  let missionArray = response.data.missions;
+  if (missionArray === undefined) { missionArray = [] };
 
   return {
     props: {
-      level: level !== undefined ? Number(level) : 1,
-      nickname: nickname !== undefined ? nickname : "Novato(a)",
-      currentExperience: currentExperience !== undefined ? Number(currentExperience) : 0,
-      challengesCompleted: challengesCompleted !== undefined ? Number(challengesCompleted) : 0
+      missions: missionArray
     }
   }
 }

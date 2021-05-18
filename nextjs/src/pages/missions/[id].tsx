@@ -16,15 +16,18 @@ import axios from 'axios';
 import { CountProvider } from '../../contexts/CountContext';
 
 interface HomeProps {
+    id: number,
     level: number;
     nickname: string;
+    mission: MissionInfos;
     currentExperience: number;
     challengesCompleted: number;
 }  
 
 interface MissionInfos {
-    confission: string;
+    confession: string;
     questions: string;
+    mission: string;
     video: string;
     story: string;
     title: string;
@@ -42,26 +45,22 @@ export default function Mission(props: HomeProps) {
     const [ images, setImages ] = useState([]);
 
     const router = useRouter();
-    const id = router.query.id;  
 
     useEffect(() => {
-        axios.post(
-            serverURL + "/api/missions", { id }
-        ).then((response) => {
-            const missionInfo = response.data;
-            if (missionInfo.mission) {
-                const mission = missionInfo.mission as MissionInfos;
-                setInfos(mission);
-                setImages([{
-                    original: mission.story,
-                    thumbnail: mission.story
-                }, {
-                    original: mission.questions,
-                    thumbnail: mission.questions
-                }]);
-                nextStep();
-            }
-        })
+
+        
+        const mission = props.mission;
+        if (mission) {
+            setInfos(mission);
+            setImages([{
+                original: mission.story,
+                thumbnail: mission.story
+            }, {
+                original: mission.questions,
+                thumbnail: mission.questions
+            }]);
+            nextStep();
+        }
     }, [])
 
     useEffect(() => {
@@ -112,12 +111,7 @@ export default function Mission(props: HomeProps) {
     }
 
     return (
-        <ChallengesProvider 
-            level = {props.level}
-            nickname = {props.nickname}
-            currentExperience = {props.currentExperience}
-            challengesCompleted = {props.challengesCompleted}
-        >
+        <ChallengesProvider>
             <div className = {styles.externalContainer}>
             <ExperienceBar/>
             <div className = {styles.container}>
@@ -137,8 +131,8 @@ export default function Mission(props: HomeProps) {
                 </div>}
                 
                 {(currentStep == 2) ?
-                <p className = {styles.confission}>
-                    {infos.confission}
+                <p className = {styles.confession}>
+                    {infos.confession}
                 </p> : <></>}
 
                 <section className = {styles.complete}>
@@ -153,7 +147,7 @@ export default function Mission(props: HomeProps) {
                     </button>}
                     
                     {(currentStep == 2) ? 
-                        <CompleteMission missionID = {id} />
+                        <CompleteMission missionID = {props.id} />
                     : <CountProvider 
                         nextStep = {nextStep}
                         xpEarned = {xpEarned}
@@ -167,15 +161,27 @@ export default function Mission(props: HomeProps) {
     )
 }
 
-export const getServerSideProps:GetServerSideProps = async (context) => {
-    const { nickname, level, currentExperience, challengesCompleted } = context.req.cookies;
-    
+export async function getStaticPaths() {
+    const { data } = await axios.get(serverURL + "/api/missions/")
+    const missions = data.missions;
+
     return {
-      props: {
-        level: level !== undefined ? Number(level) : 1,
-        nickname: nickname !== undefined ? nickname : "Novato(a)",
-        currentExperience: currentExperience !== undefined ? Number(currentExperience) : 0,
-        challengesCompleted: challengesCompleted !== undefined ? Number(challengesCompleted) : 0
-      }
-    }
+        paths: missions.map((item: MissionInfos) => ({
+            params: { id: String(item.mission) }
+        })),
+        fallback: false
+     }
+}
+
+export async function getStaticProps(context) {
+    const id = context.params.id;
+
+    const { data } = await axios.post(
+        serverURL + "/api/missions", { id }
+    )
+
+    return { props: { 
+        mission: data.mission as MissionInfos,
+        id: id
+    } }
 }

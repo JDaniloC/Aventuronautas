@@ -4,7 +4,7 @@ import url from 'url';
 
 let cachedDb: Db = null;
 
-async function connectToDatabase(uri: string) {
+export async function connectToDatabase(uri: string) {
     if (cachedDb) {
         return cachedDb;
     }

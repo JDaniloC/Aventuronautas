@@ -17,11 +17,15 @@ export function NextStepButton({ currentStep }) {
 }
 
 export function CompleteMission({ missionID }) {
-    const { challengesCompleted, completeChallenge } = useContext(ChallengeContext);
+    const { saveUser,
+        challengesCompleted, 
+        completeChallenge
+    } = useContext(ChallengeContext);
     const router = useRouter();
 
     function handleComplete() {
         if (challengesCompleted >= Number(missionID)) {
+            saveUser();
             router.push("/")
         } else {
             completeChallenge(100);

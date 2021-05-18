@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { LevelUpModal } from '../components/LevelUpModal';
 import { PopupModal } from '../components/PopupModal';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
 interface ChallengeContextData {
     level: number;
@@ -10,18 +11,15 @@ interface ChallengeContextData {
     challengesCompleted: number;
     experienceToNextLevel: number;
     levelUp: () => void;
-    completeChallenge: (amount:number) => void;
+    saveUser: () => void;
     closeLevelModal: () => void;
+    completeChallenge: (amount:number) => void;
     closeNewUser: (name: string) => void;
     earnXp: (amount:number) => void;
 }
 
 interface ChallengeProviderProps {
     children: ReactNode;
-    level: number;
-    nickname: string;
-    currentExperience: number;
-    challengesCompleted: number;
 }
 
 export const ChallengeContext = createContext({} as ChallengeContextData);
@@ -29,34 +27,44 @@ export const ChallengeContext = createContext({} as ChallengeContextData);
 export function ChallengesProvider({ 
         children, ...rest 
     }: ChallengeProviderProps ) {
-    const [level, setLevel] = useState(rest.level);
-    const [nickname, setNickname] = useState(rest.nickname);
-    const [currentExperience, setCurrentExperience] = useState(
-        rest.currentExperience);
-    const [challengesCompleted, setChallengesCompleted] = useState(
-        rest.challengesCompleted);
+    const [level, setLevel] = useState(1);
+    const [nickname, setNickname] = useState("Novato(a)");
+    const [currentExperience, setCurrentExperience] = useState(0);
+    const [challengesCompleted, setChallengesCompleted] = useState(0);
 
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
     const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
     const [isNewUser, setIsNewUser] = useState(false);
 
     useEffect(() => {
+        const name = Cookies.get("nickname");
+        if (name) {
+            axios.get("/api/users/", 
+                { params: { nickname: name } }
+                ).then((response) => {
+                const user = response.data.user; 
+                updateUser(name, user);
+            })
+        }
+    }, [])
+
+    useEffect(() => {
         if (!Cookies.get("nickname")) {
             setIsNewUser(true);
         }
-
         Cookies.set("nickname", nickname);
-        Cookies.set("level", String(level));
-        Cookies.set("currentExperience", String(currentExperience));
-        Cookies.set("challengesCompleted", String(challengesCompleted));
-    }, [nickname, level, currentExperience, challengesCompleted]);
+    }, [nickname]);
 
-    useEffect(() => {
-        Notification.requestPermission();
-    }, []);
+    function updateUser(name:string, user:any) {
+        setNickname(name);
+        setLevel(user.level);
+        setCurrentExperience(user.currentExperience);
+        setChallengesCompleted(user.challengesCompleted);
+    }
 
     function levelUp() {
         setLevel(level + 1);
+        new Audio('/notification.mp3').play();
         setIsLevelModalOpen(true);
     }
 
@@ -64,7 +72,12 @@ export function ChallengesProvider({
         setIsLevelModalOpen(false);
     }
     function closeNewUser(name: string) {
-        setNickname(name)
+        axios.post("/api/users/", { nickname: name }).then(
+            (response) => { 
+                const user = response.data.user; 
+                updateUser(name, user);
+            } 
+        );
         setIsNewUser(false);
     }
 
@@ -76,13 +89,20 @@ export function ChallengesProvider({
             levelUp();
         }
         
-        setCurrentExperience(finalExperience);
+        setCurrentExperience(finalExperience); 
     }
 
     function completeChallenge(amount: number) {
         earnXp(amount);
-        new Audio('/notification.mp3').play();
         setChallengesCompleted(challengesCompleted + 1);
+    }
+
+    function saveUser() {
+        axios.patch("/api/users/", {
+            nickname, level, 
+            currentExperience, 
+            challengesCompleted
+        })
     }
 
     return (
@@ -94,7 +114,7 @@ export function ChallengesProvider({
             completeChallenge,
             closeLevelModal, 
             closeNewUser,
-            earnXp }}>
+            earnXp, saveUser }}>
             {children}
 
             { isNewUser && <PopupModal /> }
