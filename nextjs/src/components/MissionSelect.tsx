@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
-import { useRouter } from "next/router";
 import { ChallengeContext } from '../contexts/ChallengeContext';
 import styles from '../styles/components/MissionSelect.module.css';
+import Link from 'next/link';
 
 interface challenge {
     mission: number;
@@ -11,7 +11,6 @@ interface challenge {
 }
 
 export default function MissionSelect({ missions }) {
-    const router = useRouter();
     const [ missionArray, setMissionArray ] = useState([] as challenge[]);
     const { challengesCompleted } = useContext(ChallengeContext);
 
@@ -32,13 +31,12 @@ export default function MissionSelect({ missions }) {
                         <h3> {task.title} </h3>
                         <p> {task.description} </p>
                     </div>
-                    <button className = "project"
-                        disabled = {challengesCompleted + 1 < task.mission}
-                        onClick = {() => {
-                            router.push(`/missions/${task.mission}`);
-                        }}> 
-                        Embarcar 
-                    </button>
+                    <Link href = {`/missions/${task.mission}`}>
+                        <button className = "project"
+                            disabled = {challengesCompleted + 1 < task.mission}> 
+                            Embarcar 
+                        </button>
+                    </Link>
                 </span>
             )) : 
             <div className = "loadingDiv">

@@ -5,12 +5,12 @@ import MissionSelect from '../components/MissionSelect'
 import FinishGame from '../components/FinishGame'
 import Profile from '../components/Profile'
 
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
 
 import styles from "../styles/pages/Home.module.css";
-import axios from 'axios';
 import { serverURL } from '../config';
+import axios from 'axios';
 
 interface challenge {
   mission: number;
@@ -47,7 +47,7 @@ export default function Home(props: HomeProps) {
   )
 }
 
-export const getServerSideProps:GetServerSideProps = async (context) => {
+export const getStaticProps:GetStaticProps = async (context) => {
   const response = await axios.get(serverURL + "/api/missions/")
   let missionArray = response.data.missions;
   if (missionArray === undefined) { missionArray = [] };
@@ -55,6 +55,7 @@ export const getServerSideProps:GetServerSideProps = async (context) => {
   return {
     props: {
       missions: missionArray
-    }
+    },
+    revalidate: 60
   }
 }

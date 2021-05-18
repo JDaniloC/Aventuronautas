@@ -1,7 +1,7 @@
 import { ChallengeContext} from '../contexts/ChallengeContext';
-import { useContext } from 'react';
-import { useRouter } from "next/router";
 import { CountContext } from '../contexts/CountContext';
+import { useContext } from 'react';
+import Link from 'next/link';
 
 
 export function NextStepButton({ currentStep }) {
@@ -21,21 +21,20 @@ export function CompleteMission({ missionID }) {
         challengesCompleted, 
         completeChallenge
     } = useContext(ChallengeContext);
-    const router = useRouter();
-
-    function handleComplete() {
-        if (challengesCompleted >= Number(missionID)) {
-            saveUser();
-            router.push("/")
-        } else {
-            completeChallenge(100);
-        }
-    }
 
     return (
-        <button className = "project" 
-            onClick = { handleComplete }> 
-            Completar missão 
-        </button>
+        <>
+        {(challengesCompleted >= Number(missionID)) ? 
+        <Link href = "/">
+            <button className = "project" 
+                onClick = { () => saveUser() }> 
+                Completar missão 
+            </button>
+        </Link>
+        : <button className = "project" 
+            onClick = { () => completeChallenge(100) }> 
+            Receber recompensa!
+        </button>}
+    </>
     )
 }
