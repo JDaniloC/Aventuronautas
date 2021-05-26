@@ -42,16 +42,19 @@
     font-size: 2rem;
 }
 .missionsContainer .imgDiv {
-    max-width: 5em;
-    height: 5em;
-    min-width: 5.5em;
-    min-height: 5.5em;
+    max-width: 5.5em;
+    max-height: 5.5em;
     border-radius: 50%;
-    background-color: #FFF;
     overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
 }
 .missionsContainer .imgDiv img {
-    height: 100%;
+    height: 6em;
+    width: min-content;
 }
 
 .missionsContainer div {
@@ -76,12 +79,12 @@
     }
     .missionsContainer > span.arrived::before {
         background-image: url(/gifs/filled-circle.gif);
-        background-position: -2px -21px;
-        transform: rotateZ(0deg);
+        background-position: -4px -21px;
+        transform: rotate(0deg);
         background-size: cover;
-        height: 12em;
-        opacity: 0.4;
-        width: 12em;
+        height: 12.2em;
+        width: 12.2em;
+        opacity: .4;
         z-index: 1;
     }
     .missionsContainer > span::before {
@@ -93,10 +96,13 @@
     }
     .missionsContainer .imgDiv {
         max-width: 7em;
-        width: 7em;
+        max-height: 7em;
         height: 7em;
     }
     .missionsContainer .description {
         margin: 1em 0;
+    }
+    .missionsContainer .imgDiv img {
+        height: 100%;
     }
 }

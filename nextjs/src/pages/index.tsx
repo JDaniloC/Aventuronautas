@@ -2,15 +2,17 @@ import CompletedChallenges from '../components/CompletedChallenges';
 import { ChallengesProvider } from '../contexts/ChallengeContext';
 import ExperienceBar from '../components/ExperienceBar'
 import MissionSelect from '../components/MissionSelect'
-import FinishGame from '../components/FinishGame'
 import Profile from '../components/Profile'
 
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import styles from "../styles/pages/Home.module.css";
+import finishStyles from "../styles/components/FinishGame.module.css";
 import { serverURL } from '../config';
 import axios from 'axios';
+import React from 'react';
+import Link from 'next/link';
 
 interface challenge {
   mission: number;
@@ -38,7 +40,17 @@ export default function Home(props: HomeProps) {
             <Profile />
             <CompletedChallenges />
           </div>
-          <FinishGame />
+          <div className = {finishStyles.finishContainer}>
+            <h2> Completar todas as missões! </h2>
+            <p> Se você completou as 14 missões, clique neste botão. </p>
+            <p> Fale com seu conselheiro, para provar o seu valor, </p> 
+            <p> e dessa forma, concorrer a brindes, Boa sorte! </p>
+            <Link href = "/award/">
+              <button className = "project">
+                  Salvar o mundo
+              </button>
+            </Link>
+          </div>
         </section>
 
         <MissionSelect missions = {props.missions} />
