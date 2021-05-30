@@ -8,9 +8,8 @@ export function NextStepButton({ currentStep }) {
     const { verifyGain } = useContext(CountContext);
 
     return (
-        <button className = "project" onClick = {() => {
-            verifyGain(currentStep)
-            }}>
+        <button className = "project" 
+            onClick = {() => {verifyGain(currentStep)}}>
             Próxima tarefa
         </button>
     )
@@ -22,17 +21,19 @@ export function CompleteMission({ missionID }) {
         completeChallenge
     } = useContext(ChallengeContext);
 
+    const { resetCount } = useContext(CountContext);
+
     return (
         <>
         {(challengesCompleted >= Number(missionID)) ? 
         <Link href = "/">
             <button className = "project" 
-                onClick = { () => saveUser() }> 
+                onClick = { () => { resetCount(); saveUser(); } }> 
                 Completar missão 
             </button>
         </Link>
         : <button className = "project" 
-            onClick = { () => completeChallenge(100) }> 
+            onClick = { () => { resetCount(); completeChallenge(100); } }> 
             Receber recompensa!
         </button>}
     </>

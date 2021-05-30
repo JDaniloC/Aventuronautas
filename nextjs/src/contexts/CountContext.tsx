@@ -3,6 +3,7 @@ import { ChallengeContext } from './ChallengeContext';
 
 interface CountContextData {
     verifyGain: (currentStep: number) => void;
+    resetCount: () => void;
 }
 
 interface CountProviderProps {
@@ -29,8 +30,8 @@ export function CountProvider({
         }, 1000)
     }, [time])
 
-
     function resetCount() {
+        console.log("Setando o tempo pra 0")
         clearTimeout(countdownTimeout);
         setTime(0);
         clearTimeout(countdownTimeout);
@@ -57,7 +58,7 @@ export function CountProvider({
 
     return (
         <CountContext.Provider value = {{
-            verifyGain
+            verifyGain, resetCount
          }}>
             {children}
         </CountContext.Provider>

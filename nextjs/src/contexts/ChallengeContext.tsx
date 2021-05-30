@@ -49,7 +49,10 @@ export function ChallengesProvider({
     }, [])
 
     useEffect(() => {
-        if (!Cookies.get("nickname")) {
+        const cookieNickname = Cookies.get("nickname");
+        if (!cookieNickname || (
+            cookieNickname === nickname &&
+            cookieNickname === "Novato(a)")) {
             setIsNewUser(true);
         }
         Cookies.set("nickname", nickname);

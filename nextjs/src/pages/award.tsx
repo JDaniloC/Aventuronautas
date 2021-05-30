@@ -85,7 +85,8 @@ export default function Home(props: AwardProps) {
                         Voltar
                     </button>
                 </Link>
-                <button className = "project" disabled> 
+                <button className = "project" disabled
+                    style = {{ marginBottom: "2em"}}> 
                     Iniciar teste 
                 </button>
             </section>

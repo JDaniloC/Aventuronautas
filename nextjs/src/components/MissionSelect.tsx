@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
-import { ChallengeContext } from '../contexts/ChallengeContext';
 import styles from '../styles/components/MissionSelect.module.css';
+import { ChallengeContext } from '../contexts/ChallengeContext';
+import { useContext, useEffect, useState } from 'react';
+import { TiArrowDownThick } from 'react-icons/ti';
 import Link from 'next/link';
 
 interface challenge {
@@ -18,6 +19,10 @@ export default function MissionSelect({ missions }) {
         setMissionArray(missions);
     }, [])
     
+    function nextMission() {
+        window.scrollTo(0, 350 + (190 * (13 - challengesCompleted)))
+    }
+
     return (
         <div className = {styles.missionsContainer}>
             { (missionArray.length > 0) ? missionArray.map((task) => (
@@ -25,7 +30,7 @@ export default function MissionSelect({ missions }) {
                     ((challengesCompleted + 1) >= Number(task.mission) ?
                     styles.arrived : "")}>
                     <div className = {styles.imgDiv}>
-                        <img src={task.icon}/>
+                        <img src={task.icon} alt = "icon mission"/>
                     </div>
                     <div className = { styles.description }>
                         <h3> {task.title} </h3>
@@ -40,9 +45,12 @@ export default function MissionSelect({ missions }) {
                 </span>
             )) : 
             <div className = "loadingDiv">
-                <img src="/gifs/rocket.gif"/>
+                <img src="/gifs/rocket.gif" alt = "loading img"/>
                 <p> Carregando... </p>
             </div>}
+            <button onClick = {nextMission} className = {styles.scrollBtn}>
+                <TiArrowDownThick />
+            </button>
         </div>
     );
 }

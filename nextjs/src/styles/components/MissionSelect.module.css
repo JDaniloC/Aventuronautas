@@ -73,9 +73,28 @@
     border-left: 1px solid #f0f1f3;
 }
 
+.scrollBtn {
+    position: fixed;
+    right: 2em;
+    bottom: 2em;
+    padding: 1em;
+    border-radius: 25%;
+    border: none;
+    background: var(--green-light);
+    color: #FFF;
+    transition: all .3s;
+    display: flex;
+}
+.scrollBtn:hover {
+    background: var(--green);
+}
+
 @media (max-width: 850px) {
     .missionsContainer {
         flex-flow: column;
+    }
+    .scrollBtn {
+        display: none;
     }
     .missionsContainer > span.arrived::before {
         background-image: url(/gifs/filled-circle.gif);
@@ -104,5 +123,12 @@
     }
     .missionsContainer .imgDiv img {
         height: 100%;
+    }
+}
+@media (max-width: 720px) {
+    .missionsContainer > span.arrived::before {
+        background-position: 0px -22px;
+        height: 11.5em;
+        width: 12em;
     }
 }

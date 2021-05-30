@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 :root {
     --white: #fff;
     --background: #F2F3F5;
@@ -18,7 +22,7 @@
     --blue-twitter: #2AA9E0;
     --blue-kid: #80c3d2;
     --orange-kid: #f98f57;
-    --green-kid: #84ed98;
+    --green-light: #4be924;
 }
 
 body {

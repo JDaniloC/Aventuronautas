@@ -27,35 +27,33 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {  
   return (
-    <ChallengesProvider>
-      <div className={styles.container}>
-        <Head>
-          <title> Início | Aventura Espacial </title>
-        </Head>
+    <div className={styles.container}>
+      <Head>
+        <title> Início | Aventura Espacial </title>
+      </Head>
 
-        <ExperienceBar />
-        
-        <section>
-          <div>
-            <Profile />
-            <CompletedChallenges />
-          </div>
-          <div className = {finishStyles.finishContainer}>
-            <h2> Completar todas as missões! </h2>
-            <p> Se você completou as 14 missões, clique neste botão. </p>
-            <p> Fale com seu conselheiro, para provar o seu valor, </p> 
-            <p> e dessa forma, concorrer a brindes, Boa sorte! </p>
-            <Link href = "/award/">
-              <button className = "project">
-                  Salvar o mundo
-              </button>
-            </Link>
-          </div>
-        </section>
+      <ExperienceBar />
+      
+      <section>
+        <div>
+          <Profile />
+          <CompletedChallenges />
+        </div>
+        <div className = {finishStyles.finishContainer}>
+          <h2> Completar todas as missões! </h2>
+          <p> Se você completou as 14 missões, clique neste botão. </p>
+          <p> Fale com seu conselheiro, para provar o seu valor, </p> 
+          <p> e dessa forma, concorrer a brindes, Boa sorte! </p>
+          <Link href = "/award/">
+            <button className = "project">
+                Salvar o mundo
+            </button>
+          </Link>
+        </div>
+      </section>
 
-        <MissionSelect missions = {props.missions} />
-      </div>
-    </ChallengesProvider>
+      <MissionSelect missions = {props.missions} />
+    </div>
   )
 }
 
