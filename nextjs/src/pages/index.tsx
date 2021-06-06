@@ -1,5 +1,5 @@
 import CompletedChallenges from '../components/CompletedChallenges';
-import { ChallengesProvider } from '../contexts/ChallengeContext';
+import { ChallengeContext } from '../contexts/ChallengeContext';
 import ExperienceBar from '../components/ExperienceBar'
 import MissionSelect from '../components/MissionSelect'
 import Profile from '../components/Profile'
@@ -11,7 +11,7 @@ import styles from "../styles/pages/Home.module.css";
 import finishStyles from "../styles/components/FinishGame.module.css";
 import { serverURL } from '../config';
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import Link from 'next/link';
 
 interface challenge {
@@ -26,6 +26,9 @@ interface HomeProps {
 }
 
 export default function Home(props: HomeProps) {  
+  const { saveUser } = useContext(ChallengeContext);
+  useEffect(saveUser, [])
+
   return (
     <div className={styles.container}>
       <Head>

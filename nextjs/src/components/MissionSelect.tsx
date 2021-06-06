@@ -17,6 +17,9 @@ export default function MissionSelect({ missions }) {
 
     useEffect(() => {
         setMissionArray(missions);
+        if (window.innerWidth > 850) {
+            nextMission();
+        }
     }, [])
     
     function nextMission() {
@@ -48,9 +51,12 @@ export default function MissionSelect({ missions }) {
                 <img src="/gifs/rocket.gif" alt = "loading img"/>
                 <p> Carregando... </p>
             </div>}
-            <button onClick = {nextMission} className = {styles.scrollBtn}>
-                <TiArrowDownThick />
-            </button>
+            {(challengesCompleted < 12) ? 
+                <button onClick = {nextMission} 
+                    className = "project">
+                    Próxima missão &nbsp; <TiArrowDownThick />
+                </button>: 
+            <></>}
         </div>
     );
 }

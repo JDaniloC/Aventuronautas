@@ -67,7 +67,6 @@ export function ChallengesProvider({
 
     function levelUp() {
         setLevel(level + 1);
-        new Audio('/notification.mp3').play();
         setIsLevelModalOpen(true);
     }
 
@@ -86,6 +85,7 @@ export function ChallengesProvider({
 
     function earnXp(amount: number) {
         let finalExperience = currentExperience + amount;
+        new Audio('/notification.mp3').play();
 
         if (finalExperience > experienceToNextLevel) {
             finalExperience -= experienceToNextLevel;
@@ -100,8 +100,12 @@ export function ChallengesProvider({
         setChallengesCompleted(challengesCompleted + 1);
     }
 
-    function saveUser() {
-        axios.patch("/api/users/", {
+    async function saveUser() {
+        console.log(nickname, level, currentExperience)
+        if (nickname === "Novato(a)") {
+            return;
+        }
+        await axios.patch("/api/users/", {
             nickname, level, 
             currentExperience, 
             challengesCompleted

@@ -73,22 +73,6 @@
     border-left: 1px solid #f0f1f3;
 }
 
-.scrollBtn {
-    position: fixed;
-    right: 2em;
-    bottom: 2em;
-    padding: 1em;
-    border-radius: 25%;
-    border: none;
-    background: var(--green-light);
-    color: #FFF;
-    transition: all .3s;
-    display: flex;
-}
-.scrollBtn:hover {
-    background: var(--green);
-}
-
 @media (max-width: 850px) {
     .missionsContainer {
         flex-flow: column;

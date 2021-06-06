@@ -1,19 +1,19 @@
 import Head from 'next/head';
 import { useRouter } from "next/router";
-import { GetServerSideProps } from "next";
 import React, { useEffect, useState } from 'react';
 
 
 import ExperienceBar from '../../components/ExperienceBar'
-import { CompleteMission, NextStepButton } from '../../components/CompleteMission'
-import { ChallengesProvider } from '../../contexts/ChallengeContext';
-
+import { CountProvider } from '../../contexts/CountContext';
+import { 
+    CompleteMission, 
+    NextStepButton 
+} from '../../components/CompleteMission'
 
 import styles from "../../styles/pages/Mission.module.css";
 import ImageGallery from 'react-image-gallery';
 import { serverURL } from '../../config';
 import axios from 'axios';
-import { CountProvider } from '../../contexts/CountContext';
 
 interface HomeProps {
     id: number,
@@ -83,9 +83,12 @@ export default function Mission(props: HomeProps) {
                 {(infos.form) ? 
                 <> <section className = {styles.studyContainer}>
                         <div style = {{ 
-                            display: (currentStep === 0) ? "block" : "none"}}>
-                            <p> Apenas para visualização </p>
-                            <p> Responda na sua revistinha </p>
+                            display: (currentStep === 0) ? "flex" : "none",
+                            flexDirection: 'column', alignItems: 'center'}}>
+                            <p className = {styles.confession}> 
+                                Apenas para visualização. <br/>
+                                Responda na sua revistinha 
+                            </p>
                             <ImageGallery items={images} />
                         </div>
                          

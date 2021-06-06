@@ -98,17 +98,8 @@ export default function Home(props: AwardProps) {
 export const getStaticProps:GetStaticProps = async (context) => {
     const { data: response } = await axios.get(
         serverURL + "/api/awards/").catch((err) => {
-            if (err.response) {
-                console.log(err.response.data);
-                console.log(err.response.status);
-                console.log(err.response.headers);
-              } else if (err.request) {
-                console.log(err.request);
-              } else {
-                console.log('Error', err.message);
-              }
-              console.log(err.config);
-              return { data: { awards: [] } }
+            console.error(err);
+            return { data: { awards: [] } }
         })
     const awards = response.awards as Award[];
 

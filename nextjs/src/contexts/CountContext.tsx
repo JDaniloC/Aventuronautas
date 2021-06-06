@@ -31,8 +31,6 @@ export function CountProvider({
     }, [time])
 
     function resetCount() {
-        console.log("Setando o tempo pra 0")
-        clearTimeout(countdownTimeout);
         setTime(0);
         clearTimeout(countdownTimeout);
     }
