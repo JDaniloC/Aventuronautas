@@ -1,6 +1,6 @@
 import { ChallengeContext } from '../contexts/ChallengeContext';
 import styles from '../styles/components/Profile.module.css';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { FaQuestion } from 'react-icons/fa';
 import { ImExit } from 'react-icons/im';

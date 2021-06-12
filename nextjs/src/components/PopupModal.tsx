@@ -1,7 +1,7 @@
 import { ChallengeContext } from "../contexts/ChallengeContext";
 import styles from "../styles/components/Popup.module.css";
 import { useContext, useRef, useState } from "react";
-import { BiArrowBack } from 'react-icons/Bi';
+import { BiArrowBack } from 'react-icons/bi';
 import ImagePicker from 'react-image-picker';
 import 'react-image-picker/dist/index.css'
 
