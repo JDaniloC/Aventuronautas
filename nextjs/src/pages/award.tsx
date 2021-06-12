@@ -22,9 +22,10 @@ interface User {
     nickname: string;
     level: number;
     idade: number;
+    image: string;
+    reward: string;
     currentExperience: number;
     challengesCompleted: number;
-    reward: string;
 }
 
 interface Award {
@@ -176,7 +177,7 @@ export const getStaticProps:GetStaticProps = async (context) => {
         })
     
     const awards = response.awards as Award[];
-    const users = userCollection.users as User[];
+    const users = []; // userCollection.users as User
 
     return {
         props: {
