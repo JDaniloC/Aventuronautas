@@ -177,7 +177,7 @@ export const getStaticProps:GetStaticProps = async (context) => {
         })
     
     const awards = response.awards as Award[];
-    const users = []; // userCollection.users as User
+    const users = userCollection.users as User[];
 
     return {
         props: {
