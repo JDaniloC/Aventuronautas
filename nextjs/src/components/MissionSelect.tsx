@@ -18,7 +18,7 @@ export default function MissionSelect({ missions }) {
     useEffect(() => {
         setMissionArray(missions);
         if (window.innerWidth > 850) {
-            nextMission();
+            setTimeout(nextMission, 1000);
         }
     }, [])
     

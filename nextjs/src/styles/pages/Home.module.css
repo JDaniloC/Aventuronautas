@@ -30,6 +30,37 @@
     margin-bottom: 1em;
 }
 
+.floatBtn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background: var(--blue);
+    border-radius: 30%;
+    border: none;
+    color: #FFF;
+    padding: .3em .4em;
+}
+.floatBtn:hover {
+    background: var(--blue-dark)
+}
+
+.rankingContainer {
+    max-height: 27em;
+    overflow: auto;
+}
+.ranking {
+    display: flex;
+    margin-top: 1em;
+    justify-content: space-between;
+}
+.ranking span {
+    flex: 1;
+}
+.ranking span:nth-child(2) {
+    border-right: 0.1px solid #FFF;
+    border-left: 0.1px solid #FFF;
+}
+
 .reward {
     margin-bottom: 2em;
 }
@@ -41,6 +72,7 @@
     text-align: center;
     margin-bottom: 2em;
     padding: 1em;
+    position: relative;
 }
 
 .reward h1:not(:first-child) {

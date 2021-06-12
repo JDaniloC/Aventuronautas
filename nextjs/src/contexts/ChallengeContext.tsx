@@ -5,17 +5,18 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 
 interface ChallengeContextData {
-    level: number;
+    level: number; reward: string;
     nickname: string;
     currentExperience: number;
     challengesCompleted: number;
     experienceToNextLevel: number;
-    levelUp: () => void;
-    saveUser: () => void;
     closeLevelModal: () => void;
-    completeChallenge: (amount:number) => void;
-    closeNewUser: (name: string) => void;
     earnXp: (amount:number) => void;
+    setReward: (name: string) => void;
+    userExists: (name: string) => Promise<boolean>;
+    levelUp: () => void; saveUser: () => void;
+    completeChallenge: (amount:number) => void;
+    closeNewUser: (name: string, number: number) => void;
 }
 
 interface ChallengeProviderProps {
@@ -31,6 +32,7 @@ export function ChallengesProvider({
     const [nickname, setNickname] = useState("Novato(a)");
     const [currentExperience, setCurrentExperience] = useState(0);
     const [challengesCompleted, setChallengesCompleted] = useState(0);
+    const [reward, setReward] = useState("Nenhum");
 
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
     const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
@@ -41,9 +43,11 @@ export function ChallengesProvider({
         if (name) {
             axios.get("/api/users/", 
                 { params: { nickname: name } }
-                ).then((response) => {
-                const user = response.data.user; 
-                updateUser(name, user);
+            ).then((response) => {
+                if (response.data.user) {
+                    const user = response.data.user; 
+                    updateUser(name, user);
+                }
             })
         }
     }, [])
@@ -57,6 +61,13 @@ export function ChallengesProvider({
         }
         Cookies.set("nickname", nickname);
     }, [nickname]);
+
+    async function userExists(name: string) {
+        const response = await axios.get("/api/users/", 
+            { params: { nickname: name } }
+        );
+        return response.data.user !== null;
+    }
 
     function updateUser(name:string, user:any) {
         setNickname(name);
@@ -73,8 +84,8 @@ export function ChallengesProvider({
     function closeLevelModal() {
         setIsLevelModalOpen(false);
     }
-    function closeNewUser(name: string) {
-        axios.post("/api/users/", { nickname: name }).then(
+    function closeNewUser(name: string, idade:number) {
+        axios.post("/api/users/", { nickname: name, idade }).then(
             (response) => { 
                 const user = response.data.user; 
                 updateUser(name, user);
@@ -101,12 +112,11 @@ export function ChallengesProvider({
     }
 
     async function saveUser() {
-        console.log(nickname, level, currentExperience)
         if (nickname === "Novato(a)") {
             return;
         }
         await axios.patch("/api/users/", {
-            nickname, level, 
+            nickname, level, reward,
             currentExperience, 
             challengesCompleted
         })
@@ -117,11 +127,12 @@ export function ChallengesProvider({
             currentExperience, level, 
             experienceToNextLevel,
             challengesCompleted, 
-            nickname, levelUp,
+            nickname, reward, 
+            levelUp, userExists,
             completeChallenge,
             closeLevelModal, 
-            closeNewUser,
-            earnXp, saveUser }}>
+            closeNewUser, earnXp, 
+            setReward, saveUser }}>
             {children}
 
             { isNewUser && <PopupModal /> }

@@ -23,6 +23,7 @@
     position: relative;
 
     display: flex;
+    align-items: center;
     flex-direction: column;
 }
 
@@ -61,11 +62,49 @@
     text-align: left;
     width: 10em;
     padding: 1em;
-    background: url("/icons/decolar.png") no-repeat center;
 
     background-position: right;
     background-size: contain;
     border: solid .1px;
     border-radius: 4px;
 
+}
+
+.startContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+.startContainer button:first-child {
+    width: auto;
+    height: 4em;
+    background: transparent;
+}
+.startContainer button:first-child:hover {
+    color: #FFF;
+    background: var(--red);
+}
+
+.container button.start {
+    background: url("/icons/decolar.png") no-repeat center;
+}
+
+.inputs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.buttons button {
+    background: transparent;
+    text-align: center;
+    margin: 0.5em;
+}
+.buttons button:hover {
+    color: #FFF;
+    background: var(--green);
+}
+
+@media (max-width: 600px) {
+    .inputs {
+        flex-direction: column;
+    }
 }

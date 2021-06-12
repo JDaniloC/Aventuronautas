@@ -10,20 +10,26 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     if (nickname) {
         nickname = nickname.replace(/[\W]/g, "").toLowerCase();
         user = await collection.findOne({ nickname });
+    } else {
+        const users = await collection.find({}).toArray();
+        return res.status(200).json({ users })
     }
 
     if (req.method === 'POST') {
         if (user) {
             return res.status(200).json({ user })
         }
+        
+        const { idade } = req.body;
 
         const { ops } = await collection.insertOne({
-            nickname, level: 1, 
+            nickname, idade, level: 1, 
             currentExperience: 0, 
-            challengesCompleted: 0
+            challengesCompleted: 0,
+            reward: "Nenhum"
         })
 
-        res.status(200).json({ user: ops[0] })
+        res.status(201).json({ user: ops[0] })
     } else if (req.method === 'PATCH') {
         if (!user) {
             return res.status(201).json({})
@@ -31,26 +37,18 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
         const {
             level, currentExperience, 
-            challengesCompleted 
+            challengesCompleted, reward
         } = req.body;
 
         user = await collection.updateOne({ nickname }, {
             $set: {
-                level, currentExperience: currentExperience + 1, 
-                challengesCompleted
+                level, reward, challengesCompleted,
+                currentExperience: currentExperience, 
             }
         })
         res.status(200).json({ user })
     } else {
-        if (!user) {
-            user = {
-                nickname: "Novato(a)",
-                level: 1, 
-                currentExperience: 0, 
-                challengesCompleted: 0
-            }
-        }
-        res.status(201).json({ user })
+        res.status(200).json({ user })
     }    
 }
   
