@@ -6,7 +6,7 @@ import axios from 'axios';
 
 interface ChallengeContextData {
     level: number; reward: string;
-    nickname: string;
+    nickname: string; image: string;
     currentExperience: number;
     challengesCompleted: number;
     experienceToNextLevel: number;
@@ -16,7 +16,8 @@ interface ChallengeContextData {
     userExists: (name: string) => Promise<boolean>;
     levelUp: () => void; saveUser: () => void;
     completeChallenge: (amount:number) => void;
-    closeNewUser: (name: string, number: number) => void;
+    createNewUser: (name: string, 
+        number: number, image:string) => void;
 }
 
 interface ChallengeProviderProps {
@@ -32,6 +33,7 @@ export function ChallengesProvider({
     const [nickname, setNickname] = useState("Novato(a)");
     const [currentExperience, setCurrentExperience] = useState(0);
     const [challengesCompleted, setChallengesCompleted] = useState(0);
+    const [image, setImage] = useState("/icons/profile.png");
     const [reward, setReward] = useState("Nenhum");
 
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
@@ -72,6 +74,7 @@ export function ChallengesProvider({
     function updateUser(name:string, user:any) {
         setNickname(name);
         setLevel(user.level);
+        setImage(user.image);
         setCurrentExperience(user.currentExperience);
         setChallengesCompleted(user.challengesCompleted);
     }
@@ -84,8 +87,8 @@ export function ChallengesProvider({
     function closeLevelModal() {
         setIsLevelModalOpen(false);
     }
-    function closeNewUser(name: string, idade:number) {
-        axios.post("/api/users/", { nickname: name, idade }).then(
+    function createNewUser(name: string, idade:number, image:string) {
+        axios.post("/api/users/", { nickname: name, idade, image }).then(
             (response) => { 
                 const user = response.data.user; 
                 updateUser(name, user);
@@ -127,11 +130,11 @@ export function ChallengesProvider({
             currentExperience, level, 
             experienceToNextLevel,
             challengesCompleted, 
-            nickname, reward, 
+            nickname, reward, image,
             levelUp, userExists,
             completeChallenge,
             closeLevelModal, 
-            closeNewUser, earnXp, 
+            createNewUser, earnXp, 
             setReward, saveUser }}>
             {children}
 

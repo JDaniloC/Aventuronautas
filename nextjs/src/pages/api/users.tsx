@@ -20,10 +20,10 @@ export default async (req: VercelRequest, res: VercelResponse) => {
             return res.status(200).json({ user })
         }
         
-        const { idade } = req.body;
+        const { idade, image } = req.body;
 
         const { ops } = await collection.insertOne({
-            nickname, idade, level: 1, 
+            nickname, idade, image, level: 1, 
             currentExperience: 0, 
             challengesCompleted: 0,
             reward: "Nenhum"

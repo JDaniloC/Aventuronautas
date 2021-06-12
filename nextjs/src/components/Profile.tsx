@@ -9,7 +9,7 @@ import Help from './Help';
 import Cookies from 'js-cookie';
 
 export default function Profile() {
-    const { nickname, level } = useContext(ChallengeContext);
+    const { nickname, level, image } = useContext(ChallengeContext);
     const [ showModal, setShowModal ] = useState(false);
 
     function exitAccount() {
@@ -20,7 +20,7 @@ export default function Profile() {
     return (
         <>
         <div className = {styles.profileContainer}>
-            <img src="icons/profile.png" alt="Profile img"/>
+            <img src = {image} alt="Profile img"/>
             <div>
                 <strong> { nickname } </strong>
                 <p> 

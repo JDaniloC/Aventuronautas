@@ -91,6 +91,8 @@
 .inputs {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    max-width: 100%;
 }
 
 .buttons button {
@@ -101,6 +103,13 @@
 .buttons button:hover {
     color: #FFF;
     background: var(--green);
+}
+.image_picker {
+    overflow: auto;
+    max-width: 100%;
+}
+.image_picker > div {
+    display: flex;
 }
 
 @media (max-width: 600px) {

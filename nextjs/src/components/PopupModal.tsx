@@ -2,6 +2,8 @@ import { ChallengeContext } from "../contexts/ChallengeContext";
 import styles from "../styles/components/Popup.module.css";
 import { useContext, useRef, useState } from "react";
 import { BiArrowBack } from 'react-icons/Bi';
+import ImagePicker from 'react-image-picker';
+import 'react-image-picker/dist/index.css'
 
 export function PopupModal() {
     const [step, setStep] = useState("");
@@ -9,7 +11,16 @@ export function PopupModal() {
 
     const [name, setName] = useState("");
     const [idade, setIdade] = useState(6);
-    const { closeNewUser, userExists } = useContext(ChallengeContext);
+    const { createNewUser, userExists } = useContext(ChallengeContext);
+    const [image, setImage] = useState("/icons/profile.png");
+
+    const profiles = [
+        {"image": "/icons/profile.png"},
+        {"image": "/icons/profile2.png"},
+        {"image": "/icons/profile3.png"},
+        {"image": "/icons/profile4.png"},
+        {"image": "/icons/profile5.png"},
+    ]
 
     const errorRef = useRef(null);
     const btnRef = useRef(null);
@@ -28,7 +39,7 @@ export function PopupModal() {
                     return;
                 }
             }
-            closeNewUser(name, idade)
+            createNewUser(name, idade, image);
         } else {
             errorRef.current.style.color = "red";
             let msg = "Você já é grandinho de mais...";
@@ -57,6 +68,10 @@ export function PopupModal() {
         setStep("")
     }
 
+    function onPick(selected:{ src:string, value:string }) {
+        setImage(selected.value);
+    }
+
     return (
         <div className = {styles.overlay}>
             <div className = {styles.container}>
@@ -75,6 +90,13 @@ export function PopupModal() {
                             Continuar viagem 
                         </button>                        
                     </div> : (step === "register") ? <>
+                        <div className = {styles.image_picker}>
+                            <ImagePicker
+                                images = {profiles.map((award) => ({
+                                    src: award.image, value: award.image}))}
+                                onPick = {onPick}
+                            />
+                        </div>
                         <input type="text" value = {name} 
                             placeholder = "Nome Sobrenome" onChange = {
                             (evt) => setName(evt.target.value)}/>

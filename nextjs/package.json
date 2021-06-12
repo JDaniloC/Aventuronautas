@@ -1,6 +1,6 @@
 {
-  "name": "nextjs",
-  "version": "0.1.0",
+  "name": "Aventuronautas",
+  "version": "0.2.5",
   "private": true,
   "scripts": {
     "dev": "next dev",
