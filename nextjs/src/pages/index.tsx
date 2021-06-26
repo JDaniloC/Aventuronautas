@@ -1,18 +1,18 @@
 import CompletedChallenges from '../components/CompletedChallenges';
 import { ChallengeContext } from '../contexts/ChallengeContext';
-import ExperienceBar from '../components/ExperienceBar'
-import MissionSelect from '../components/MissionSelect'
-import Profile from '../components/Profile'
+import ExperienceBar from '../components/ExperienceBar';
+import MissionSelect from '../components/MissionSelect';
+import Profile from '../components/Profile';
 
-import { GetStaticProps } from 'next';
-import Head from 'next/head';
-
-import styles from "../styles/pages/Home.module.css";
-import finishStyles from "../styles/components/FinishGame.module.css";
-import { serverURL } from '../config';
-import axios from 'axios';
 import React, { useEffect, useContext } from 'react';
+import { GetStaticProps } from 'next';
+import { serverURL } from '../config';
+import Head from 'next/head';
 import Link from 'next/link';
+import axios from 'axios';
+
+import finishStyles from "../styles/components/FinishGame.module.css";
+import styles from "../styles/pages/Home.module.css";
 
 interface challenge {
   mission: number;
@@ -56,6 +56,11 @@ export default function Home(props: HomeProps) {
       </section>
 
       <MissionSelect missions = {props.missions} />
+      <footer className = {styles.footer}>
+        <p> Desenvolvimento: JDaniloC </p> 
+        <p> Clube novo amanhecer </p> 
+        <p> Projeto gráfico: Isaías Lima</p>
+      </footer>
     </div>
   )
 }

@@ -30,8 +30,9 @@
 .container header {
     font-size: 8.75rem;
     height: 1em;
-    background: url("/icons/main.png") no-repeat center;
+    background: url(/icons/main.png) no-repeat center;
     background-size: contain;
+    width: inherit;
 }
 
 .container strong {

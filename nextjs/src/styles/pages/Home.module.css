@@ -29,6 +29,12 @@
 .picker h3 {
     margin-bottom: 1em;
 }
+.picker > div {
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .floatBtn {
     position: absolute;
@@ -79,10 +85,28 @@
     margin: 1em 0 0 0;
 }
 
+.footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    margin-top: 1em;
+    padding: 1em;
+    width: 100%;
+    color: var(--title);
+    background: var(--white);
+    border-radius: 4px 4px 0 0;
+}
+
 @media(max-width: 800px) {
     .container section {
         grid-template-columns: auto;
         grid-gap: 0; 
         gap: 0;
+    }
+    .footer p {
+        text-align: center;
+        text-align: center;
+        width: inherit;
     }
 }
