@@ -107,7 +107,7 @@ export default function Home(props: AwardProps) {
     const [awards, setAwards] = useState([]);
     const [selected, setSelected] = useState("");
 
-    const { reward, setReward, 
+    const { reward, setReward, nickname,
         challengesCompleted } = useContext(ChallengeContext);
 
     useEffect(() => {
@@ -139,7 +139,7 @@ export default function Home(props: AwardProps) {
             </section>
             
             {(showTask) ? 
-                <Task quests = {props.finalTest}/>
+                <Task username = {nickname} quests = {props.finalTest}/>
             : <> 
             <section className = {styles.reward} >
                 <div>
@@ -196,7 +196,24 @@ export const getStaticProps:GetStaticProps = async (context) => {
             return { data: { awards: [] } }
         })
     
-    const finalTest = []
+    const finalTest = [{
+        id: "0",
+        title: "O que é o que é alguma coisa blablabla bem grande pra perguntar sapokasopkasp assabnhbfe?",
+        options: [
+            "Correto, mas acredito que seja de outra forma, veja bem está errado",
+            "Errado",
+            "Sei lá"
+        ]
+    },
+    {
+        id: "1",
+        title: "Isso é uma pergunta menor",
+        options: [
+            "Para testar a passagem de pergunta",
+            "E passagem de resposta",
+            "Pra por fim enviar"
+        ]
+    }]
 
     const awards = response.awards as Award[];
     const users = userCollection.users as User[];

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 export interface Question {
     id: string;
+    level: number;
     title: string;
     options: string[];
 }
@@ -12,7 +13,7 @@ export interface Answer {
     title: string;
 }
 
-export default function Task({ quests }) {
+export default function Task({ username, quests }) {
     const [questions, setQuestions] = useState([] as Question[]);
     const [answers, setAnswers] = useState([] as Answer[]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -29,7 +30,7 @@ export default function Task({ quests }) {
     }, [])
     
     function sendAnswers() {
-        console.log(answers);
+        console.log(username, answers);
     }
     function _prevQuestion() {
         setCurrentQuestion(currentQuestion - 1);
@@ -73,21 +74,23 @@ export default function Task({ quests }) {
                 </div>
             ))}
 
-            {currentQuestion > 0 ? 
-            <button type = "button" 
-                onClick = {_prevQuestion}>
-                Anterior
-            </button> : <></>}
+            <div className = {styles.buttonContainer}>
+                {currentQuestion > 0 ? 
+                <button type = "button" 
+                    onClick = {_prevQuestion}>
+                    Anterior
+                </button> : <></>}
 
-            {currentQuestion === questions.length - 1 ? 
-            <button type = "button" 
-                onClick = {_nextQuestion}>
-                Próxima
-            </button> : 
-            <button type = "button" 
-                onClick = {sendAnswers}>
-                Completar
-            </button>}
+                {currentQuestion === questions.length - 1 ? 
+                <button type = "button" 
+                    onClick = {sendAnswers}>
+                    Completar
+                </button> : 
+                <button type = "button" 
+                    onClick = {_nextQuestion}>
+                    Próxima
+                </button> }
+            </div>
         </div>    
     )
 }
