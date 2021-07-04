@@ -5,6 +5,7 @@ import {
 } from '../contexts/ChallengeContext';
 import ExperienceBar from '../components/ExperienceBar'
 import Profile from '../components/Profile'
+import Task, { Question } from '../components/Task';
 
 import styles from "../styles/pages/Home.module.css";
 import 'react-image-picker/dist/index.css'
@@ -33,25 +34,33 @@ interface Award {
     image: string;
 }
 interface AwardProps {
-  awards: Award[],
-  users: User[]
+    finalTest: Question[];
+    awards: Award[],
+    users: User[],
 }
 
 function Infos() {
     return (<>
         <h1> Qual será sua recompensa? </h1>
         <p> 
-            Se você completou todas as 14 missões e é um dos finalistas, você pode escolher um destes prêmios! Mas antes, você precisa passar por um último testem no qual só tem <b>uma</b> chance!
+            Se você completou todas as 14 missões e é um dos finalistas, 
+            você pode escolher um destes prêmios! Mas antes, você precisa 
+            passar por um último testem no qual só tem <b>uma</b> chance!
         </p>
         
         <h1> Quando irei receber? </h1>
         <p> 
-            Ao clicar no botão de receber prêmio, você está solicitando que o clube de aventureiros vá na sua casa entregar o prêmio. Lembrando que você só tem até o início de <b>setembro</b> para terminar as missões!
+            Ao clicar no botão de receber prêmio, você está solicitando 
+            que o clube de aventureiros vá na sua casa entregar o prêmio. 
+            Lembrando que você só tem até o início de <b>setembro</b> para 
+            terminar as missões!
         </p>
         
         <h1> Como posso estar entre os primeiros? </h1>
         <p> 
-            Complete todas as missões com calma (nós sabemos se você leu/assistiu ou não) para ganhar xp, e responda todos os formulários (ou apresente sua revista respondida).
+            Complete todas as missões com calma (nós sabemos se você 
+            leu/assistiu ou não) para ganhar xp, e responda todos os 
+            formulários (ou apresente sua revista respondida).
         </p>
     </>)
 }
@@ -68,7 +77,7 @@ function Podium({ users }) {
 
     return (<div className = {styles.rankingContainer}>
         <div className = {styles.ranking}>
-            <span> Codenome </span>
+            <span> Codinome </span>
             <span> Missões </span>
             <span> Pontuação </span>
         </div>
@@ -93,11 +102,13 @@ function Podium({ users }) {
 
 export default function Home(props: AwardProps) {  
     const [showPod, setShowPod] = useState(false);
-    
+    const [showTask, setShowTask] = useState(false);
+
     const [awards, setAwards] = useState([]);
     const [selected, setSelected] = useState("");
 
-    const { reward, setReward } = useContext(ChallengeContext);
+    const { reward, setReward, 
+        challengesCompleted } = useContext(ChallengeContext);
 
     useEffect(() => {
         setAwards(props.awards);
@@ -110,11 +121,14 @@ export default function Home(props: AwardProps) {
         setReward(awardName);
     }
 
+    function toggleShowPod() { setShowPod(!showPod) }
+    function startTest() { setShowTask(true) }
+
     return (
         <ChallengesProvider>
         <div className={styles.container}>
             <Head>
-            <title> Recompensa | Aventura Espacial </title>
+                <title> Recompensa | Aventura Espacial </title>
             </Head>
 
             <ExperienceBar />
@@ -123,10 +137,13 @@ export default function Home(props: AwardProps) {
                 <Profile />
                 <CompletedChallenges />
             </section>
-
+            
+            {(showTask) ? 
+                <Task quests = {props.finalTest}/>
+            : <> 
             <section className = {styles.reward} >
                 <div>
-                    <button onClick = {() => { setShowPod(!showPod) }}
+                    <button onClick = {toggleShowPod}
                         className = {styles.floatBtn}>
                         <GiPodium size = {25} />
                     </button>
@@ -153,11 +170,14 @@ export default function Home(props: AwardProps) {
                         Voltar
                     </button>
                 </Link>
-                <button className = "project" disabled
+                <button className = "project" 
+                    onClick = {startTest}
+                    disabled = {challengesCompleted < 14}
                     style = {{ marginBottom: "2em"}}> 
                     Iniciar teste 
                 </button>
             </section>
+            </>}
         </div>
         </ChallengesProvider>
     )
@@ -176,13 +196,16 @@ export const getStaticProps:GetStaticProps = async (context) => {
             return { data: { awards: [] } }
         })
     
+    const finalTest = []
+
     const awards = response.awards as Award[];
     const users = userCollection.users as User[];
 
     return {
         props: {
             awards: awards,
-            users: users
+            users: users,
+            finalTest: finalTest
         },
         revalidate: 60
     }
