@@ -107,8 +107,9 @@ export default function Home(props: AwardProps) {
     const [awards, setAwards] = useState([]);
     const [selected, setSelected] = useState("");
 
-    const { reward, setReward, nickname,
-        challengesCompleted } = useContext(ChallengeContext);
+    const { reward, setReward, nickname, 
+        completeChallenge, challengesCompleted 
+    } = useContext(ChallengeContext);
 
     useEffect(() => {
         setAwards(props.awards);
@@ -121,8 +122,12 @@ export default function Home(props: AwardProps) {
         setReward(awardName);
     }
 
-    function toggleShowPod() { setShowPod(!showPod) }
-    function startTest() { setShowTask(true) }
+    function _toggleShowPod() { setShowPod(!showPod) }
+    function _startTest() { setShowTask(true) }
+    function _finishTest() {
+        completeChallenge(200);
+        setShowTask(false);
+    }
 
     return (
         <ChallengesProvider>
@@ -139,11 +144,14 @@ export default function Home(props: AwardProps) {
             </section>
             
             {(showTask) ? 
-                <Task username = {nickname} quests = {props.finalTest}/>
+                <Task 
+                    quests = {props.finalTest}
+                    finishFunc = {_finishTest}
+                    username = {nickname} />
             : <> 
             <section className = {styles.reward} >
                 <div>
-                    <button onClick = {toggleShowPod}
+                    <button onClick = {_toggleShowPod}
                         className = {styles.floatBtn}>
                         <GiPodium size = {25} />
                     </button>
@@ -171,8 +179,9 @@ export default function Home(props: AwardProps) {
                     </button>
                 </Link>
                 <button className = "project" 
-                    onClick = {startTest}
-                    disabled = {challengesCompleted < 14}
+                    onClick = {_startTest}
+                    disabled
+                    // disabled = {challengesCompleted < 14}
                     style = {{ marginBottom: "2em"}}> 
                     Iniciar teste 
                 </button>
@@ -190,39 +199,27 @@ export const getStaticProps:GetStaticProps = async (context) => {
             return { data: { users: [] } }
         })
     
-    const { data: response } = await axios.get(
+    const { data: awardCollection } = await axios.get(
         serverURL + "/api/awards/").catch((err) => {
             console.error(err);
             return { data: { awards: [] } }
         })
     
-    const finalTest = [{
-        id: "0",
-        title: "O que é o que é alguma coisa blablabla bem grande pra perguntar sapokasopkasp assabnhbfe?",
-        options: [
-            "Correto, mas acredito que seja de outra forma, veja bem está errado",
-            "Errado",
-            "Sei lá"
-        ]
-    },
-    {
-        id: "1",
-        title: "Isso é uma pergunta menor",
-        options: [
-            "Para testar a passagem de pergunta",
-            "E passagem de resposta",
-            "Pra por fim enviar"
-        ]
-    }]
+    // const testData = { data: { mission: 1 } };
+    // const { data: testCollection } = await axios.get(
+    //     serverURL + "/api/questions/", testData).catch(err => {
+    //         console.error(err);
+    //         return { data: [] }
+    //     })
 
-    const awards = response.awards as Award[];
+    const awards = awardCollection.awards as Award[];
     const users = userCollection.users as User[];
 
     return {
         props: {
-            awards: awards,
             users: users,
-            finalTest: finalTest
+            awards: awards,
+            finalTest: []
         },
         revalidate: 60
     }
