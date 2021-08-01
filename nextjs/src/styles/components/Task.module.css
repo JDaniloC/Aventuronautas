@@ -31,7 +31,8 @@
 .form label p {
     text-align: initial;
 }
-.form input[type="radio"] {
+.form input[type="radio"],
+.form input[type="checkbox"] {
     position: absolute;
     opacity: 0;
     cursor: pointer;

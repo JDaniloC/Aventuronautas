@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import RadioTable from './RadioTable';
+import CheckTable from './CheckTable';
 import SelectTable from './SelectTable';
 import RevisionComponent from './Revision';
 
@@ -42,16 +43,18 @@ export default function Task({ username, quests, finishFunc }: TaskData) {
     }
 
     function selectAnswer(evt) {
+        const questionType = questions[currentQuestion].type;
         const questionId = parseInt(evt.target.name);
         const answer = evt.target.value;
-        
-        if (questions[currentQuestion].type === "radio") {
-            let found = false;
-            for (let index = 0; index < answers.length && !found; ++index) {
-                const element = answers[index];
-                if (parseInt(element.id) === questionId) {
-                    element.option = answer;
-                }
+
+        if (questionType === "radio") {
+            answers[currentQuestion].option = answer;
+        } else if (questionType === "check") {
+            let currentAnswer = answers[currentQuestion].option as number[];
+            if (evt.target.checked) {
+                currentAnswer.push(parseInt(answer));
+            } else {
+                currentAnswer.splice(currentAnswer.indexOf(answer), 1);
             }
         } else {
             if (answers[currentQuestion].option.length === 0) {
@@ -61,7 +64,6 @@ export default function Task({ username, quests, finishFunc }: TaskData) {
             let currentAnswer = answers[currentQuestion].option as number[];
             currentAnswer[questionId] = parseInt(answer);
         }
-        
     }
 
     return (
@@ -75,6 +77,8 @@ export default function Task({ username, quests, finishFunc }: TaskData) {
                     <h1> {question.title} </h1>
                     {(question.type == "radio") ? 
                         <RadioTable question = {question} />
+                    :(question.type == "check") ?
+                        <CheckTable question = {question} />
                     : <SelectTable question = {question} /> }
                 </div>
             ))}
