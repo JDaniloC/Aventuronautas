@@ -36,7 +36,7 @@
     margin-bottom: 1em;
 }
 
-.studyContainer p {
+.studyContainer p.confession {
     text-align: center;
     font-size: x-large;
     font-weight: 600;

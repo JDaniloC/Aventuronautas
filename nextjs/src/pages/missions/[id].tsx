@@ -1,27 +1,24 @@
 import Head from 'next/head';
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 
 import ExperienceBar from '../../components/ExperienceBar'
 import { CountProvider } from '../../contexts/CountContext';
-import { 
-    CompleteMission, 
-    NextStepButton 
-} from '../../components/CompleteMission'
+import { Question } from 'components/Task/Models';
+import { NextStepButton } from '../../components/CompleteMission'
 
 import styles from "../../styles/pages/Mission.module.css";
 import ImageGallery from 'react-image-gallery';
 import { serverURL } from '../../config';
 import axios from 'axios';
+import { ChallengeContext } from 'contexts/ChallengeContext';
+import Task from 'components/Task';
 
 interface HomeProps {
     id: number,
-    level: number;
-    nickname: string;
+    tasks: Question[];
     mission: MissionInfos;
-    currentExperience: number;
-    challengesCompleted: number;
 }  
 
 interface MissionInfos {
@@ -39,12 +36,17 @@ export default function Mission(props: HomeProps) {
     const [ infos, setInfos ] = useState({
         title: "Aventuronautas | Carregando..."
     } as MissionInfos)
+
     const [ xpEarned, setXpEarned ] = useState([false, false, false]);
     const [ currentStep, setCurrentStep ] = useState(-1);
+    const [ finished, setFinished ] = useState(false);
     const [ images, setImages ] = useState([]);
-
+    
+    const { nickname, challengesCompleted, 
+        completeChallenge 
+    } = useContext(ChallengeContext);
     const router = useRouter();
-
+    
     useEffect(() => {
         const mission = props.mission;
         if (mission) {
@@ -59,6 +61,13 @@ export default function Mission(props: HomeProps) {
             nextStep();
         }
     }, [])
+
+    function _finishTest(score: number) {
+        if (challengesCompleted < Number(props.id)) {
+            completeChallenge(score);
+        }
+        setFinished(true);
+    }
 
     function prevStep() {
         setCurrentStep( (currentStep - 1) % 3 );
@@ -99,14 +108,20 @@ export default function Mission(props: HomeProps) {
                             allow="accelerometer; autoplay; clipboard-write; 
                             encrypted-media; gyroscope; picture-in-picture" >
                         </iframe> 
+                        
+                        <Task quests = {props.tasks} username = {nickname}
+                            finishFunc = {_finishTest} style = {{
+                                display: (currentStep === 2 && !finished
+                                    ) ? "flex" : "none"
+                            }}/>
+                        
+                        {(currentStep === 2 && finished) ? 
+                            <p className = {styles.confession}> 
+                                Parabéns, aventureiros! 
+                                Você aceita o compromisso abaixo? 
+                            </p> 
+                        : <></>}
 
-                        <iframe src = {infos.form} style = {{ 
-                            display: (currentStep === 2) ? "flex" : "none",
-                            minHeight: "42em"}} marginWidth = {0}
-                            width="100%" height="100%" frameBorder="0" 
-                            marginHeight = {0}>
-                            Carregando…
-                        </iframe>
                     </section> 
                 </> : 
                 <div className = "loadingDiv">
@@ -114,7 +129,7 @@ export default function Mission(props: HomeProps) {
                     <p> Carregando... </p>
                 </div>}
                 
-                {(currentStep == 2) ?
+                {(currentStep === 2) ?
                 <p className = {styles.confession}>
                     {infos.confession}
                 </p> : <></>}
@@ -134,11 +149,7 @@ export default function Mission(props: HomeProps) {
                         nextStep = {nextStep}
                         xpEarned = {xpEarned}
                         setXpEarned = {setXpEarned}>
-                        
-                        {(currentStep == 2) ? 
-                            <CompleteMission missionID = {props.id} />
-                        : <NextStepButton currentStep = {currentStep} />}
-                        
+                        <NextStepButton currentStep = {currentStep} />
                     </CountProvider>
                 </section>
             </div>
@@ -165,8 +176,16 @@ export async function getStaticProps(context) {
         serverURL + "/api/missions", { id }
     )
 
+    const taskReq = { data: { mission: parseInt(id) } };
+    const { data: taskRes } = await axios.get(
+        serverURL + "/api/questions/", taskReq).catch(err => {
+            console.error(err);
+            return { data: [] }
+        })
+
     return { props: { 
         mission: data.mission as MissionInfos,
+        tasks: taskRes,
         id: id
     } }
 }

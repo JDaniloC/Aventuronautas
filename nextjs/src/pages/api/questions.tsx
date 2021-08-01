@@ -7,11 +7,16 @@ export interface Answer {
     title: string;
 }
 
-function compareAnswers(correct: number[], answer: number[]) {
-    let total = correct.length;
+function compareAnswers(type: string, correct: number[], answer: number[]) {
+    let total = (type === "select") ? correct.length : 
+        Math.max(correct.length, answer.length);
     let current = 0;
     correct.forEach((value, index) => {
-        if (value === answer[index]) {
+        if (type === "select" &&
+            value === answer[index]) {
+            current += 1;
+        } else if (type === "check" &&
+            answer.indexOf(value) !== -1) {
             current += 1;
         }
     })
@@ -39,19 +44,19 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         let hits: number[] = [];
         for (let i = 0; i < questions.length; i++) {
             const question = questions[i];
-            
-            let correct = question.type === "radio" ? 
+            const questionType = question.type;
+            const correct = questionType === "radio" ? 
                 question.options[question.answer] : question.answer;
 
             answers.forEach((answer: Answer) => {
                 if (question.id === answer.id) {
-                    if (question.type === "radio"
+                    if (questionType === "radio"
                         && correct === answer.option) {
                         score += 1;
                         hits.push(100);
-                    } else if (question.type !== "radio") {
-                        var currentScore = compareAnswers(correct, 
-                            answer.option as number[]);
+                    } else if (questionType !== "radio") {
+                        var currentScore = compareAnswers(questionType,
+                            correct, answer.option as number[]);
                         hits.push(Math.round(currentScore * 100));
                         score += currentScore;
                     } else {
