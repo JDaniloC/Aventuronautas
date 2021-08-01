@@ -22,6 +22,7 @@ export interface TableData {
 }
 
 export interface TaskData {
+    style?: object;
     username: string, 
     quests: Question[], 
     finishFunc: (value: number) => void 

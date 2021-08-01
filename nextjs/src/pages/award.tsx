@@ -1,11 +1,10 @@
 import CompletedChallenges from '../components/CompletedChallenges';
-import { 
-    ChallengeContext, 
-    ChallengesProvider 
-} from '../contexts/ChallengeContext';
+import { ChallengeContext } from '../contexts/ChallengeContext';
 import ExperienceBar from '../components/ExperienceBar'
+import { Question } from '../components/Task/Models';
 import Profile from '../components/Profile'
-import Task, { Question } from '../components/Task';
+import Task from '../components/Task';
+
 
 import styles from "../styles/pages/Home.module.css";
 import 'react-image-picker/dist/index.css'
@@ -100,7 +99,7 @@ function Podium({ users }) {
     </div>)
 }
 
-export default function Home(props: AwardProps) {  
+export default function Award(props: AwardProps) {  
     const [showPod, setShowPod] = useState(false);
     const [showTask, setShowTask] = useState(false);
 
@@ -124,13 +123,12 @@ export default function Home(props: AwardProps) {
 
     function _toggleShowPod() { setShowPod(!showPod) }
     function _startTest() { setShowTask(true) }
-    function _finishTest() {
-        completeChallenge(200);
+    function _finishTest(score: number) {
+        completeChallenge(score * 2);
         setShowTask(false);
     }
 
     return (
-        <ChallengesProvider>
         <div className={styles.container}>
             <Head>
                 <title> Recompensa | Aventura Espacial </title>
@@ -180,15 +178,13 @@ export default function Home(props: AwardProps) {
                 </Link>
                 <button className = "project" 
                     onClick = {_startTest}
-                    disabled
-                    // disabled = {challengesCompleted < 14}
+                    disabled = {challengesCompleted < 14}
                     style = {{ marginBottom: "2em"}}> 
                     Iniciar teste 
                 </button>
             </section>
             </>}
         </div>
-        </ChallengesProvider>
     )
 }
 
@@ -205,12 +201,12 @@ export const getStaticProps:GetStaticProps = async (context) => {
             return { data: { awards: [] } }
         })
     
-    // const testData = { data: { mission: 1 } };
-    // const { data: testCollection } = await axios.get(
-    //     serverURL + "/api/questions/", testData).catch(err => {
-    //         console.error(err);
-    //         return { data: [] }
-    //     })
+    const testData = { data: { mission: 15 } };
+    const { data: testCollection } = await axios.get(
+        serverURL + "/api/questions/", testData).catch(err => {
+            console.error(err);
+            return { data: [] }
+        })
 
     const awards = awardCollection.awards as Award[];
     const users = userCollection.users as User[];
@@ -219,7 +215,7 @@ export const getStaticProps:GetStaticProps = async (context) => {
         props: {
             users: users,
             awards: awards,
-            finalTest: []
+            finalTest: testCollection
         },
         revalidate: 60
     }

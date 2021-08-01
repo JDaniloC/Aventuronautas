@@ -8,7 +8,7 @@ import CheckTable from './CheckTable';
 import SelectTable from './SelectTable';
 import RevisionComponent from './Revision';
 
-export default function Task({ username, quests, finishFunc }: TaskData) {
+export default function Task({ username, quests, style, finishFunc }: TaskData) {
     const [questions, setQuestions] = useState([] as Question[]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState([] as Answer[]);
@@ -67,7 +67,7 @@ export default function Task({ username, quests, finishFunc }: TaskData) {
     }
 
     return (
-        <div className = {styles.form}>
+        <div className = {styles.form} style = { style }>
             {questions.map((question, index) => (
                 <div onChange = {selectAnswer} 
                     key = {question.id}
