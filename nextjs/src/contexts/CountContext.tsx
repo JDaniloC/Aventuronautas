@@ -43,7 +43,7 @@ export function CountProvider({
                     earnXp(50);
                     break;
                 case 1:
-                    earnXp(150);
+                    earnXp(100);
                     break;
             }
             earned[currentStep] = true;
