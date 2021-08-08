@@ -9,11 +9,9 @@ import Task, { Question } from '../components/Task';
 
 import styles from "../styles/pages/Home.module.css";
 import 'react-image-picker/dist/index.css'
-import { GiPodium } from 'react-icons/gi';
 import { serverURL } from '../config';
 
 import { useContext, useEffect, useState } from 'react';
-import ImagePicker from 'react-image-picker';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -41,26 +39,25 @@ interface AwardProps {
 
 function Infos() {
     return (<>
-        <h1> Qual será sua recompensa? </h1>
+        <h1> Que página é essa? </h1>
         <p> 
-            Se você completou todas as 14 missões e é um dos finalistas, 
-            você pode escolher um destes prêmios! Mas antes, você precisa 
-            passar por um último testem no qual só tem <b>uma</b> chance!
+            É feita para quem completou todas as 14 missões para que
+            você possa gravar seu nome no espaço! Mas ainda existe um
+            teste <b>extra</b> para verificar se você completou toda as
+            missões sem trapacear, e você só tem uma chance para completar! 
         </p>
         
-        <h1> Quando irei receber? </h1>
+        <h1> Como ganhar pontos? </h1>
         <p> 
-            Ao clicar no botão de receber prêmio, você está solicitando 
-            que o clube de aventureiros vá na sua casa entregar o prêmio. 
-            Lembrando que você só tem até o início de <b>setembro</b> para 
-            terminar as missões!
+            Complete todas as missões com <b>calma</b> (ler a revista quando
+            for pedido e assistir o vídeo ganham mais) para ganhar pontos, e 
+            responda todas as missões para subir de nível e por fim faça a 
+            última missão.
         </p>
-        
-        <h1> Como posso estar entre os primeiros? </h1>
+        <h1> Eu ganho alguma coisa? </h1>
         <p> 
-            Complete todas as missões com calma (nós sabemos se você 
-            leu/assistiu ou não) para ganhar xp, e responda todos os 
-            formulários (ou apresente sua revista respondida).
+            Peça um certificado para seu responsável. Lembrando que você só
+            tem uma chance para fazer cada missão.
         </p>
     </>)
 }
@@ -76,14 +73,15 @@ function Podium({ users }) {
     }
 
     return (<div className = {styles.rankingContainer}>
+        <h1> Ranking </h1>
         <div className = {styles.ranking}>
             <span> Codinome </span>
             <span> Missões </span>
             <span> Pontuação </span>
         </div>
-        {users.sort((a, b) => { 
+        {users.sort((a: User, b: User) => { 
             return getScore(b) - getScore(a);
-        }).map((user) => 
+        }).map((user: User) => 
             <div key = {user.nickname}
                 className = {styles.ranking}>
                 <span>
@@ -105,7 +103,6 @@ export default function Home(props: AwardProps) {
     const [showTask, setShowTask] = useState(false);
 
     const [awards, setAwards] = useState([]);
-    const [selected, setSelected] = useState("");
 
     const { reward, setReward, nickname, 
         completeChallenge, challengesCompleted 
@@ -113,12 +110,10 @@ export default function Home(props: AwardProps) {
 
     useEffect(() => {
         setAwards(props.awards);
-        setSelected(reward);
     }, [])
 
     function onPick(selected:{ src:string, value:number }) {
         const awardName = awards[selected.value]?.name;
-        setSelected(awardName);
         setReward(awardName);
     }
 
@@ -151,24 +146,10 @@ export default function Home(props: AwardProps) {
             : <> 
             <section className = {styles.reward} >
                 <div>
-                    <button onClick = {_toggleShowPod}
-                        className = {styles.floatBtn}>
-                        <GiPodium size = {25} />
-                    </button>
-                    
-                    {(!showPod) ? <Infos/> :
-                    <Podium users = {props.users}/>}
-
+                    <Infos/>
                 </div>
-                <div className = {styles.picker}>
-                    {selected ? 
-                        <h3> Você selecionou {selected} </h3>
-                    :<></>}
-                    <ImagePicker
-                        images = {awards?.map((award, i) => ({
-                            src: award.image, value: i}))}
-                        onPick = {onPick}
-                    />
+                <div>
+                    <Podium users = {props.users}/>
                 </div>
             </section>
             
@@ -180,8 +161,7 @@ export default function Home(props: AwardProps) {
                 </Link>
                 <button className = "project" 
                     onClick = {_startTest}
-                    disabled
-                    // disabled = {challengesCompleted < 14}
+                    disabled = {challengesCompleted < 14}
                     style = {{ marginBottom: "2em"}}> 
                     Iniciar teste 
                 </button>
@@ -205,12 +185,12 @@ export const getStaticProps:GetStaticProps = async (context) => {
             return { data: { awards: [] } }
         })
     
-    // const testData = { data: { mission: 1 } };
-    // const { data: testCollection } = await axios.get(
-    //     serverURL + "/api/questions/", testData).catch(err => {
-    //         console.error(err);
-    //         return { data: [] }
-    //     })
+    const { data: testTasks } = await axios.get(
+        serverURL + "/api/questions/", { data: { mission: 15 } }
+        ).catch(err => {
+            console.error(err);
+            return { data: [] }
+        })
 
     const awards = awardCollection.awards as Award[];
     const users = userCollection.users as User[];
@@ -219,7 +199,7 @@ export const getStaticProps:GetStaticProps = async (context) => {
         props: {
             users: users,
             awards: awards,
-            finalTest: []
+            finalTest: testTasks
         },
         revalidate: 60
     }
