@@ -72,6 +72,7 @@ export default function Task({ username, quests, style, finishFunc }: TaskData) 
                 <div onChange = {selectAnswer} 
                     key = {question.id}
                     style = {{ 
+                        alignSelf: "center",
                         display: index === currentQuestion 
                             ? "block" : "none" }}>
                     <h1> {question.title} </h1>
@@ -80,6 +81,7 @@ export default function Task({ username, quests, style, finishFunc }: TaskData) 
                     :(question.type == "check") ?
                         <CheckTable question = {question} />
                     : <SelectTable question = {question} /> }
+                    <span></span>
                 </div>
             ))}
 

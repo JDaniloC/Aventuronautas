@@ -53,7 +53,7 @@
 .form input:checked ~ span {
     background-color: var(--blue);
 }
-.form span:after {
+.form label span:after {
     content: "";
     position: absolute;
     display: none;
@@ -61,7 +61,7 @@
 .form input:checked ~ span:after {
     display: block;
 }
-.form span:after {
+.form label span:after {
     position: relative;
     left: 8px;
     top: 4px;
@@ -144,4 +144,22 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+.form div > span  {
+    border: none;
+}
+@media (max-width: 500px) {
+    .selectTable {
+        display: none;
+    }
+    .selectTable + span::before {
+        content: url("/icons/rotate.png");
+    }
+    .selectTable + span::after {
+        content: "Gire a tela para visualizar";
+        display: block;
+        font-size: x-large;
+        font-weight: 500;
+        margin-bottom: 1em;
+    }
 }
