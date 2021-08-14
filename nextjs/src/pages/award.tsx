@@ -162,7 +162,7 @@ export default function Award(props: AwardProps) {
                 </Link>
                 <button className = "project" 
                     onClick = {_startTest}
-                    disabled = {challengesCompleted < 14}
+                    disabled = {challengesCompleted !== 14}
                     style = {{ marginBottom: "2em"}}> 
                     Iniciar teste 
                 </button>
