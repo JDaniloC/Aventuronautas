@@ -5,10 +5,11 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 
 interface ChallengeContextData {
-    level: number; reward: string;
-    nickname: string; image: string;
+    nickname: string; 
     currentExperience: number;
     challengesCompleted: number;
+    idade: number; image: string;
+    level: number; reward: string;
     experienceToNextLevel: number;
     closeLevelModal: () => void;
     earnXp: (amount:number) => void;
@@ -30,6 +31,7 @@ export function ChallengesProvider({
         children, ...rest 
     }: ChallengeProviderProps ) {
     const [level, setLevel] = useState(0);
+    const [idade, setIdade] = useState(6);
     const [nickname, setNickname] = useState("Novato(a)");
     const [currentExperience, setCurrentExperience] = useState(0);
     const [challengesCompleted, setChallengesCompleted] = useState(0);
@@ -75,6 +77,7 @@ export function ChallengesProvider({
         setNickname(name);
         setLevel(user.level);
         setImage(user.image);
+        setIdade(user.idade);
         setCurrentExperience(user.currentExperience);
         setChallengesCompleted(user.challengesCompleted);
     }
@@ -131,9 +134,9 @@ export function ChallengesProvider({
             experienceToNextLevel,
             challengesCompleted, 
             nickname, reward, image,
+            closeLevelModal, idade,
             levelUp, userExists,
             completeChallenge,
-            closeLevelModal, 
             createNewUser, earnXp, 
             setReward, saveUser }}>
             {children}

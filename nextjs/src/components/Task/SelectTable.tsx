@@ -16,16 +16,16 @@ export default function SelectTable({ question }: TableData) {
             <tr>
                 <th></th>
                 {columnList.map(column => (
-                    <th> {column} </th>
+                    <th key = {column}> {column} </th>
                 ))} 
             </tr>
         </thead>
         <tbody>
             {rowList.map((row, rowIndex) => (
-                <tr>
+                <tr key = {row}>
                 <th> {row} </th>
                 {columnList.map((_, index) => (
-                    <th>
+                    <th key = {`${row}${index}`}>
                     <label>
                         <input 
                             name = {String(rowIndex)}

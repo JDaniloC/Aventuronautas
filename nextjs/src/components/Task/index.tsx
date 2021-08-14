@@ -42,7 +42,7 @@ export default function Task({ username, quests, style, finishFunc }: TaskData) 
         setCurrentQuestion(currentQuestion + 1);
     }
 
-    function selectAnswer(evt) {
+    function selectAnswer(evt: any) {
         const questionType = questions[currentQuestion].type;
         const questionId = parseInt(evt.target.name);
         const answer = evt.target.value;

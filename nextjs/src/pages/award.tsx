@@ -16,6 +16,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import axios from 'axios';
 
+const TEST_COUNT = 10;
+
 interface User {
     nickname: string;
     level: number;
@@ -32,7 +34,6 @@ interface Award {
 }
 interface AwardProps {
     finalTest: Question[];
-    awards: Award[],
     users: User[],
 }
 
@@ -98,25 +99,27 @@ function Podium({ users }) {
 }
 
 export default function Award(props: AwardProps) {  
-    const [showPod, setShowPod] = useState(false);
     const [showTask, setShowTask] = useState(false);
+    const [tasks, setTasks] = useState([]);
 
-    const [awards, setAwards] = useState([]);
-
-    const { reward, setReward, nickname, 
-        completeChallenge, challengesCompleted 
-    } = useContext(ChallengeContext);
+    const { nickname, challengesCompleted, 
+        completeChallenge } = useContext(ChallengeContext);
 
     useEffect(() => {
-        setAwards(props.awards);
+        function choose(choices: Question[]) {
+            var index = Math.floor(Math.random() * choices.length);
+            return choices[index];
+        }
+        let tempTasks = [];
+        while (tempTasks.length < TEST_COUNT) {
+            let task = choose(props.finalTest);
+            if (tempTasks.indexOf(task) === -1) {
+                tempTasks.push(task)
+            }
+        }
+        setTasks(tempTasks);
     }, [])
 
-    function onPick(selected:{ src:string, value:number }) {
-        const awardName = awards[selected.value]?.name;
-        setReward(awardName);
-    }
-
-    function _toggleShowPod() { setShowPod(!showPod) }
     function _startTest() { setShowTask(true) }
     function _finishTest(score: number) {
         completeChallenge(score * 2);
@@ -138,7 +141,7 @@ export default function Award(props: AwardProps) {
             
             {(showTask) ? 
                 <Task 
-                    quests = {props.finalTest}
+                    quests = {tasks}
                     finishFunc = {_finishTest}
                     username = {nickname} />
             : <> 
@@ -159,7 +162,7 @@ export default function Award(props: AwardProps) {
                 </Link>
                 <button className = "project" 
                     onClick = {_startTest}
-                    disabled = {challengesCompleted < 14}
+                    disabled = {challengesCompleted !== 14}
                     style = {{ marginBottom: "2em"}}> 
                     Iniciar teste 
                 </button>
@@ -175,13 +178,7 @@ export const getStaticProps:GetStaticProps = async (context) => {
             console.error(err);
             return { data: { users: [] } }
         })
-    
-    const { data: awardCollection } = await axios.get(
-        serverURL + "/api/awards/").catch((err) => {
-            console.error(err);
-            return { data: { awards: [] } }
-        })
-    
+
     const { data: testTasks } = await axios.get(
         serverURL + "/api/questions/", { data: { mission: 15 } }
         ).catch(err => {
@@ -189,13 +186,11 @@ export const getStaticProps:GetStaticProps = async (context) => {
             return { data: [] }
         })
 
-    const awards = awardCollection.awards as Award[];
     const users = userCollection.users as User[];
 
     return {
         props: {
             users: users,
-            awards: awards,
             finalTest: testTasks
         },
         revalidate: 60
