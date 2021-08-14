@@ -104,6 +104,28 @@ button.project:not(:disabled):hover {
     animation: flyEffect infinite 2s;
 }
 
+.difficulty1 {
+    background: var(--blue-kid);
+    width: 20px;
+    height: 20px;
+    float: right;
+    border-radius: 50%;
+}
+.difficulty2 {
+    background: var(--orange-kid);
+    width: 20px;
+    height: 20px;
+    float: right;
+    border-radius: 50%;
+}
+.difficulty3 {
+    background: var(--red);
+    width: 20px;
+    height: 20px;
+    float: right;
+    border-radius: 50%;
+}
+
 @keyframes flyEffect {
     0% {
         transform: translateY(0px);

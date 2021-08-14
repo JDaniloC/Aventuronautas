@@ -72,9 +72,12 @@ export default function Task({ username, quests, style, finishFunc }: TaskData) 
                 <div onChange = {selectAnswer} 
                     key = {question.id}
                     style = {{ 
+                        width: "100%",
                         alignSelf: "center",
                         display: index === currentQuestion 
                             ? "block" : "none" }}>
+                    <span className = {`difficulty${question.difficulty}`}>
+                    </span> 
                     <h1> {question.title} </h1>
                     {(question.type == "radio") ? 
                         <RadioTable question = {question} />

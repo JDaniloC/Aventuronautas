@@ -16,8 +16,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 import axios from 'axios';
 
-const TEST_COUNT = 10;
-
 interface User {
     nickname: string;
     level: number;
@@ -102,7 +100,7 @@ export default function Award(props: AwardProps) {
     const [showTask, setShowTask] = useState(false);
     const [tasks, setTasks] = useState([]);
 
-    const { nickname, challengesCompleted, 
+    const { nickname, challengesCompleted, idade,
         completeChallenge } = useContext(ChallengeContext);
 
     useEffect(() => {
@@ -111,9 +109,11 @@ export default function Award(props: AwardProps) {
             return choices[index];
         }
         let tempTasks = [];
-        while (tempTasks.length < TEST_COUNT) {
+        let difficulty = 0;
+        while (difficulty < (idade - 1) * 2) {
             let task = choose(props.finalTest);
             if (tempTasks.indexOf(task) === -1) {
+                difficulty += task.difficulty;
                 tempTasks.push(task)
             }
         }
@@ -162,7 +162,7 @@ export default function Award(props: AwardProps) {
                 </Link>
                 <button className = "project" 
                     onClick = {_startTest}
-                    disabled = {challengesCompleted !== 14}
+                    disabled = {challengesCompleted < 14}
                     style = {{ marginBottom: "2em"}}> 
                     Iniciar teste 
                 </button>
