@@ -63,8 +63,8 @@ function Infos() {
 function Podium({ users }) {
     function getScore(user: User) {
         const result = user.challengesCompleted * 200 +
-                    (user.level - 1) * 100 - 
-                    (user.idade - 6) * 50 +
+                    (user.level - 1) * 200 - 
+                    (user.idade - 6) * 100 +
                     user.currentExperience;
 
         return (result > 0) ? result : 0;

@@ -31,7 +31,7 @@ export default function MissionSelect({ missions }) {
             { (missionArray.length > 0) ? missionArray.map((task) => (
                 <span key = {task.mission} className = {
                     ((challengesCompleted + 1) >= Number(task.mission) ?
-                    styles.arrived : "")}>
+                        styles.arrived : "")}>
                     <div className = {styles.imgDiv}>
                         <img src={task.icon} alt = "icon mission"/>
                     </div>
