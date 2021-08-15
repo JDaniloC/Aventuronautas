@@ -1,10 +1,10 @@
 import styles from "../styles/components/LevelUpModal.module.css";
-import { ChallengeContext } from "../contexts/ChallengeContext";
+import { AuthContext } from "../contexts/AuthContext";
 import { AiOutlineClose } from 'react-icons/ai';
 import { useContext } from "react";
 
 export function LevelUpModal() {
-    const { level, closeLevelModal } = useContext(ChallengeContext);
+    const { level, closeLevelModal } = useContext(AuthContext);
 
     return (
         <div className = {styles.overlay}>

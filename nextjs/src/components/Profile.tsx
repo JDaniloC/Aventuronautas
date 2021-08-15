@@ -1,4 +1,4 @@
-import { ChallengeContext } from '../contexts/ChallengeContext';
+import { AuthContext } from '../contexts/AuthContext';
 import styles from '../styles/components/Profile.module.css';
 import { useContext, useState } from 'react';
 
@@ -9,7 +9,7 @@ import Help from './Help';
 import Cookies from 'js-cookie';
 
 export default function Profile() {
-    const { nickname, level, image } = useContext(ChallengeContext);
+    const { nickname, level, image } = useContext(AuthContext);
     const [ showModal, setShowModal ] = useState(false);
 
     function exitAccount() {

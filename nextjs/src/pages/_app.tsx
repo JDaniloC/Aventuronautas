@@ -1,12 +1,12 @@
-import { ChallengesProvider } from '../contexts/ChallengeContext'
+import { AuthProvider } from '../contexts/AuthContext'
 import '../styles/globals.css'
 import '../styles/image-gallery.css'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ChallengesProvider>
+    <AuthProvider>
       <Component {...pageProps} />
-    </ChallengesProvider>
+    </AuthProvider>
   )
 }
 

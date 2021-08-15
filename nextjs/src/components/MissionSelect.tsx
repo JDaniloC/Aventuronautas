@@ -1,5 +1,5 @@
 import styles from '../styles/components/MissionSelect.module.css';
-import { ChallengeContext } from '../contexts/ChallengeContext';
+import { AuthContext } from '../contexts/AuthContext';
 import { useContext, useEffect, useState } from 'react';
 import { TiArrowDownThick } from 'react-icons/ti';
 import Link from 'next/link';
@@ -13,7 +13,7 @@ interface challenge {
 
 export default function MissionSelect({ missions }) {
     const [ missionArray, setMissionArray ] = useState([] as challenge[]);
-    const { challengesCompleted } = useContext(ChallengeContext);
+    const { challengesCompleted } = useContext(AuthContext);
 
     useEffect(() => {
         setMissionArray(missions);

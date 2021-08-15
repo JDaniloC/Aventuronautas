@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import { ChallengeContext } from './ChallengeContext';
+import { AuthContext } from './AuthContext';
 
 interface CountContextData {
     verifyGain: (currentStep: number) => void;
@@ -20,7 +20,7 @@ export function CountProvider({
         children, ...rest 
     }: CountProviderProps ) {
 
-    const { earnXp } = useContext(ChallengeContext);
+    const { earnXp } = useContext(AuthContext);
 
     const [ time, setTime ] = useState(0);
 

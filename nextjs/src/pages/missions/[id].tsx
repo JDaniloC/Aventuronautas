@@ -9,11 +9,11 @@ import { Question } from 'components/Task/Models';
 import { NextStepButton } from '../../components/CompleteMission'
 
 import styles from "../../styles/pages/Mission.module.css";
+import { AuthContext } from 'contexts/AuthContext';
 import ImageGallery from 'react-image-gallery';
 import { serverURL } from '../../config';
-import axios from 'axios';
-import { ChallengeContext } from 'contexts/ChallengeContext';
 import Task from 'components/Task';
+import axios from 'axios';
 
 interface HomeProps {
     id: number,
@@ -44,7 +44,7 @@ export default function Mission(props: HomeProps) {
     
     const { nickname, challengesCompleted, 
         completeChallenge 
-    } = useContext(ChallengeContext);
+    } = useContext(AuthContext);
     const router = useRouter();
     
     useEffect(() => {

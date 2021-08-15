@@ -4,16 +4,14 @@ import { PopupModal } from '../components/PopupModal';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-interface ChallengeContextData {
-    nickname: string; 
+interface AuthContextData {
     currentExperience: number;
     challengesCompleted: number;
     idade: number; image: string;
-    level: number; reward: string;
+    nickname: string; level: number;
     experienceToNextLevel: number;
     closeLevelModal: () => void;
     earnXp: (amount:number) => void;
-    setReward: (name: string) => void;
     userExists: (name: string) => Promise<boolean>;
     levelUp: () => void; saveUser: () => void;
     completeChallenge: (amount:number) => void;
@@ -25,9 +23,9 @@ interface ChallengeProviderProps {
     children: ReactNode;
 }
 
-export const ChallengeContext = createContext({} as ChallengeContextData);
+export const AuthContext = createContext({} as AuthContextData);
 
-export function ChallengesProvider({ 
+export function AuthProvider({ 
         children, ...rest 
     }: ChallengeProviderProps ) {
     const [level, setLevel] = useState(0);
@@ -36,7 +34,6 @@ export function ChallengesProvider({
     const [currentExperience, setCurrentExperience] = useState(0);
     const [challengesCompleted, setChallengesCompleted] = useState(0);
     const [image, setImage] = useState("/icons/profile.png");
-    const [reward, setReward] = useState("Nenhum");
 
     const experienceToNextLevel = Math.pow((level + 1) * 4, 2);
     const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
@@ -122,27 +119,27 @@ export function ChallengesProvider({
             return;
         }
         await axios.patch("/api/users/", {
-            nickname, level, reward,
+            nickname, level,
             currentExperience, 
             challengesCompleted
         })
     }
 
     return (
-        <ChallengeContext.Provider value = {{ 
+        <AuthContext.Provider value = {{ 
             currentExperience, level, 
+            nickname, image, idade,
             experienceToNextLevel,
             challengesCompleted, 
-            nickname, reward, image,
-            closeLevelModal, idade,
-            levelUp, userExists,
+            createNewUser, 
+            closeLevelModal, 
             completeChallenge,
-            createNewUser, earnXp, 
-            setReward, saveUser }}>
+            levelUp, userExists,
+            earnXp, saveUser }}>
             {children}
 
             { isNewUser && <PopupModal /> }
             { isLevelModalOpen && <LevelUpModal /> }
-        </ChallengeContext.Provider>
+        </AuthContext.Provider>
     )
 }

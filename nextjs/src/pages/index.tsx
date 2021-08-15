@@ -1,5 +1,5 @@
 import CompletedChallenges from '../components/CompletedChallenges';
-import { ChallengeContext } from '../contexts/ChallengeContext';
+import { AuthContext } from '../contexts/AuthContext';
 import ExperienceBar from '../components/ExperienceBar';
 import MissionSelect from '../components/MissionSelect';
 import Profile from '../components/Profile';
@@ -26,7 +26,7 @@ interface HomeProps {
 }
 
 export default function Home(props: HomeProps) {  
-  const { saveUser } = useContext(ChallengeContext);
+  const { saveUser } = useContext(AuthContext);
   useEffect(saveUser, [])
 
   return (

@@ -1,5 +1,5 @@
 import CompletedChallenges from '../components/CompletedChallenges';
-import { ChallengeContext } from '../contexts/ChallengeContext';
+import { AuthContext } from '../contexts/AuthContext';
 import ExperienceBar from '../components/ExperienceBar'
 import { Question } from '../components/Task/Models';
 import Profile from '../components/Profile'
@@ -21,7 +21,6 @@ interface User {
     level: number;
     idade: number;
     image: string;
-    reward: string;
     currentExperience: number;
     challengesCompleted: number;
 }
@@ -62,10 +61,10 @@ function Infos() {
 
 function Podium({ users }) {
     function getScore(user: User) {
-        const result = user.challengesCompleted * 200 +
-                    (user.level - 1) * 200 - 
-                    (user.idade - 6) * 100 +
-                    user.currentExperience;
+        const result = user.currentExperience +
+            user.challengesCompleted * 200 +
+            (user.level - 1) * 300 -
+            (user.idade - 6) * 100;
 
         return (result > 0) ? result : 0;
     }
@@ -101,7 +100,7 @@ export default function Award(props: AwardProps) {
     const [tasks, setTasks] = useState([]);
 
     const { nickname, challengesCompleted, idade,
-        completeChallenge } = useContext(ChallengeContext);
+        completeChallenge } = useContext(AuthContext);
 
     useEffect(() => {
         function choose(choices: Question[]) {

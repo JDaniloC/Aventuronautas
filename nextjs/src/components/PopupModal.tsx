@@ -1,4 +1,4 @@
-import { ChallengeContext } from "../contexts/ChallengeContext";
+import { AuthContext } from "../contexts/AuthContext";
 import styles from "../styles/components/Popup.module.css";
 import { useContext, useRef, useState } from "react";
 import { BiArrowBack } from 'react-icons/bi';
@@ -11,7 +11,7 @@ export function PopupModal() {
 
     const [name, setName] = useState("");
     const [idade, setIdade] = useState(6);
-    const { createNewUser, userExists } = useContext(ChallengeContext);
+    const { createNewUser, userExists } = useContext(AuthContext);
     const [image, setImage] = useState("/icons/profile.png");
 
     const profiles = [

@@ -26,7 +26,6 @@ export default async (req: VercelRequest, res: VercelResponse) => {
             nickname, idade, image, level: 1, 
             currentExperience: 0, 
             challengesCompleted: 0,
-            reward: "Nenhum"
         })
 
         res.status(201).json({ user: ops[0] })
@@ -37,12 +36,12 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
         const {
             level, currentExperience, 
-            challengesCompleted, reward
+            challengesCompleted
         } = req.body;
 
         user = await collection.updateOne({ nickname }, {
             $set: {
-                level, reward, challengesCompleted,
+                level, challengesCompleted,
                 currentExperience: currentExperience, 
             }
         })
