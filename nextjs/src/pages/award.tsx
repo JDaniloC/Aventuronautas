@@ -99,14 +99,14 @@ export default function Award({ finalTest, users }: AwardProps) {
 export const getStaticProps:GetStaticProps = async () => {
     const { data: userCollection } = await axios.get(
         serverURL + "/api/users/").catch((err) => {
-            console.error(err);
+            
             return { data: { users: [] } }
         })
 
     const { data: testTasks } = await axios.get(
         serverURL + "/api/questions/", { data: { mission: 15 } }
         ).catch(err => {
-            console.error(err);
+            
             return { data: [] }
         })
 

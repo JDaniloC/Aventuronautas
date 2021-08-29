@@ -186,7 +186,7 @@ export async function getStaticProps(
     const taskReq = { data: { mission: id } };
     const { data: taskRes } = await axios.get(
         serverURL + "/api/questions/", taskReq).catch(err => {
-            console.error(err);
+            
             return { data: [] }
         })
 
