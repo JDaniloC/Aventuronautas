@@ -111,3 +111,8 @@ p.confession {
     height: calc(100vw / 2);
   }
 }
+@media (max-width: 330px) {
+  .container section.complete button {
+    margin: 0;
+  }
+}

@@ -34,12 +34,11 @@ export default function RevisionComponent({ questions, hits }: RevisionData ) {
         }
     };
 
-    return (<div className = "revision">
+    return (<div className = {styles.revision}>
         <div className = {styles.starComponent}>
             {starCount.map((key) => 
                 <div key = {key}>
-                    <Lottie options={defaultOptions}
-                        height = {150} width = {150}/>
+                    <Lottie options={defaultOptions}/>
                 </div>
             )}
             {notStarCount.map((key) => 

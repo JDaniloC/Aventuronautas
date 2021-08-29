@@ -8,7 +8,7 @@ export default function RadioTable({ question }: TableData) {
                 type="radio" 
                 name = {question.id}
                 value = {option}/>
-            <span></span>
+            <span/>
             <p> {option} </p>
         </label>
     ))}</>)

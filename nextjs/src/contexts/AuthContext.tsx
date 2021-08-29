@@ -1,8 +1,15 @@
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
-import { LevelUpModal } from '../components/LevelUpModal';
-import { PopupModal } from '../components/PopupModal';
+import React, { 
+    createContext, 
+    ReactNode, 
+    useEffect, 
+    useState 
+} from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+
+import { LevelUpModal } from '../components/LevelUpModal';
+import { PopupModal } from '../components/PopupModal';
+import { User } from 'models/user';
 
 interface AuthContextData {
     currentExperience: number;
@@ -25,9 +32,7 @@ interface ChallengeProviderProps {
 
 export const AuthContext = createContext({} as AuthContextData);
 
-export function AuthProvider({ 
-        children, ...rest 
-    }: ChallengeProviderProps ) {
+export function AuthProvider({children}: ChallengeProviderProps ) {
     const [level, setLevel] = useState(0);
     const [idade, setIdade] = useState(6);
     const [nickname, setNickname] = useState("Novato(a)");
@@ -70,7 +75,7 @@ export function AuthProvider({
         return response.data.user !== null;
     }
 
-    function updateUser(name:string, user:any) {
+    function updateUser(name:string, user:User) {
         setNickname(name);
         setLevel(user.level);
         setImage(user.image);
@@ -99,7 +104,7 @@ export function AuthProvider({
 
     function earnXp(amount: number) {
         let finalExperience = currentExperience + amount;
-        new Audio('/notification.mp3').play();
+        new Audio('/notification.mp3').play().then().catch();
 
         if (finalExperience > experienceToNextLevel) {
             finalExperience -= experienceToNextLevel;

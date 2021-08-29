@@ -14,6 +14,7 @@ import ImageGallery from 'react-image-gallery';
 import { serverURL } from '../../config';
 import Task from 'components/Task';
 import axios from 'axios';
+import { GetStaticProps, GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 
 interface HomeProps {
     id: number,
@@ -63,7 +64,7 @@ export default function Mission(props: HomeProps) {
     }, [])
 
     function _finishTest(score: number) {
-        if (challengesCompleted < Number(props.id)) {
+        if (challengesCompleted < props.id) {
             completeChallenge(score);
         }
         setFinished(true);
@@ -75,6 +76,10 @@ export default function Mission(props: HomeProps) {
 
     function nextStep() {
         setCurrentStep( (currentStep + 1) % 3 );
+    }
+
+    function handleGoHome() {
+        router.push("/")
     }
 
     return (
@@ -106,8 +111,7 @@ export default function Mission(props: HomeProps) {
                             width="100%" height="500" src = {infos.video} 
                             frameBorder="0" title="YouTube video player" 
                             allow="accelerometer; autoplay; clipboard-write; 
-                            encrypted-media; gyroscope; picture-in-picture" >
-                        </iframe> 
+                            encrypted-media; gyroscope; picture-in-picture"/> 
                         
                         <Task quests = {props.tasks} username = {nickname}
                             finishFunc = {_finishTest} style = {{
@@ -137,7 +141,7 @@ export default function Mission(props: HomeProps) {
                 <section className = {styles.complete}>
                     {(currentStep == 0) ? 
                         <button className = "project"
-                            onClick = {() => {router.push("/")}}>
+                            onClick = {handleGoHome}>
                             Voltar à sala de comando
                         </button>
                     : <button className = "project"
@@ -169,23 +173,29 @@ export async function getStaticPaths() {
      }
 }
 
-export async function getStaticProps(context) {
-    const id = context.params.id;
+export async function getStaticProps(
+    context: GetStaticPropsContext): Promise<GetStaticPropsResult<HomeProps>> {
+    
+
+    const id = parseInt(context.params.id as string);
 
     const { data } = await axios.post(
         serverURL + "/api/missions", { id }
     )
 
-    const taskReq = { data: { mission: parseInt(id) } };
+    const taskReq = { data: { mission: id } };
     const { data: taskRes } = await axios.get(
         serverURL + "/api/questions/", taskReq).catch(err => {
             console.error(err);
             return { data: [] }
         })
 
-    return { props: { 
-        mission: data.mission as MissionInfos,
-        tasks: taskRes,
-        id: id
-    } }
+    return { 
+        props: { 
+            mission: data.mission as MissionInfos,
+            tasks: taskRes,
+            id: id
+        },
+        revalidate: false
+    }
 }

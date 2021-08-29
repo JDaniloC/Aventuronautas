@@ -114,6 +114,7 @@
 .starComponent > div {
   display: flex;
   align-items: center;
+  flex: 1;
   margin: 0;
 }
 .starComponent > div:nth-child(2),
@@ -147,6 +148,16 @@
 }
 .form div > span {
   border: none;
+}
+
+.revision {
+  max-width: 100vw;
+}
+
+@media (max-width: 600px) {
+  .form {
+    padding: 2em 0;
+  }
 }
 @media (max-width: 500px) {
   .selectTable {

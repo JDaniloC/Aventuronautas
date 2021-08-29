@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export interface Question {
     id: string;
     type: string;
@@ -22,7 +24,7 @@ export interface TableData {
 }
 
 export interface TaskData {
-    style?: object;
+    style?: CSSProperties;
     username: string, 
     quests: Question[], 
     finishFunc: (value: number) => void 

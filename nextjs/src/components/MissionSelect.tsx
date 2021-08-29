@@ -11,7 +11,8 @@ interface challenge {
     description: string;
 }
 
-export default function MissionSelect({ missions }) {
+export default function MissionSelect(
+    { missions }: { missions: challenge[] }) {
     const [ missionArray, setMissionArray ] = useState([] as challenge[]);
     const { challengesCompleted } = useContext(AuthContext);
 
