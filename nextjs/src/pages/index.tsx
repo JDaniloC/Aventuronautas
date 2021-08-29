@@ -25,7 +25,7 @@ interface HomeProps {
   missions: challenge[]
 }
 
-export default function Home(props: HomeProps) {  
+export default function Home({ missions }: HomeProps) {  
   const { saveUser } = useContext(AuthContext);
   useEffect(saveUser, [])
 
@@ -55,7 +55,7 @@ export default function Home(props: HomeProps) {
         </div>
       </section>
 
-      <MissionSelect missions = {props.missions} />
+      <MissionSelect missions = {missions} />
       <footer className = {styles.footer}>
         <p> Desenvolvimento: JDaniloC </p> 
         <p> Clube novo amanhecer </p> 

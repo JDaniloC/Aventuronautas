@@ -32,7 +32,7 @@ interface MissionInfos {
     form: string;
 }
 
-export default function Mission(props: HomeProps) {  
+export default function Mission({ id, mission, tasks }: HomeProps) {  
     const [ infos, setInfos ] = useState({
         title: "Aventuronautas | Carregando..."
     } as MissionInfos)
@@ -48,7 +48,6 @@ export default function Mission(props: HomeProps) {
     const router = useRouter();
     
     useEffect(() => {
-        const mission = props.mission;
         if (mission) {
             setInfos(mission);
             setImages([{
@@ -63,7 +62,7 @@ export default function Mission(props: HomeProps) {
     }, [])
 
     function _finishTest(score: number) {
-        if (challengesCompleted < props.id) {
+        if (challengesCompleted < id) {
             completeChallenge(score);
         }
         setFinished(true);
@@ -112,7 +111,7 @@ export default function Mission(props: HomeProps) {
                             allow="accelerometer; autoplay; clipboard-write; 
                             encrypted-media; gyroscope; picture-in-picture"/> 
                         
-                        <Task quests = {props.tasks} username = {nickname}
+                        <Task quests = {tasks} username = {nickname}
                             finishFunc = {_finishTest} style = {{
                                 display: (currentStep === 2 && !finished
                                     ) ? "flex" : "none"

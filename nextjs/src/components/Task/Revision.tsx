@@ -10,10 +10,10 @@ export default function RevisionComponent({ questions, hits }: RevisionData ) {
     const [notStarCount, setNotStarCount] = useState([0, 1, 2, 3, 4]);
 
     useEffect(() => {
-        let sum = hits.reduce((a, b) => a + b, 0);
-        let relative = sum / (hits.length * 100);
-        let score = Math.floor(relative * 5);
-        let stars = [], notStars = [];
+        const sum = hits.reduce((a, b) => a + b, 0);
+        const relative = sum / (hits.length * 100);
+        const score = Math.floor(relative * 5);
+        const stars = [], notStars = [];
         for (let i = 1; i <= 5; i++) {
             if (score >= i) {
                 stars.push(i);

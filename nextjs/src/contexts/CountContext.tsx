@@ -36,7 +36,7 @@ export function CountProvider({
     }
 
     function verifyGain(currentStep:number) {
-        let earned = rest.xpEarned;
+        const earned = rest.xpEarned;
         if (!rest.xpEarned[currentStep] && time >= 60) {
             switch (currentStep) {
                 case 0:
