@@ -2,19 +2,18 @@ import Head from 'next/head';
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from 'react';
 
-
 import ExperienceBar from '../../components/ExperienceBar'
 import { CountProvider } from '../../contexts/CountContext';
 import { Question } from 'components/Task/Models';
 import { NextStepButton } from '../../components/CompleteMission'
 
+import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import styles from "../../styles/pages/Mission.module.css";
 import { AuthContext } from 'contexts/AuthContext';
 import ImageGallery from 'react-image-gallery';
 import { serverURL } from '../../config';
 import Task from 'components/Task';
 import axios from 'axios';
-import { GetStaticProps, GetStaticPropsContext, GetStaticPropsResult, InferGetStaticPropsType } from 'next';
 
 interface HomeProps {
     id: number,

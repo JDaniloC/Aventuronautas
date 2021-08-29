@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 
 export function NextStepButton(
-    { currentStep }: { currentStep: number}) {    
+    { currentStep }: { currentStep: number}): JSX.Element {    
     const { verifyGain, resetCount } = useContext(CountContext);
 
     useEffect(() => {

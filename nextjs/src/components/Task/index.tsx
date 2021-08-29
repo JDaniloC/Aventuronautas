@@ -44,7 +44,7 @@ export default function Task({
     }
 
     function selectAnswer(evt: FormEvent<EventTarget>) {
-        let target = evt.target as HTMLInputElement;
+        const target = evt.target as HTMLInputElement;
         const questionType = questions[currentQuestion].type;
         const questionId = parseInt(target.name);
         const answer = target.value;

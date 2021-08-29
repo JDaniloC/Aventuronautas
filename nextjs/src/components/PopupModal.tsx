@@ -73,11 +73,11 @@ export function PopupModal() {
     }
 
     function handleChangeName(evt: FormEvent<EventTarget>) {
-        let target = evt.target as HTMLInputElement;
+        const target = evt.target as HTMLInputElement;
         setName(target.value)
     }
     function handleChangeIdade(evt: FormEvent<EventTarget>) {
-        let target = evt.target as HTMLInputElement;
+        const target = evt.target as HTMLInputElement;
         setIdade(Number(target.value))
     }
 

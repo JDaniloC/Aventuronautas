@@ -104,7 +104,7 @@ export function AuthProvider({children}: ChallengeProviderProps ) {
 
     function earnXp(amount: number) {
         let finalExperience = currentExperience + amount;
-        new Audio('/notification.mp3').play().then().catch();
+        new Audio('/notification.mp3').play().catch(() => {});
 
         if (finalExperience > experienceToNextLevel) {
             finalExperience -= experienceToNextLevel;
