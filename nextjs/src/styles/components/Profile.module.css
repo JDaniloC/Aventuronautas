@@ -1,56 +1,56 @@
 .profileContainer {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .overlay {
-    background: rgba(242, 243, 245, 0.8);
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background: rgba(242, 243, 245, 0.8);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profileContainer > img {
-    width: 5.5rem;
-    height: 5.5rem;
-    border-radius: 50%;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
 }
 
 .profileContainer div {
-    margin-left: 1.5rem;
+  margin-left: 1.5rem;
 }
 
 .profileContainer div strong {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--white);
 }
 
 .profileContainer div p {
-    font-size: 1rem;
-    margin-top: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
 }
 
 .profileContainer div p img {
-    margin-right: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .profileContainer button {
-    display: flex;
-    padding: 1em;
-    border: none;
-    margin-left: auto;
-    border-radius: 25%;
-    color: #e62a49;
-    transition: all 0.3s;
+  display: flex;
+  padding: 1em;
+  border: none;
+  margin-left: auto;
+  border-radius: 25%;
+  color: #e62a49;
+  transition: all 0.3s;
 }
 .profileContainer button:hover {
-    color: #eb5a72;
+  color: #eb5a72;
 }

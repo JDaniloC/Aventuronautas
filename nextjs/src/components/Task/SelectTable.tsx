@@ -14,7 +14,7 @@ export default function SelectTable({ question }: TableData) {
     return (<table className = {styles.selectTable}>
         <thead>
             <tr>
-                <th></th>
+                <th/>
                 {columnList.map(column => (
                     <th key = {column}> {column} </th>
                 ))} 
@@ -30,7 +30,7 @@ export default function SelectTable({ question }: TableData) {
                         <input 
                             name = {String(rowIndex)}
                             type="radio" value = {index}/> 
-                        <span></span>
+                        <span/>
                     </label>
                     </th>
                 ))}

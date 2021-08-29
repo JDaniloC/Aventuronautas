@@ -65,7 +65,7 @@ export default function Home(props: HomeProps) {
   )
 }
 
-export const getStaticProps:GetStaticProps = async (context) => {
+export const getStaticProps:GetStaticProps = async () => {
   const response = await axios.get(serverURL + "/api/missions/")
   let missionArray = response.data.missions;
   if (missionArray === undefined) { missionArray = [] };

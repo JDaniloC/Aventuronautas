@@ -1,6 +1,6 @@
 import { AuthContext } from "../contexts/AuthContext";
 import styles from "../styles/components/Popup.module.css";
-import { useContext, useRef, useState } from "react";
+import { FormEvent, useContext, useRef, useState } from "react";
 import { BiArrowBack } from 'react-icons/bi';
 import ImagePicker from 'react-image-picker';
 import 'react-image-picker/dist/index.css'
@@ -72,6 +72,15 @@ export function PopupModal() {
         setImage(selected.value);
     }
 
+    function handleChangeName(evt: FormEvent<EventTarget>) {
+        const target = evt.target as HTMLInputElement;
+        setName(target.value)
+    }
+    function handleChangeIdade(evt: FormEvent<EventTarget>) {
+        const target = evt.target as HTMLInputElement;
+        setIdade(Number(target.value))
+    }
+
     return (
         <div className = {styles.overlay}>
             <div className = {styles.container}>
@@ -98,15 +107,15 @@ export function PopupModal() {
                             />
                         </div>
                         <input type="text" value = {name} 
-                            placeholder = "Nome Sobrenome" onChange = {
-                            (evt) => setName(evt.target.value)}/>
+                            placeholder = "Nome Sobrenome" 
+                            onChange = {handleChangeName}/>
                         <input type="number" placeholder = "Idade"
-                            min = {5} max = {10} onChange = {
-                            (evt) => setIdade(Number(evt.target.value))}/>
+                            min = {5} max = {10} 
+                            onChange = {handleChangeIdade}/>
                     </> : 
                         <input type="text" value = {name} 
-                            placeholder = "Nome Sobrenome" onChange = {
-                            (evt) => setName(evt.target.value)}/> }
+                            placeholder = "Nome Sobrenome" 
+                            onChange = {handleChangeName}/>}
                 </div>
                 
                 {(step !== "") ? <div className = {styles.startContainer}>

@@ -1,118 +1,117 @@
 .missionsContainer {
-    display: flex;
-    flex-flow: column-reverse;
-    align-items: center;
-    font-family: Rajdhani;
-    font-weight: 600;
-    color: var(--white);
+  display: flex;
+  flex-flow: column-reverse;
+  align-items: center;
+  font-family: Rajdhani;
+  font-weight: 600;
+  color: var(--white);
 }
 
 .missionsContainer > span {
-    display: flex;
-    width: 80%;
-    justify-content: space-between;
-    align-items: center;
-    margin: 2rem 1rem;
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 1rem;
 }
 
 .missionsContainer > span.arrived::before {
-    background-image: url(/gifs/filled-bar.gif);
+  background-image: url(/gifs/filled-bar.gif);
 }
 
 .missionsContainer > span:first-child::before {
-    transform: rotateZ(0deg);
-    background-image: url(/gifs/filled-bar.gif);
+  transform: rotateZ(0deg);
+  background-image: url(/gifs/filled-bar.gif);
 }
 
 .missionsContainer > span::before {
-    background-image: url(/gifs/empty-bar.gif);
-    background-repeat: no-repeat;
-    background-position: 0px -174px;
-    transform: rotateZ(180deg);
-    background-size: cover;
-    display: inline-block;
-    position: absolute;
-    z-index: -1;
-    width: 10em;
-    height: 16em;
-    content: "";
+  background-image: url(/gifs/empty-bar.gif);
+  background-repeat: no-repeat;
+  background-position: 0px -174px;
+  transform: rotateZ(180deg);
+  background-size: cover;
+  display: inline-block;
+  position: absolute;
+  z-index: -1;
+  width: 10em;
+  height: 16em;
+  content: "";
 }
 
 .missionsContainer h3 {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 .missionsContainer .imgDiv {
-    max-width: 5.5em;
-    max-height: 5.5em;
-    border-radius: 50%;
-    overflow: hidden;
+  max-width: 5.5em;
+  max-height: 5.5em;
+  border-radius: 50%;
+  overflow: hidden;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
 }
 .missionsContainer .imgDiv img {
-    height: 6em;
-    width: min-content;
+  height: 6em;
+  width: min-content;
 }
 
 .missionsContainer div {
-    font-size: 1.4rem;
-    margin: 0 1em;
+  font-size: 1.4rem;
+  margin: 0 1em;
 }
-
 
 .missionsContainer > div span {
-    flex: 1;
+  flex: 1;
 }
 .missionsContainer > div span:first-child {
-    border-right: 1px solid #f0f1f3;
+  border-right: 1px solid #f0f1f3;
 }
 .missionsContainer > div span:last-child {
-    border-left: 1px solid #f0f1f3;
+  border-left: 1px solid #f0f1f3;
 }
 
 @media (max-width: 850px) {
-    .missionsContainer {
-        flex-flow: column;
-    }
-    .scrollBtn {
-        display: none;
-    }
-    .missionsContainer > span.arrived::before {
-        background-image: url(/gifs/filled-circle.gif);
-        background-position: -4px -21px;
-        transform: rotate(0deg);
-        background-size: cover;
-        height: 12.2em;
-        width: 12.2em;
-        opacity: .4;
-        z-index: 1;
-    }
-    .missionsContainer > span::before {
-        background-image: none;
-    }
-    .missionsContainer > span {
-        flex-direction: column;
-        text-align: center;
-    }
-    .missionsContainer .imgDiv {
-        max-width: 7em;
-        max-height: 7em;
-        height: 7em;
-    }
-    .missionsContainer .description {
-        margin: 1em 0;
-    }
-    .missionsContainer .imgDiv img {
-        height: 100%;
-    }
+  .missionsContainer {
+    flex-flow: column;
+  }
+  .scrollBtn {
+    display: none;
+  }
+  .missionsContainer > span.arrived::before {
+    background-image: url(/gifs/filled-circle.gif);
+    background-position: -4px -21px;
+    transform: rotate(0deg);
+    background-size: cover;
+    height: 12.2em;
+    width: 12.2em;
+    opacity: 0.4;
+    z-index: 1;
+  }
+  .missionsContainer > span::before {
+    background-image: none;
+  }
+  .missionsContainer > span {
+    flex-direction: column;
+    text-align: center;
+  }
+  .missionsContainer .imgDiv {
+    max-width: 7em;
+    max-height: 7em;
+    height: 7em;
+  }
+  .missionsContainer .description {
+    margin: 1em 0;
+  }
+  .missionsContainer .imgDiv img {
+    height: 100%;
+  }
 }
 @media (max-width: 720px) {
-    .missionsContainer > span.arrived::before {
-        background-position: 0px -22px;
-        height: 11.5em;
-        width: 12em;
-    }
+  .missionsContainer > span.arrived::before {
+    background-position: 0px -22px;
+    height: 11.5em;
+    width: 12em;
+  }
 }

@@ -1,6 +1,6 @@
 import { Question, TaskData, Answer } from './Models';
 import styles from 'styles/components/Task.module.css';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import RadioTable from './RadioTable';
@@ -8,7 +8,8 @@ import CheckTable from './CheckTable';
 import SelectTable from './SelectTable';
 import RevisionComponent from './Revision';
 
-export default function Task({ username, quests, style, finishFunc }: TaskData) {
+export default function Task({ 
+    username, quests, style, finishFunc }: TaskData) {
     const [questions, setQuestions] = useState([] as Question[]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState([] as Answer[]);
@@ -42,23 +43,25 @@ export default function Task({ username, quests, style, finishFunc }: TaskData) 
         setCurrentQuestion(currentQuestion + 1);
     }
 
-    function selectAnswer(evt: any) {
+    function selectAnswer(evt: FormEvent<EventTarget>) {
+        const target = evt.target as HTMLInputElement;
         const questionType = questions[currentQuestion].type;
-        const questionId = parseInt(evt.target.name);
-        const answer = evt.target.value;
+        const questionId = parseInt(target.name);
+        const answer = target.value;
 
         if (questionType === "radio") {
             answers[currentQuestion].option = answer;
         } else if (questionType === "check") {
             let currentAnswer = answers[currentQuestion].option as number[];
-            if (evt.target.checked) {
+            if (target.checked) {
                 currentAnswer.push(parseInt(answer));
             } else {
-                currentAnswer.splice(currentAnswer.indexOf(answer), 1);
+                currentAnswer.splice(currentAnswer.indexOf(
+                    parseInt(answer)), 1);
             }
         } else {
             if (answers[currentQuestion].option.length === 0) {
-                let headers = questions[currentQuestion].options[0] as String[];
+                let headers = questions[currentQuestion].options[0] as string[];
                 answers[currentQuestion].option = headers.map(() => 0)
             }
             let currentAnswer = answers[currentQuestion].option as number[];
@@ -76,15 +79,14 @@ export default function Task({ username, quests, style, finishFunc }: TaskData) 
                         alignSelf: "center",
                         display: index === currentQuestion 
                             ? "block" : "none" }}>
-                    <span className = {`difficulty${question.difficulty}`}>
-                    </span> 
+                    <span className = {`difficulty${question.difficulty}`}/> 
                     <h1> {question.title} </h1>
                     {(question.type == "radio") ? 
                         <RadioTable question = {question} />
                     :(question.type == "check") ?
                         <CheckTable question = {question} />
                     : <SelectTable question = {question} /> }
-                    <span></span>
+                    <span/>
                 </div>
             ))}
 

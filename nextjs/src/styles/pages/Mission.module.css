@@ -1,113 +1,118 @@
 .externalContainer {
-    background-color: #FFF;
-    height: 100vh;
+  background-color: #fff;
+  height: 100vh;
 }
 .externalContainer header {
-    max-width: 992px;
-    padding-top: 3em;
-    margin: auto;
+  max-width: 992px;
+  padding-top: 3em;
+  margin: auto;
 }
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 4em 0em;
-    background: #FFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4em 0em;
+  background: #fff;
 }
 .container h1 {
-    margin: 0 1em;
-    text-align: center;
+  margin: 0 1em;
+  text-align: center;
 }
 .studyContainer iframe {
-    max-width: 67vw;
-    height: calc(100vw / 2);
+  max-width: 67vw;
+  height: calc(100vw / 2);
 }
 .studyContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    margin: 2em;
-    background-color: var(--blue-kid);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin: 2em;
+  background-color: var(--blue-kid);
 }
 
 .studyContainer > div p + p {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .studyContainer p.confession {
-    text-align: center;
-    font-size: x-large;
-    font-weight: 600;
-    color: #FFF;
+  text-align: center;
+  font-size: x-large;
+  font-weight: 600;
+  color: #fff;
 }
 
 .studyContainer::before {
-    content: '';
-    position: relative;
-    top: -1px;
-    height: 80px;
-    width: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: url(/icons/cloud-white.svg);
-    background-color: #80c3d2;
-    -webkit-transform: rotate( 180deg);
-    -moz-transform: rotate(180deg);
-    -ms-transform: rotate(180deg);
-    transform: rotate(180deg);
+  content: "";
+  position: relative;
+  top: -1px;
+  height: 80px;
+  width: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(/icons/cloud-white.svg);
+  background-color: #80c3d2;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 .studyContainer::after {
-    content: '';
-    position: relative;
-    height: 80px;
-    width: 100%;
-    bottom: -1px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-image: url(/icons/cloud-white.svg);
-    background-color: #80c3d2;
+  content: "";
+  position: relative;
+  height: 80px;
+  width: 100%;
+  bottom: -1px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(/icons/cloud-white.svg);
+  background-color: #80c3d2;
 }
 
 .container h2 {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 .main div:first-child {
-    max-width: 600px;
+  max-width: 600px;
 }
 .container section.complete {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-.container  section.complete button {
-    background: var(--blue-dark);
-    color: #FFF;
-    margin: 1em;
+.container section.complete button {
+  background: var(--blue-dark);
+  color: #fff;
+  margin: 1em;
 }
 .container section.complete button:hover {
-    color: var(--white);
-    background: var(--blue);
-    border-bottom: var(--green) 0.3rem solid;
-    transition: all .3s;
+  color: var(--white);
+  background: var(--blue);
+  border-bottom: var(--green) 0.3rem solid;
+  transition: all 0.3s;
 }
 
 p.confession {
-    font-size: x-large;
-    max-width: 600px;
-    text-align: center;
-    border: dashed;
-    padding: 1rem;
-    margin-bottom: 1em;
+  font-size: x-large;
+  max-width: 600px;
+  text-align: center;
+  border: dashed;
+  padding: 1rem;
+  margin-bottom: 1em;
 }
 
 @media (max-width: 1300px) {
-    .studyContainer iframe {
-        max-width: 100%;
-    }
-    .studyContainer iframe {
-        height: calc(100vw / 2);
-    }
+  .studyContainer iframe {
+    max-width: 100%;
+  }
+  .studyContainer iframe {
+    height: calc(100vw / 2);
+  }
+}
+@media (max-width: 330px) {
+  .container section.complete button {
+    margin: 0;
+  }
 }

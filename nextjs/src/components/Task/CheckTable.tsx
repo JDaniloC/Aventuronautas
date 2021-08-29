@@ -8,7 +8,7 @@ export default function RadioTable({ question }: TableData) {
                 type="checkbox" 
                 name = {question.id}
                 value = {index}/>
-            <span></span>
+            <span/>
             <p> {option} </p>
         </label>
     ))}</>)

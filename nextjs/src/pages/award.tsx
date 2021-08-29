@@ -4,7 +4,7 @@ import ExperienceBar from '../components/ExperienceBar'
 import { Question } from '../components/Task/Models';
 import Profile from '../components/Profile'
 import Task from '../components/Task';
-
+import { User } from 'models/user';
 
 import styles from "../styles/pages/Home.module.css";
 import 'react-image-picker/dist/index.css'
@@ -15,15 +15,6 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import axios from 'axios';
-
-interface User {
-    nickname: string;
-    level: number;
-    idade: number;
-    image: string;
-    currentExperience: number;
-    challengesCompleted: number;
-}
 
 interface Award {
     name: string;
@@ -59,7 +50,7 @@ function Infos() {
     </>)
 }
 
-function Podium({ users }) {
+function Podium({ users }: { users: User[] }) {
     function getScore(user: User) {
         const result = user.currentExperience +
             user.challengesCompleted * 200 +
@@ -171,7 +162,7 @@ export default function Award(props: AwardProps) {
     )
 }
 
-export const getStaticProps:GetStaticProps = async (context) => {
+export const getStaticProps:GetStaticProps = async () => {
     const { data: userCollection } = await axios.get(
         serverURL + "/api/users/").catch((err) => {
             console.error(err);

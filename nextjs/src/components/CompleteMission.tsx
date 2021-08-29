@@ -3,7 +3,8 @@ import { useContext, useEffect } from 'react';
 import Link from 'next/link';
 
 
-export function NextStepButton({ currentStep }) {    
+export function NextStepButton(
+    { currentStep }: { currentStep: number}): JSX.Element {    
     const { verifyGain, resetCount } = useContext(CountContext);
 
     useEffect(() => {
@@ -11,6 +12,10 @@ export function NextStepButton({ currentStep }) {
             resetCount()
         }
     }, [currentStep]);    
+
+    function handleNextTask() {
+        verifyGain(currentStep)
+    }
 
     return (
         (currentStep === 2) ?
@@ -21,7 +26,7 @@ export function NextStepButton({ currentStep }) {
         </Link>
         :
         <button className = "project" 
-            onClick = {() => { verifyGain(currentStep) }}>
+            onClick = {handleNextTask}>
             Próxima tarefa
         </button>
     )

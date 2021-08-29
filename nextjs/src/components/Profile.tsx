@@ -17,6 +17,14 @@ export default function Profile() {
         location.reload();
     }
     
+    function showHelp() {
+        setShowModal(true)
+    }
+
+    function hideHelp() {
+        setShowModal(false)
+    }
+
     return (
         <>
         <div className = {styles.profileContainer}>
@@ -28,7 +36,7 @@ export default function Profile() {
                     Level {level}
                 </p>
             </div>
-            <button onClick = {() => {setShowModal(true)}}>
+            <button onClick = {showHelp}>
                 <FaQuestion />
             </button>
             <button onClick = {exitAccount}>
@@ -36,7 +44,7 @@ export default function Profile() {
             </button>
         </div>
         <div className = {styles.overlay} 
-            onClick = {() => setShowModal(false)}
+            onClick = {hideHelp}
             style = {{ display: (showModal) ? "flex" : "none" }}>
             <Help />
         </div>
