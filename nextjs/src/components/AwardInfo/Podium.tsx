@@ -1,4 +1,4 @@
-import styles from "../styles/pages/Home.module.css";
+import styles from "styles/pages/Home.module.css";
 import { User } from "models/user";
 
 export default function Podium({ users }: { users: User[] }) {
