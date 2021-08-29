@@ -16,16 +16,16 @@ export default function MissionSelect(
     const [ missionArray, setMissionArray ] = useState([] as challenge[]);
     const { challengesCompleted } = useContext(AuthContext);
 
+    function nextMission() {
+        window.scrollTo(0, 350 + (190 * (13 - challengesCompleted)))
+    }
+
     useEffect(() => {
         setMissionArray(missions);
         if (window.innerWidth > 850) {
             setTimeout(nextMission, 1000);
         }
     }, [])
-    
-    function nextMission() {
-        window.scrollTo(0, 350 + (190 * (13 - challengesCompleted)))
-    }
 
     return (
         <div className = {styles.missionsContainer}>
@@ -41,7 +41,7 @@ export default function MissionSelect(
                         <p> {task.description} </p>
                     </div>
                     <Link href = {`/missions/${task.mission}`}>
-                        <button className = "project"
+                        <button className = "project" type = "button"
                             disabled = {challengesCompleted + 1 < task.mission}> 
                             Embarcar 
                         </button>
@@ -54,6 +54,7 @@ export default function MissionSelect(
             </div>}
             {(challengesCompleted < 12) ? 
                 <button onClick = {nextMission} 
+                    type = "button"
                     className = "project">
                     Próxima missão &nbsp; <TiArrowDownThick />
                 </button>: 

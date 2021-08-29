@@ -1,11 +1,12 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { connectToDatabase } from './missions';
+import { User } from 'models/user';
 
 export default async (req: VercelRequest, res: VercelResponse) => {
     const db = await connectToDatabase(process.env.MONGODB_URI);
     const collection = db.collection('users');
     let nickname = (req.body.nickname) ? req.body.nickname : req.query.nickname;
-    let user: boolean | {} = false;
+    let user: boolean | User = false;
 
     if (nickname) {
         nickname = nickname.replace(/[\W]/g, "").toLowerCase();
@@ -39,13 +40,13 @@ export default async (req: VercelRequest, res: VercelResponse) => {
             challengesCompleted
         } = req.body;
 
-        user = await collection.updateOne({ nickname }, {
+        const newUser = await collection.updateOne({ nickname }, {
             $set: {
                 level, challengesCompleted,
                 currentExperience: currentExperience, 
             }
         })
-        res.status(200).json({ user })
+        res.status(200).json({ newUser })
     } else {
         res.status(200).json({ user })
     }    

@@ -51,7 +51,7 @@ function calculateScore(questions: Question[],
                     score += 1;
                     hits.push(100);
                 } else if (questionType !== "radio") {
-                    var currentScore = compareAnswers(questionType,
+                    const currentScore = compareAnswers(questionType,
                         correct as number[], answer.option as number[]);
                     hits.push(Math.round(currentScore * 100));
                     score += currentScore;

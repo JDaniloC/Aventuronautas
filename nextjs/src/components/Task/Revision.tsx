@@ -50,7 +50,7 @@ export default function RevisionComponent({ questions, hits }: RevisionData ) {
         </div>
         <div className = {styles.hitsComponent}>
             {hits.map((hit, index) => (
-            <div key = {index + hit}>
+            <div key = {questions[index].title}>
                 <p> {index + 1}. {questions[index].title} </p>
                 <p> {hit}% </p>
             </div>))}

@@ -35,7 +35,7 @@ export default function Award({ finalTest, users }: AwardProps) {
 
     useEffect(() => {
         function choose(choices: Question[]) {
-            var index = Math.floor(Math.random() * choices.length);
+            const index = Math.floor(Math.random() * choices.length);
             return choices[index];
         }
         let difficulty = 0;
@@ -79,11 +79,12 @@ export default function Award({ finalTest, users }: AwardProps) {
             
             <section>
                 <Link href = "/">
-                    <button className = "project">
+                    <button className = "project" type = "button">
                         Voltar
                     </button>
                 </Link>
                 <button className = "project" 
+                    type = "button"
                     onClick = {_startTest}
                     disabled = {challengesCompleted !== 14}
                     style = {{ marginBottom: "2em"}}> 

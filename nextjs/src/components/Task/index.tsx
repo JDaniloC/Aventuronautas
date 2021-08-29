@@ -26,13 +26,6 @@ export default function Task({
         })));
     }, [])
     
-    async function sendAnswers() {
-        _nextQuestion();
-        const { data } = await axios.post("/api/questions/", 
-        { username, answers, mission });
-        setScore(data.score);
-        setHits(data.hits);
-    }
     function closeTask() {
         finishFunc(score);
     }
@@ -41,6 +34,14 @@ export default function Task({
     }
     function _nextQuestion() {
         setCurrentQuestion(currentQuestion + 1);
+    }
+
+    async function sendAnswers() {
+        _nextQuestion();
+        const { data } = await axios.post("/api/questions/", 
+        { username, answers, mission });
+        setScore(data.score);
+        setHits(data.hits);
     }
 
     function selectAnswer(evt: FormEvent<EventTarget>) {

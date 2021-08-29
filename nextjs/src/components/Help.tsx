@@ -8,7 +8,7 @@ export default function Help() {
             <section className = {styles.helpTheme}>
                 <span> 1° </span>
                 <div>
-                    <button className = {styles.profileBtn}> 
+                    <button className = {styles.profileBtn} type = "button"> 
                         <ImExit /> 
                     </button>
                     <p> 
@@ -23,8 +23,8 @@ export default function Help() {
             
             <section className = {styles.helpTheme}>
                 <div className = {styles.missionBtn}>
-                    <button className="project" disabled> Bloqueado </button>
-                    <button className="project"> Desbloqueado </button>
+                    <button className="project" type = "button" disabled> Bloqueado </button>
+                    <button className="project" type = "button"> Desbloqueado </button>
                     <p>
                         Cada missão feita, <b>desbloqueia</b> a próxima missão, no qual os 
                         botões vermelhos significam <b>as missões bloqueadas</b>, enquanto 
@@ -52,7 +52,7 @@ export default function Help() {
 
             <section className = {styles.helpTheme}>
                 <div className = {styles.missionBtn}>
-                    <button className="project">
+                    <button className="project" type = "button">
                         Salvar o mundo
                     </button>
                     <p>

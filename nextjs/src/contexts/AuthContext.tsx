@@ -44,6 +44,15 @@ export function AuthProvider({children}: ChallengeProviderProps ) {
     const [isLevelModalOpen, setIsLevelModalOpen] = useState(false);
     const [isNewUser, setIsNewUser] = useState(false);
 
+    function updateUser(name:string, user:User) {
+        setNickname(name);
+        setLevel(user.level);
+        setImage(user.image);
+        setIdade(user.idade);
+        setCurrentExperience(user.currentExperience);
+        setChallengesCompleted(user.challengesCompleted);
+    }
+
     useEffect(() => {
         const name = Cookies.get("nickname");
         if (name) {
@@ -75,15 +84,6 @@ export function AuthProvider({children}: ChallengeProviderProps ) {
         return response.data.user !== null;
     }
 
-    function updateUser(name:string, user:User) {
-        setNickname(name);
-        setLevel(user.level);
-        setImage(user.image);
-        setIdade(user.idade);
-        setCurrentExperience(user.currentExperience);
-        setChallengesCompleted(user.challengesCompleted);
-    }
-
     function levelUp() {
         setLevel(level + 1);
         setIsLevelModalOpen(true);
@@ -104,7 +104,9 @@ export function AuthProvider({children}: ChallengeProviderProps ) {
 
     function earnXp(amount: number) {
         let finalExperience = currentExperience + amount;
-        new Audio('/notification.mp3').play().catch(() => {});
+        new Audio('/notification.mp3').play().catch(() => {
+            // An error occurred.
+        });
 
         if (finalExperience > experienceToNextLevel) {
             finalExperience -= experienceToNextLevel;

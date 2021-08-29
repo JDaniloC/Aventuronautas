@@ -47,6 +47,25 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
     } = useContext(AuthContext);
     const router = useRouter();
     
+    function prevStep() {
+        setCurrentStep( (currentStep - 1) % 3 );
+    }
+
+    function nextStep() {
+        setCurrentStep( (currentStep + 1) % 3 );
+    }
+
+    function handleGoHome() {
+        router.push("/")
+    }
+
+    function _finishTest(score: number) {
+        if (challengesCompleted < id) {
+            completeChallenge(score);
+        }
+        setFinished(true);
+    }
+
     useEffect(() => {
         if (mission) {
             setInfos(mission);
@@ -60,25 +79,6 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
             nextStep();
         }
     }, [])
-
-    function _finishTest(score: number) {
-        if (challengesCompleted < id) {
-            completeChallenge(score);
-        }
-        setFinished(true);
-    }
-
-    function prevStep() {
-        setCurrentStep( (currentStep - 1) % 3 );
-    }
-
-    function nextStep() {
-        setCurrentStep( (currentStep + 1) % 3 );
-    }
-
-    function handleGoHome() {
-        router.push("/")
-    }
 
     return (
         <div className = {styles.externalContainer}>
@@ -139,10 +139,12 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
                 <section className = {styles.complete}>
                     {(currentStep == 0) ? 
                         <button className = "project"
+                            type = "button"
                             onClick = {handleGoHome}>
                             Voltar à sala de comando
                         </button>
                     : <button className = "project"
+                        type = "button"
                         onClick = {prevStep}>
                         Tarefa anterior
                     </button>}

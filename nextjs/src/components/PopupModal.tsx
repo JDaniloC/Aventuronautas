@@ -92,10 +92,10 @@ export function PopupModal() {
 
                 <div className = {styles.inputs}>
                     {(step === "") ? <div className = {styles.buttons}>
-                        <button onClick = {handleRegister}>
+                        <button onClick = {handleRegister} type = "button">
                             Minha primeira viagem 
                         </button>                        
-                        <button onClick = {handleContinue}> 
+                        <button onClick = {handleContinue} type = "button"> 
                             Continuar viagem 
                         </button>                        
                     </div> : (step === "register") ? <>
@@ -119,7 +119,7 @@ export function PopupModal() {
                 </div>
                 
                 {(step !== "") ? <div className = {styles.startContainer}>
-                    <button onClick = {handleBack}> 
+                    <button onClick = {handleBack} type = "button"> 
                         <BiArrowBack/> 
                     </button>
                     <button className = "project start" ref = {btnRef}
