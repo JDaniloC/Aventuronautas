@@ -36,10 +36,10 @@ export default function Profile() {
                     Level {level}
                 </p>
             </div>
-            <button onClick = {showHelp}>
+            <button onClick = {showHelp} type = "button">
                 <FaQuestion />
             </button>
-            <button onClick = {exitAccount}>
+            <button onClick = {exitAccount} type = "button">
                 <ImExit />
             </button>
         </div>

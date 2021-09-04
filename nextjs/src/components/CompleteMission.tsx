@@ -20,12 +20,13 @@ export function NextStepButton(
     return (
         (currentStep === 2) ?
         <Link href = "/">
-            <button className = "project"> 
+            <button className = "project" type = "button"> 
                 Completar missão
             </button>
         </Link>
         :
         <button className = "project" 
+            type = "button"
             onClick = {handleNextTask}>
             Próxima tarefa
         </button>

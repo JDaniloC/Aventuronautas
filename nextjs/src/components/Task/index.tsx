@@ -26,13 +26,6 @@ export default function Task({
         })));
     }, [])
     
-    async function sendAnswers() {
-        _nextQuestion();
-        const { data } = await axios.post("/api/questions/", 
-        { username, answers, mission });
-        setScore(data.score);
-        setHits(data.hits);
-    }
     function closeTask() {
         finishFunc(score);
     }
@@ -41,6 +34,14 @@ export default function Task({
     }
     function _nextQuestion() {
         setCurrentQuestion(currentQuestion + 1);
+    }
+
+    async function sendAnswers() {
+        _nextQuestion();
+        const { data } = await axios.post("/api/questions/", 
+        { username, answers, mission });
+        setScore(data.score);
+        setHits(data.hits);
     }
 
     function selectAnswer(evt: FormEvent<EventTarget>) {
@@ -52,7 +53,7 @@ export default function Task({
         if (questionType === "radio") {
             answers[currentQuestion].option = answer;
         } else if (questionType === "check") {
-            let currentAnswer = answers[currentQuestion].option as number[];
+            const currentAnswer = answers[currentQuestion].option as number[];
             if (target.checked) {
                 currentAnswer.push(parseInt(answer));
             } else {
@@ -61,10 +62,10 @@ export default function Task({
             }
         } else {
             if (answers[currentQuestion].option.length === 0) {
-                let headers = questions[currentQuestion].options[0] as string[];
+                const headers = questions[currentQuestion].options[0] as string[];
                 answers[currentQuestion].option = headers.map(() => 0)
             }
-            let currentAnswer = answers[currentQuestion].option as number[];
+            const currentAnswer = answers[currentQuestion].option as number[];
             currentAnswer[questionId] = parseInt(answer);
         }
     }

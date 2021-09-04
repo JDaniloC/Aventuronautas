@@ -32,7 +32,7 @@ interface MissionInfos {
     form: string;
 }
 
-export default function Mission(props: HomeProps) {  
+export default function Mission({ id, mission, tasks }: HomeProps) {  
     const [ infos, setInfos ] = useState({
         title: "Aventuronautas | Carregando..."
     } as MissionInfos)
@@ -47,8 +47,26 @@ export default function Mission(props: HomeProps) {
     } = useContext(AuthContext);
     const router = useRouter();
     
+    function prevStep() {
+        setCurrentStep( (currentStep - 1) % 3 );
+    }
+
+    function nextStep() {
+        setCurrentStep( (currentStep + 1) % 3 );
+    }
+
+    function handleGoHome() {
+        router.push("/")
+    }
+
+    function _finishTest(score: number) {
+        if (challengesCompleted < id) {
+            completeChallenge(score);
+        }
+        setFinished(true);
+    }
+
     useEffect(() => {
-        const mission = props.mission;
         if (mission) {
             setInfos(mission);
             setImages([{
@@ -61,25 +79,6 @@ export default function Mission(props: HomeProps) {
             nextStep();
         }
     }, [])
-
-    function _finishTest(score: number) {
-        if (challengesCompleted < props.id) {
-            completeChallenge(score);
-        }
-        setFinished(true);
-    }
-
-    function prevStep() {
-        setCurrentStep( (currentStep - 1) % 3 );
-    }
-
-    function nextStep() {
-        setCurrentStep( (currentStep + 1) % 3 );
-    }
-
-    function handleGoHome() {
-        router.push("/")
-    }
 
     return (
         <div className = {styles.externalContainer}>
@@ -112,7 +111,7 @@ export default function Mission(props: HomeProps) {
                             allow="accelerometer; autoplay; clipboard-write; 
                             encrypted-media; gyroscope; picture-in-picture"/> 
                         
-                        <Task quests = {props.tasks} username = {nickname}
+                        <Task quests = {tasks} username = {nickname}
                             finishFunc = {_finishTest} style = {{
                                 display: (currentStep === 2 && !finished
                                     ) ? "flex" : "none"
@@ -140,10 +139,12 @@ export default function Mission(props: HomeProps) {
                 <section className = {styles.complete}>
                     {(currentStep == 0) ? 
                         <button className = "project"
+                            type = "button"
                             onClick = {handleGoHome}>
                             Voltar à sala de comando
                         </button>
                     : <button className = "project"
+                        type = "button"
                         onClick = {prevStep}>
                         Tarefa anterior
                     </button>}

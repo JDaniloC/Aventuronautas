@@ -2,6 +2,7 @@ import CompletedChallenges from '../components/CompletedChallenges';
 import { AuthContext } from '../contexts/AuthContext';
 import ExperienceBar from '../components/ExperienceBar'
 import { Question } from '../components/Task/Models';
+import AwardInfo from '../components/AwardInfo';
 import Profile from '../components/Profile'
 import Task from '../components/Task';
 import { User } from 'models/user';
@@ -25,68 +26,7 @@ interface AwardProps {
     users: User[],
 }
 
-function Infos() {
-    return (<>
-        <h1> Que página é essa? </h1>
-        <p> 
-            É feita para quem completou todas as 14 missões para que
-            você possa gravar seu nome no espaço! Mas ainda existe um
-            teste <b>extra</b> para verificar se você completou toda as
-            missões sem trapacear, e você só tem uma chance para completar! 
-        </p>
-        
-        <h1> Como ganhar pontos? </h1>
-        <p> 
-            Complete todas as missões com <b>calma</b> (ler a revista quando
-            for pedido e assistir o vídeo ganham mais) para ganhar pontos, e 
-            responda todas as missões para subir de nível e por fim faça a 
-            última missão.
-        </p>
-        <h1> Eu ganho alguma coisa? </h1>
-        <p> 
-            Peça um certificado para seu responsável. Lembrando que você só
-            tem uma chance para fazer cada missão.
-        </p>
-    </>)
-}
-
-function Podium({ users }: { users: User[] }) {
-    function getScore(user: User) {
-        const result = user.currentExperience +
-            user.challengesCompleted * 200 +
-            (user.level - 1) * 300 -
-            (user.idade - 6) * 100;
-
-        return (result > 0) ? result : 0;
-    }
-
-    return (<div className = {styles.rankingContainer}>
-        <h1> Ranking </h1>
-        <div className = {styles.ranking}>
-            <span> Codinome </span>
-            <span> Missões </span>
-            <span> Pontuação </span>
-        </div>
-        {users.sort((a: User, b: User) => { 
-            return getScore(b) - getScore(a);
-        }).map((user: User) => 
-            <div key = {user.nickname}
-                className = {styles.ranking}>
-                <span>
-                    {user.nickname}
-                </span>
-                <span>
-                    {user.challengesCompleted}
-                </span>
-                <span>
-                    {getScore(user)}
-                </span>
-            </div>
-        )}
-    </div>)
-}
-
-export default function Award(props: AwardProps) {  
+export default function Award({ finalTest, users }: AwardProps) {  
     const [showTask, setShowTask] = useState(false);
     const [tasks, setTasks] = useState([]);
 
@@ -95,13 +35,13 @@ export default function Award(props: AwardProps) {
 
     useEffect(() => {
         function choose(choices: Question[]) {
-            var index = Math.floor(Math.random() * choices.length);
+            const index = Math.floor(Math.random() * choices.length);
             return choices[index];
         }
-        let tempTasks = [];
         let difficulty = 0;
+        const tempTasks = [];
         while (difficulty < (idade - 1) * 2) {
-            let task = choose(props.finalTest);
+            const task = choose(finalTest);
             if (tempTasks.indexOf(task) === -1) {
                 difficulty += task.difficulty;
                 tempTasks.push(task)
@@ -135,22 +75,16 @@ export default function Award(props: AwardProps) {
                     finishFunc = {_finishTest}
                     username = {nickname} />
             : <> 
-            <section className = {styles.reward} >
-                <div>
-                    <Infos/>
-                </div>
-                <div>
-                    <Podium users = {props.users}/>
-                </div>
-            </section>
+            <AwardInfo users = {users} />
             
             <section>
                 <Link href = "/">
-                    <button className = "project">
+                    <button className = "project" type = "button">
                         Voltar
                     </button>
                 </Link>
                 <button className = "project" 
+                    type = "button"
                     onClick = {_startTest}
                     disabled = {challengesCompleted !== 14}
                     style = {{ marginBottom: "2em"}}> 

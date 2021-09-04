@@ -24,8 +24,8 @@ export default function SelectTable({ question }: TableData) {
             {rowList.map((row, rowIndex) => (
                 <tr key = {row}>
                 <th> {row} </th>
-                {columnList.map((_, index) => (
-                    <th key = {`${row}${index}`}>
+                {columnList.map((column, index) => (
+                    <th key = {column}>
                     <label>
                         <input 
                             name = {String(rowIndex)}

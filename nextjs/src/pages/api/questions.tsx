@@ -17,7 +17,7 @@ export interface Answer {
 }
 
 function compareAnswers(type: string, correct: number[], answer: number[]) {
-    let total = (type === "select") ? correct.length : 
+    const total = (type === "select") ? correct.length : 
         Math.max(correct.length, answer.length);
     let current = 0;
     correct.forEach((value, index) => {
@@ -35,7 +35,7 @@ function compareAnswers(type: string, correct: number[], answer: number[]) {
 function calculateScore(questions: Question[], 
     answers: Answer[]): [number, number[]] {
     let score = 0;
-    let hits: number[] = [];
+    const hits: number[] = [];
     for (let i = 0; i < questions.length; i++) {
         const question = questions[i];
         const questionType = question.type;
@@ -51,7 +51,7 @@ function calculateScore(questions: Question[],
                     score += 1;
                     hits.push(100);
                 } else if (questionType !== "radio") {
-                    var currentScore = compareAnswers(questionType,
+                    const currentScore = compareAnswers(questionType,
                         correct as number[], answer.option as number[]);
                     hits.push(Math.round(currentScore * 100));
                     score += currentScore;
@@ -82,8 +82,8 @@ export default async (req: VercelRequest, res: VercelResponse) => {
                 id:true, options: true, answer: true 
         }}).toArray();
             
-        let [score, hits] = calculateScore(questions, answers);
-        score = Math.round((score / answers.length) * 100);
+        const [_score, hits] = calculateScore(questions, answers);
+        const score = Math.round((_score / answers.length) * 100);
         res.status(200).json({ score, hits });
     }
 }
