@@ -1,12 +1,12 @@
 import { Question, TaskData, Answer } from './Models';
-import styles from 'styles/components/Task.module.css';
-import { FormEvent, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { FormEvent, useEffect, useState } from 'react';
 
+import axios from 'axios';
 import RadioTable from './RadioTable';
 import CheckTable from './CheckTable';
 import SelectTable from './SelectTable';
 import RevisionComponent from './Revision';
+import styles from 'styles/components/Task.module.css';
 
 export default function Task({ 
     username, quests, style, finishFunc }: TaskData) {

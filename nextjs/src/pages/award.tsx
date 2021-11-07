@@ -11,7 +11,7 @@ import styles from "../styles/pages/Home.module.css";
 import 'react-image-picker/dist/index.css'
 import { serverURL } from '../config';
 
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -98,17 +98,16 @@ export default function Award({ finalTest, users }: AwardProps) {
 
 export const getStaticProps:GetStaticProps = async () => {
     const { data: userCollection } = await axios.get(
-        serverURL + "/api/users/").catch((err) => {
-            
-            return { data: { users: [] } }
-        })
+        serverURL + "/api/users/"
+    ).catch(() => {
+        return { data: { users: [] } }
+    })
 
     const { data: testTasks } = await axios.get(
         serverURL + "/api/questions/", { data: { mission: 15 } }
-        ).catch(err => {
-            
-            return { data: [] }
-        })
+    ).catch(() => {
+        return { data: [] }
+    })
 
     const users = userCollection.users as User[];
 

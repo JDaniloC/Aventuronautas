@@ -1,7 +1,8 @@
-import styles from "../styles/components/LevelUpModal.module.css";
-import { AuthContext } from "../contexts/AuthContext";
 import { AiOutlineClose } from 'react-icons/ai';
-import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+
+import React, { useContext } from "react";
+import styles from "../styles/components/LevelUpModal.module.css";
 
 export function LevelUpModal() {
     const { level, closeLevelModal } = useContext(AuthContext);

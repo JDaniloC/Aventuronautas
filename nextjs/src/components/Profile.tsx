@@ -1,12 +1,12 @@
 import { AuthContext } from '../contexts/AuthContext';
-import styles from '../styles/components/Profile.module.css';
-import { useContext, useState } from 'react';
-
 import { FaQuestion } from 'react-icons/fa';
 import { ImExit } from 'react-icons/im';
+import React, { useContext, useState } from 'react';
+
 
 import Help from './Help';
 import Cookies from 'js-cookie';
+import styles from '../styles/components/Profile.module.css';
 
 export default function Profile() {
     const { nickname, level, image } = useContext(AuthContext);

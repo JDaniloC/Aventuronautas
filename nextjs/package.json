@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@types/js-cookie": "^2.2.6",
+    "@types/react-lottie": "^1.2.6",
     "@vercel/node": "^1.10.0",
     "axios": "^0.21.1",
     "js-cookie": "^2.2.1",

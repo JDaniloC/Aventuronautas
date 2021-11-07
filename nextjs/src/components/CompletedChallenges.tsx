@@ -1,5 +1,6 @@
-import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
+import React, { useContext } from 'react';
+
 import styles from '../styles/components/CompletedChallenges.module.css';
 
 export default function CompletedChallenges() {

@@ -1,8 +1,9 @@
-import styles from '../styles/components/MissionSelect.module.css';
 import { AuthContext } from '../contexts/AuthContext';
-import { useContext, useEffect, useState } from 'react';
 import { TiArrowDownThick } from 'react-icons/ti';
+import React, { useContext, useEffect, useState } from 'react';
+
 import Link from 'next/link';
+import styles from '../styles/components/MissionSelect.module.css';
 
 interface challenge {
     mission: number;

@@ -1,5 +1,7 @@
 import { AuthProvider } from '../contexts/AuthContext'
 import { AppProps } from 'next/app';
+import React from 'react';
+
 import '../styles/globals.css'
 import '../styles/image-gallery.css'
 
