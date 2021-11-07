@@ -127,7 +127,7 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
                     </section> 
                 </> : 
                 <div className = "loadingDiv">
-                    <img src="/gifs/rocket.gif"/>
+                    <img src="/gifs/rocket.gif" alt = "rocket img"/>
                     <p> Carregando... </p>
                 </div>}
                 
@@ -185,10 +185,10 @@ export async function getStaticProps(
 
     const taskReq = { data: { mission: id } };
     const { data: taskRes } = await axios.get(
-        serverURL + "/api/questions/", taskReq).catch(err => {
-            
-            return { data: [] }
-        })
+        serverURL + "/api/questions/", taskReq
+    ).catch(() => {
+        return { data: [] }
+    })
 
     return { 
         props: { 

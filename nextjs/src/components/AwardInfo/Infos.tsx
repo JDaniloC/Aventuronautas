@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function Infos() {
     return (<>
         <h1> Que página é essa? </h1>

@@ -1,5 +1,7 @@
-import styles from '../styles/components/Help.module.css';
 import { ImExit } from 'react-icons/im';
+
+import React from 'react';
+import styles from '../styles/components/Help.module.css';
 
 export default function Help() {
     return (

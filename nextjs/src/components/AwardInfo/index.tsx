@@ -1,7 +1,9 @@
-import styles from "styles/pages/Home.module.css";
 import { User } from "models/user";
 import Podium from "./Podium";
 import Infos from "./Infos";
+
+import React from 'react';
+import styles from "styles/pages/Home.module.css";
 
 export default function AwardInfo({ users }: { users: User[] }) {
     return (

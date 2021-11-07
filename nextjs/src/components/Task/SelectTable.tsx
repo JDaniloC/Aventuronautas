@@ -1,6 +1,7 @@
-import styles from '../../styles/components/Task.module.css';
-import { useEffect, useState } from 'react';
 import { TableData } from "./Models";
+import React, { useEffect, useState } from 'react';
+
+import styles from '../../styles/components/Task.module.css';
 
 export default function SelectTable({ question }: TableData) {
     const [rowList, setRowList] = useState([]);

@@ -1,7 +1,7 @@
 import { CountContext } from '../contexts/CountContext';
-import { useContext, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useContext, useEffect } from 'react';
 
+import Link from 'next/link';
 
 export function NextStepButton(
     { currentStep }: { currentStep: number}): JSX.Element {    

@@ -1,8 +1,10 @@
 import { AuthContext } from "../contexts/AuthContext";
-import styles from "../styles/components/Popup.module.css";
-import { FormEvent, useContext, useRef, useState } from "react";
 import { BiArrowBack } from 'react-icons/bi';
+import React, { FormEvent, useContext, useRef, useState } from "react";
+
 import ImagePicker from 'react-image-picker';
+import styles from "../styles/components/Popup.module.css";
+
 import 'react-image-picker/dist/index.css'
 
 export function PopupModal() {

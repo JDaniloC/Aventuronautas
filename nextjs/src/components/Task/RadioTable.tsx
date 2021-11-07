@@ -1,5 +1,7 @@
 import { TableData } from './Models';
 
+import React from 'react';
+
 export default function RadioTable({ question }: TableData) {
     return(<>{
     question.options.map(option => (

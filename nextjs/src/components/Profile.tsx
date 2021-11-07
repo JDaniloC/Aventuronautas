@@ -1,12 +1,12 @@
 import { AuthContext } from '../contexts/AuthContext';
-import styles from '../styles/components/Profile.module.css';
-import { useContext, useState } from 'react';
-
 import { FaQuestion } from 'react-icons/fa';
 import { ImExit } from 'react-icons/im';
+import React, { useContext, useState } from 'react';
+
 
 import Help from './Help';
 import Cookies from 'js-cookie';
+import styles from '../styles/components/Profile.module.css';
 
 export default function Profile() {
     const { nickname, level, image } = useContext(AuthContext);
@@ -43,8 +43,12 @@ export default function Profile() {
                 <ImExit />
             </button>
         </div>
-        <div className = {styles.overlay} 
-            onClick = {hideHelp}
+        <div 
+            role="button"
+            tabIndex={-1}
+            onClick = {hideHelp} 
+            onKeyDown={hideHelp}
+            className={styles.overlay} 
             style = {{ display: (showModal) ? "flex" : "none" }}>
             <Help />
         </div>
