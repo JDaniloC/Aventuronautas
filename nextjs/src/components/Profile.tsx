@@ -45,9 +45,10 @@ export default function Profile() {
         </div>
         <div 
             role="button"
+            tabIndex={-1}
             onClick = {hideHelp} 
             onKeyDown={hideHelp}
-            className = {styles.overlay} 
+            className={styles.overlay} 
             style = {{ display: (showModal) ? "flex" : "none" }}>
             <Help />
         </div>
