@@ -127,7 +127,7 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
                     </section> 
                 </> : 
                 <div className = "loadingDiv">
-                    <img src="/gifs/rocket.gif"/>
+                    <img src="/gifs/rocket.gif" alt = "rocket img"/>
                     <p> Carregando... </p>
                 </div>}
                 

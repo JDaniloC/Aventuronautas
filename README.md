@@ -12,7 +12,6 @@ Projeto sem fins lucrativos, com o objetivo de oferecer o estudo bíblico dos av
 
 - NextJs em Typescript
 - MongoDB
-- Axios
 
 ## Motivação
 
@@ -21,3 +20,8 @@ Devido a situação iniciada desde o ano de 2020, causada pela pandemia, foi nec
 Além disso, o clube de aventureiro tem o objetivo de instruir crianças de 6-9 anos, as quais não se sentem confortáveis com a realização de mais uma atividade em casa (eles precisam responder as atividades de classes, para cumprir as especialidades, e um estudo bíblico).
 
 Dessa forma, o projeto visa gameficar o estudo bíblico, incentivando a criança a termina-lo a distância com incentivos.
+
+<p align="center">
+  <img width = "49%" alt="selecao img" src=".github/selecao.png">
+  <img width = "49%" alt="task img" src=".github/tasks.png">
+</p>

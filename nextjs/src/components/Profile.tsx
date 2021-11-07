@@ -43,8 +43,11 @@ export default function Profile() {
                 <ImExit />
             </button>
         </div>
-        <div className = {styles.overlay} 
-            onClick = {hideHelp}
+        <div 
+            role="button"
+            onClick = {hideHelp} 
+            onKeyDown={hideHelp}
+            className = {styles.overlay} 
             style = {{ display: (showModal) ? "flex" : "none" }}>
             <Help />
         </div>
