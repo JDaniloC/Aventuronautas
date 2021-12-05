@@ -1,6 +1,6 @@
 import { AuthContext } from "../contexts/AuthContext";
 import { BiArrowBack } from 'react-icons/bi';
-import React, { FormEvent, useContext, useRef, useState } from "react";
+import React, { FormEvent, useCallback, useContext, useRef, useState } from "react";
 
 import ImagePicker from 'react-image-picker';
 import styles from "../styles/components/Popup.module.css";
@@ -64,24 +64,25 @@ export function PopupModal() {
         setStep("login");
     }
 
-    function handleBack() {
+    const onPick = useCallback((selected:{ src:string, value:string }) => {
+        setImage(selected.value);
+    }, []);
+
+    const handleChangeIdade = useCallback((evt: FormEvent<EventTarget>) => {
+        const target = evt.target as HTMLInputElement;
+        setIdade(Number(target.value))
+    }, []);
+
+    const handleChangeName = useCallback((evt: FormEvent<EventTarget>) => {
+        const target = evt.target as HTMLInputElement;
+        setName(target.value)
+    }, []);
+
+    const handleBack = useCallback(() => {
         setMsg("Você já esteve aqui?");
         errorRef.current.style.color = "";
         setStep("")
-    }
-
-    function onPick(selected:{ src:string, value:string }) {
-        setImage(selected.value);
-    }
-
-    function handleChangeName(evt: FormEvent<EventTarget>) {
-        const target = evt.target as HTMLInputElement;
-        setName(target.value)
-    }
-    function handleChangeIdade(evt: FormEvent<EventTarget>) {
-        const target = evt.target as HTMLInputElement;
-        setIdade(Number(target.value))
-    }
+    }, []);
 
     return (
         <div className = {styles.overlay}>

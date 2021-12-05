@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 
 import ExperienceBar from '../../components/ExperienceBar'
 import { CountProvider } from '../../contexts/CountContext';
@@ -59,13 +59,6 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
         router.push("/")
     }
 
-    function _finishTest(score: number) {
-        if (challengesCompleted < id) {
-            completeChallenge(score);
-        }
-        setFinished(true);
-    }
-
     useEffect(() => {
         if (mission) {
             setInfos(mission);
@@ -79,6 +72,13 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
             nextStep();
         }
     }, [])
+
+    const _finishTest = useCallback((score: number) => {
+        if (challengesCompleted < id) {
+            completeChallenge(score);
+        }
+        setFinished(true);
+    }, [challengesCompleted]);
 
     return (
         <div className = {styles.externalContainer}>

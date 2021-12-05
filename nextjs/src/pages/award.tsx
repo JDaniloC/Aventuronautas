@@ -11,7 +11,7 @@ import styles from "../styles/pages/Home.module.css";
 import 'react-image-picker/dist/index.css'
 import { serverURL } from '../config';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -50,11 +50,14 @@ export default function Award({ finalTest, users }: AwardProps) {
         setTasks(tempTasks);
     }, [])
 
-    function _startTest() { setShowTask(true) }
-    function _finishTest(score: number) {
+    const _finishTest = useCallback((score: number) => {
         completeChallenge(score * 2);
         setShowTask(false);
-    }
+    }, []);
+    
+    const _startTest = useCallback(() => { 
+        setShowTask(true) 
+    }, []);
 
     return (
         <div className={styles.container}>
