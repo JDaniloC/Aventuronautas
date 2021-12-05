@@ -1,5 +1,5 @@
 import { Question, TaskData, Answer } from './Models';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useCallback, useEffect, useState } from 'react';
 
 import axios from 'axios';
 import RadioTable from './RadioTable';
@@ -32,17 +32,17 @@ export default function Task({
     function _prevQuestion() {
         setCurrentQuestion(currentQuestion - 1);
     }
-    function _nextQuestion() {
+    const _nextQuestion = useCallback(() => {
         setCurrentQuestion(currentQuestion + 1);
-    }
+    }, [currentQuestion]);
 
-    async function sendAnswers() {
+    const sendAnswers = useCallback(async () => {
         _nextQuestion();
-        const { data } = await axios.post("/api/questions/", 
-        { username, answers, mission });
+        const { data } = await axios.post("/api/questions/", { 
+            username, answers, mission });
         setScore(data.score);
         setHits(data.hits);
-    }
+    }, []);
 
     function selectAnswer(evt: FormEvent<EventTarget>) {
         const target = evt.target as HTMLInputElement;
