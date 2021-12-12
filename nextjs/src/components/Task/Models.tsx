@@ -24,7 +24,7 @@ export interface TableData {
 }
 
 export interface TaskData {
-    style?: CSSProperties;
+    customStyles?: CSSProperties;
     username: string, 
     quests: Question[], 
     finishFunc: (value: number) => void 

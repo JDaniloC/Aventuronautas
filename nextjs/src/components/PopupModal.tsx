@@ -24,45 +24,55 @@ export function PopupModal() {
         {"image": "/icons/profile5.png"},
     ]
 
-    const errorRef = useRef(null);
-    const btnRef = useRef(null);
+    const textErrorRef = useRef(null);
+    const submitBtnRef = useRef(null);
 
-    async function closeModal() {
+    const handleFormLimitations = useCallback(() => {
+        textErrorRef.current.style.color = "red";
+        let msg = "Você já é grandinho de mais...";
+        if (name === "") {
+            msg = "Precisamos do seu nome!";
+        }
+        setMsg(msg);
+    }, [name]);
+
+    const verifyUser = useCallback(async () => {
+        const hasUser = await userExists(name);
+        if (hasUser) {
+            setMsg("Este nome já existe!");
+            textErrorRef.current.style.color = "red";
+            submitBtnRef.current.disabled = false;
+            return true;
+        }
+        return false;
+    }, [name]);
+
+    const handleSubmit = useCallback(async () => {
         if (name !== "" && idade <= 10) {
             if (step === "register") {
                 setMsg("Qual seu nome, tripulante?");
-                btnRef.current.disabled = true;
+                submitBtnRef.current.disabled = true;
 
-                const hasUser = await userExists(name);
-                if (hasUser) {
-                    setMsg("Este nome já existe!");
-                    errorRef.current.style.color = "red";
-                    btnRef.current.disabled = false;
-                    return;
-                }
+                const hasUser = verifyUser();
+                if (hasUser) return;
             }
             createNewUser(name, idade, image);
         } else {
-            errorRef.current.style.color = "red";
-            let msg = "Você já é grandinho de mais...";
-            if (name === "") {
-                msg = "Precisamos do seu nome!";
-            }
-            setMsg(msg);
+            handleFormLimitations();
         }
-    }
+    }, [name, idade, image, step, createNewUser, userExists]);
 
-    function handleRegister() {
+    const handleRegister = useCallback(() => {
         setMsg("Qual seu nome, tripulante?");
-        errorRef.current.style.color = "";
+        textErrorRef.current.style.color = "";
         setStep("register");
-    }
+    }, []);
     
-    function handleContinue() {
+    const handleContinue = useCallback(() => {
         setMsg("Se identifique tripulante!");
-        errorRef.current.style.color = "";
+        textErrorRef.current.style.color = "";
         setStep("login");
-    }
+    }, []);
 
     const onPick = useCallback((selected:{ src:string, value:string }) => {
         setImage(selected.value);
@@ -80,7 +90,7 @@ export function PopupModal() {
 
     const handleBack = useCallback(() => {
         setMsg("Você já esteve aqui?");
-        errorRef.current.style.color = "";
+        textErrorRef.current.style.color = "";
         setStep("")
     }, []);
 
@@ -91,7 +101,7 @@ export function PopupModal() {
 
                 <strong> Seja bem-vindo </strong>
                 <p> Uma grande aventura te espera! </p>
-                <p ref = {errorRef}> {msg} </p>
+                <p ref = {textErrorRef}> {msg} </p>
 
                 <div className = {styles.inputs}>
                     {(step === "") ? <div className = {styles.buttons}>
@@ -125,8 +135,8 @@ export function PopupModal() {
                     <button onClick = {handleBack} type = "button"> 
                         <BiArrowBack/> 
                     </button>
-                    <button className = "project start" ref = {btnRef}
-                        type = "button" onClick = {closeModal}>
+                    <button className = "project start" ref = {submitBtnRef}
+                        type = "button" onClick = {handleSubmit}>
                         Decolar!
                     </button>
                 </div> : <></>}
