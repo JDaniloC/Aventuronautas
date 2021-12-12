@@ -9,7 +9,7 @@ import RevisionComponent from './Revision';
 import styles from 'styles/components/Task.module.css';
 
 export default function Task({ 
-    username, quests, style, finishFunc }: TaskData) {
+    username, quests, customStyles, finishFunc }: TaskData) {
     const [questions, setQuestions] = useState([] as Question[]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState([] as Answer[]);
@@ -26,25 +26,27 @@ export default function Task({
         })));
     }, [])
     
-    function closeTask() {
+    const closeTask = useCallback(() => {
         finishFunc(score);
-    }
-    function _prevQuestion() {
+    }, [score, finishFunc]);
+
+    const handlePrevQuestion = useCallback(() => {
         setCurrentQuestion(currentQuestion - 1);
-    }
-    const _nextQuestion = useCallback(() => {
+    }, [currentQuestion]);
+
+    const handleNextQuestion = useCallback(() => {
         setCurrentQuestion(currentQuestion + 1);
     }, [currentQuestion]);
 
     const sendAnswers = useCallback(async () => {
-        _nextQuestion();
+        handleNextQuestion();
         const { data } = await axios.post("/api/questions/", { 
             username, answers, mission });
         setScore(data.score);
         setHits(data.hits);
-    }, []);
+    }, [currentQuestion]);
 
-    function selectAnswer(evt: FormEvent<EventTarget>) {
+    const handleSelectAnswer = useCallback((evt: FormEvent<EventTarget>) => {
         const target = evt.target as HTMLInputElement;
         const questionType = questions[currentQuestion].type;
         const questionId = parseInt(target.name);
@@ -68,12 +70,12 @@ export default function Task({
             const currentAnswer = answers[currentQuestion].option as number[];
             currentAnswer[questionId] = parseInt(answer);
         }
-    }
+    }, [currentQuestion, answers, questions]);
 
     return (
-        <div className = {styles.form} style = { style }>
+        <div className = {styles.form} style = { customStyles }>
             {questions.map((question, index) => (
-                <div onChange = {selectAnswer} 
+                <div onChange = {handleSelectAnswer} 
                     key = {question.id}
                     style = {{ 
                         width: "100%",
@@ -103,7 +105,7 @@ export default function Task({
                 {currentQuestion > 0 && 
                 currentQuestion < questions.length ? 
                     <button type = "button" 
-                        onClick = {_prevQuestion}>
+                        onClick = {handlePrevQuestion}>
                         Anterior
                     </button> 
                 : <></>}
@@ -115,7 +117,7 @@ export default function Task({
                     </button> 
                     : 
                     <button type = "button" 
-                        onClick = {_nextQuestion}>
+                        onClick = {handleNextQuestion}>
                         Próxima
                     </button>}
             </div>}

@@ -47,17 +47,17 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
     } = useContext(AuthContext);
     const router = useRouter();
     
-    function prevStep() {
+    const handlePrevStep = useCallback(() => {
         setCurrentStep( (currentStep - 1) % 3 );
-    }
+    }, [currentStep]);
 
-    function nextStep() {
+    const handleNextStep = useCallback(() => {
         setCurrentStep( (currentStep + 1) % 3 );
-    }
+    }, [currentStep]);
 
-    function handleGoHome() {
+    const handleGoHome = useCallback(() => {
         router.push("/")
-    }
+    }, []);
 
     useEffect(() => {
         if (mission) {
@@ -69,7 +69,7 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
                 original: mission.questions,
                 thumbnail: mission.questions
             }]);
-            nextStep();
+            handleNextStep();
         }
     }, [])
 
@@ -112,7 +112,7 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
                             encrypted-media; gyroscope; picture-in-picture"/> 
                         
                         <Task quests = {tasks} username = {nickname}
-                            finishFunc = {_finishTest} style = {{
+                            finishFunc = {_finishTest} customStyles = {{
                                 display: (currentStep === 2 && !finished
                                     ) ? "flex" : "none"
                             }}/>
@@ -145,12 +145,12 @@ export default function Mission({ id, mission, tasks }: HomeProps) {
                         </button>
                     : <button className = "project"
                         type = "button"
-                        onClick = {prevStep}>
+                        onClick = {handlePrevStep}>
                         Tarefa anterior
                     </button>}
 
                     <CountProvider 
-                        nextStep = {nextStep}
+                        nextStep = {handleNextStep}
                         xpEarned = {xpEarned}
                         setXpEarned = {setXpEarned}>
                         <NextStepButton currentStep = {currentStep} />
