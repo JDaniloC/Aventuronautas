@@ -49,14 +49,16 @@ export function PopupModal() {
 
     const handleSubmit = useCallback(async () => {
         if (name !== "" && idade <= 10) {
+            let hasUser = false;
             if (step === "register") {
                 setMsg("Qual seu nome, tripulante?");
                 submitBtnRef.current.disabled = true;
 
-                const hasUser = verifyUser();
-                if (hasUser) return;
+                hasUser = await verifyUser();
             }
-            createNewUser(name, idade, image);
+            if (!hasUser) {
+                createNewUser(name, idade, image);
+            }
         } else {
             handleFormLimitations();
         }

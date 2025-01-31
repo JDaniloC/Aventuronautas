@@ -5,20 +5,21 @@ import React, { useContext, useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/components/MissionSelect.module.css';
 
-interface challenge {
+export interface Challenge {
     mission: number;
     title: string;
     icon: string;
     description: string;
 }
 
-export default function MissionSelect(
-    { missions }: { missions: challenge[] }) {
-    const [ missionArray, setMissionArray ] = useState([] as challenge[]);
+export default function MissionSelect({
+    missions
+}: Readonly<{ missions: Challenge[] }>) {
+    const [ missionArray, setMissionArray ] = useState([] as Challenge[]);
     const { challengesCompleted } = useContext(AuthContext);
 
     function nextMission() {
-        window.scrollTo(0, 350 + (190 * (13 - challengesCompleted)))
+        window.scrollTo(0, 350 + (190 * challengesCompleted));
     }
 
     useEffect(() => {

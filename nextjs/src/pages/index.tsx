@@ -1,7 +1,7 @@
 import CompletedChallenges from '../components/CompletedChallenges';
 import { AuthContext } from '../contexts/AuthContext';
 import ExperienceBar from '../components/ExperienceBar';
-import MissionSelect from '../components/MissionSelect';
+import MissionSelect, { Challenge } from '../components/MissionSelect';
 import Profile from '../components/Profile';
 
 import React, { useEffect, useContext } from 'react';
@@ -14,18 +14,11 @@ import axios from 'axios';
 import finishStyles from "../styles/components/FinishGame.module.css";
 import styles from "../styles/pages/Home.module.css";
 
-interface challenge {
-  mission: number;
-  title: string;
-  icon: string;
-  description: string;
-}
-
 interface HomeProps {
-  missions: challenge[]
+  missions: Challenge[]
 }
 
-export default function Home({ missions }: HomeProps) {  
+export default function Home({ missions }: Readonly<HomeProps>) {  
   const { saveUser } = useContext(AuthContext);
   useEffect(saveUser, [])
 
@@ -69,6 +62,8 @@ export const getStaticProps:GetStaticProps = async () => {
   const response = await axios.get(serverURL + "/api/missions/")
   let missionArray = response.data.missions;
   if (missionArray === undefined) { missionArray = [] };
+
+  missionArray.sort((a, b) =>  b.mission - a.mission);
 
   return {
     props: {

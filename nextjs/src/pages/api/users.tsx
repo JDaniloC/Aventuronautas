@@ -9,7 +9,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     let user: boolean | User = false;
 
     if (nickname) {
-        nickname = nickname.replace(/[\W]/g, "").toLowerCase();
+        nickname = nickname.replace(/\W/g, "").toLowerCase();
         user = await collection.findOne({ nickname });
     } else {
         const users = await collection.find({}).toArray();
