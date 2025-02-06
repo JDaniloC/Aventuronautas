@@ -1,201 +1,220 @@
-import Head from 'next/head';
+import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from "react";
 
-import ExperienceBar from '../../components/ExperienceBar'
-import { CountProvider } from '../../contexts/CountContext';
-import { Question } from 'components/Task/Models';
-import { NextStepButton } from '../../components/CompleteMission'
+import ExperienceBar from "../../components/ExperienceBar";
+import { CountProvider } from "../../contexts/CountContext";
+import { Question } from "components/Task/Models";
+import { NextStepButton } from "../../components/CompleteMission";
 
-import { GetStaticPropsContext, GetStaticPropsResult } from 'next';
+import { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import styles from "../../styles/pages/Mission.module.css";
-import { AuthContext } from 'contexts/AuthContext';
-import ImageGallery from 'react-image-gallery';
-import { serverURL } from '../../config';
-import Task from 'components/Task';
-import axios from 'axios';
+import { AuthContext } from "contexts/AuthContext";
+import ImageGallery from "react-image-gallery";
+import { serverURL } from "../../config";
+import Task from "components/Task";
+import axios from "axios";
 
 interface HomeProps {
-    id: number,
-    tasks: Question[];
-    mission: MissionInfos;
-}  
-
-interface MissionInfos {
-    confession: string;
-    questions: string;
-    mission: string;
-    video: string;
-    story: string;
-    title: string;
-    icon: string;
-    form: string;
+  id: number;
+  tasks: Question[];
+  mission: MissionInfos;
 }
 
-export default function Mission({ id, mission, tasks }: HomeProps) {  
-    const [ infos, setInfos ] = useState({
-        title: "Aventuronautas | Carregando..."
-    } as MissionInfos)
+interface MissionInfos {
+  confession: string;
+  questions: string;
+  mission: string;
+  video: string;
+  story: string;
+  title: string;
+  icon: string;
+  form: string;
+}
 
-    const [ xpEarned, setXpEarned ] = useState([false, false, false]);
-    const [ currentStep, setCurrentStep ] = useState(-1);
-    const [ finished, setFinished ] = useState(false);
-    const [ images, setImages ] = useState([]);
-    
-    const { nickname, challengesCompleted, 
-        completeChallenge 
-    } = useContext(AuthContext);
-    const router = useRouter();
-    
-    const handlePrevStep = useCallback(() => {
-        setCurrentStep( (currentStep - 1) % 3 );
-    }, [currentStep]);
+export default function Mission({ id, mission, tasks }: HomeProps) {
+  const [infos, setInfos] = useState({
+    title: "Aventuronautas | Carregando...",
+  } as MissionInfos);
 
-    const handleNextStep = useCallback(() => {
-        setCurrentStep( (currentStep + 1) % 3 );
-    }, [currentStep]);
+  const [xpEarned, setXpEarned] = useState([false, false, false]);
+  const [currentStep, setCurrentStep] = useState(-1);
+  const [finished, setFinished] = useState(false);
+  const [images, setImages] = useState([]);
 
-    const handleGoHome = useCallback(() => {
-        router.push("/")
-    }, []);
+  const { nickname, challengesCompleted, completeChallenge } =
+    useContext(AuthContext);
+  const router = useRouter();
 
-    useEffect(() => {
-        if (mission) {
-            setInfos(mission);
-            setImages([{
-                original: mission.story,
-                thumbnail: mission.story
-            }, {
-                original: mission.questions,
-                thumbnail: mission.questions
-            }]);
-            handleNextStep();
-        }
-    }, [])
+  const handlePrevStep = useCallback(() => {
+    setCurrentStep((currentStep - 1) % 3);
+  }, [currentStep]);
 
-    const _finishTest = useCallback((score: number) => {
-        if (challengesCompleted < id) {
-            completeChallenge(score);
-        }
-        setFinished(true);
-    }, [challengesCompleted]);
+  const handleNextStep = useCallback(() => {
+    setCurrentStep((currentStep + 1) % 3);
+  }, [currentStep]);
 
-    return (
-        <div className = {styles.externalContainer}>
-            
-            <ExperienceBar/>
+  const handleGoHome = useCallback(() => {
+    router.push("/");
+  }, []);
 
-            <div className = {styles.container}>
-                <Head>
-                    <title> {infos.title}  </title>
-                    <link rel="shortcut icon" href="../favicon.png" type="image/x-icon"/>
-                </Head>
+  useEffect(() => {
+    if (mission) {
+      setInfos(mission);
+      setImages([
+        {
+          original: mission.story,
+          thumbnail: mission.story,
+        },
+        {
+          original: mission.questions,
+          thumbnail: mission.questions,
+        },
+      ]);
+      handleNextStep();
+    }
+  }, []);
 
-                <h1> {infos.title} </h1>
-                {(infos.form) ? 
-                <> <section className = {styles.studyContainer}>
-                        <div style = {{ 
-                            display: (currentStep === 0) ? "flex" : "none",
-                            flexDirection: 'column', alignItems: 'center'}}>
-                            <p className = {styles.confession}> 
-                                Apenas para visualização. <br/>
-                                Responda na sua revistinha 
-                            </p>
-                            <ImageGallery items={images} />
-                        </div>
-                         
-                        <iframe allowFullScreen style = {{ 
-                            display: (currentStep === 1) ? "flex" : "none"}}
-                            width="100%" height="500" src = {infos.video} 
-                            frameBorder="0" title="YouTube video player" 
-                            allow="accelerometer; autoplay; clipboard-write; 
-                            encrypted-media; gyroscope; picture-in-picture"/> 
-                        
-                        <Task quests = {tasks} username = {nickname}
-                            finishFunc = {_finishTest} customStyles = {{
-                                display: (currentStep === 2 && !finished
-                                    ) ? "flex" : "none"
-                            }}/>
-                        
-                        {(currentStep === 2 && finished) ? 
-                            <p className = {styles.confession}> 
-                                Parabéns, aventureiros! 
-                                Você aceita o compromisso abaixo? 
-                            </p> 
-                        : <></>}
+  const _finishTest = useCallback(
+    (score: number) => {
+      if (challengesCompleted < id) {
+        completeChallenge(score);
+      }
+      setFinished(true);
+    },
+    [challengesCompleted],
+  );
 
-                    </section> 
-                </> : 
-                <div className = "loadingDiv">
-                    <img src="/gifs/rocket.gif" alt = "rocket img"/>
-                    <p> Carregando... </p>
-                </div>}
-                
-                {(currentStep === 2) ?
-                <p className = {styles.confession}>
-                    {infos.confession}
-                </p> : <></>}
+  return (
+    <div className={styles.externalContainer}>
+      <ExperienceBar />
 
-                <section className = {styles.complete}>
-                    {(currentStep == 0) ? 
-                        <button className = "project"
-                            type = "button"
-                            onClick = {handleGoHome}>
-                            Voltar à sala de comando
-                        </button>
-                    : <button className = "project"
-                        type = "button"
-                        onClick = {handlePrevStep}>
-                        Tarefa anterior
-                    </button>}
+      <div className={styles.container}>
+        <Head>
+          <title> {infos.title} </title>
+          <link rel="shortcut icon" href="../favicon.png" type="image/x-icon" />
+        </Head>
 
-                    <CountProvider 
-                        nextStep = {handleNextStep}
-                        xpEarned = {xpEarned}
-                        setXpEarned = {setXpEarned}>
-                        <NextStepButton currentStep = {currentStep} />
-                    </CountProvider>
-                </section>
-            </div>
-        </div>
-    )
+        <h1> {infos.title} </h1>
+        {infos.form ? (
+          <>
+            {" "}
+            <section className={styles.studyContainer}>
+              <div
+                style={{
+                  display: currentStep === 0 ? "flex" : "none",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <p className={styles.confession}>
+                  Apenas para visualização. <br />
+                  Responda na sua revistinha
+                </p>
+                <ImageGallery items={images} />
+              </div>
+
+              <iframe
+                allowFullScreen
+                style={{
+                  display: currentStep === 1 ? "flex" : "none",
+                }}
+                width="100%"
+                height="500"
+                src={infos.video}
+                frameBorder="0"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; 
+                            encrypted-media; gyroscope; picture-in-picture"
+              />
+
+              <Task
+                quests={tasks}
+                username={nickname}
+                finishFunc={_finishTest}
+                customStyles={{
+                  display: currentStep === 2 && !finished ? "flex" : "none",
+                }}
+              />
+
+              {currentStep === 2 && finished ? (
+                <p className={styles.confession}>
+                  Parabéns, aventureiros! Você aceita o compromisso abaixo?
+                </p>
+              ) : (
+                <></>
+              )}
+            </section>
+          </>
+        ) : (
+          <div className="loadingDiv">
+            <img src="/gifs/rocket.gif" alt="rocket img" />
+            <p> Carregando... </p>
+          </div>
+        )}
+
+        {currentStep === 2 ? (
+          <p className={styles.confession}>{infos.confession}</p>
+        ) : (
+          <></>
+        )}
+
+        <section className={styles.complete}>
+          {currentStep == 0 ? (
+            <button className="project" type="button" onClick={handleGoHome}>
+              Voltar à sala de comando
+            </button>
+          ) : (
+            <button className="project" type="button" onClick={handlePrevStep}>
+              Tarefa anterior
+            </button>
+          )}
+
+          <CountProvider
+            nextStep={handleNextStep}
+            xpEarned={xpEarned}
+            setXpEarned={setXpEarned}
+          >
+            <NextStepButton currentStep={currentStep} />
+          </CountProvider>
+        </section>
+      </div>
+    </div>
+  );
 }
 
 export async function getStaticPaths() {
-    const { data } = await axios.get(serverURL + "/api/missions/")
-    const missions = data.missions;
+  const { data } = await axios.get(serverURL + "/api/missions/");
+  const missions = data.missions;
 
-    return {
-        paths: missions.map((item: MissionInfos) => ({
-            params: { id: String(item.mission) }
-        })),
-        fallback: false
-     }
+  return {
+    paths: missions.map((item: MissionInfos) => ({
+      params: { id: String(item.mission) },
+    })),
+    fallback: false,
+  };
 }
 
 export async function getStaticProps(
-    context: GetStaticPropsContext): Promise<GetStaticPropsResult<HomeProps>> {
-    
+  context: GetStaticPropsContext,
+): Promise<GetStaticPropsResult<HomeProps>> {
+  const id = parseInt(context.params.id as string);
 
-    const id = parseInt(context.params.id as string);
+  const { data } = await axios.post(serverURL + "/api/missions", { id });
 
-    const { data } = await axios.post(
-        serverURL + "/api/missions", { id }
-    )
+  const taskReq = { data: { mission: id } };
+  const { data: taskRes } = await axios
+    .get(serverURL + "/api/questions/", taskReq)
+    .catch(() => {
+      return { data: [] };
+    });
 
-    const taskReq = { data: { mission: id } };
-    const { data: taskRes } = await axios.get(
-        serverURL + "/api/questions/", taskReq
-    ).catch(() => {
-        return { data: [] }
-    })
-
-    return { 
-        props: { 
-            mission: data.mission as MissionInfos,
-            tasks: taskRes,
-            id: id
-        },
-        revalidate: false
-    }
+  return {
+    props: {
+      mission: data.mission as MissionInfos,
+      tasks: taskRes,
+      id: id,
+    },
+    revalidate: false,
+  };
 }
